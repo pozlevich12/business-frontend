@@ -1,0 +1,24 @@
+.container {
+    margin-top: 2%;
+}
+
+.form-control {
+    box-shadow: none;
+}
+
+.btn {
+    box-shadow: none;
+}
+
+.form-group {
+    margin-bottom: 1%;
+}
+
+@media screen and (min-width: 1280px) and (min-height: 768px) {
+    .container {
+        margin-left: 10%;
+    }
+    .col-sm-9 {
+        width: 35%;
+    }
+  }

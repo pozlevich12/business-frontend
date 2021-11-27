@@ -1,1 +1,108 @@
-<p>register works!</p>
+<div class="container">
+    <form class="form-horizontal" role="form">
+        <span class="badge badge-pill badge-warning">Предупреждение</span>
+        <h2 class=" badge badge-pill badge-warning">Регистрация</h2>
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Имя</label>
+            <div class="col-sm-9">
+                <input type="text" id="firstName" class="form-control" autofocus="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="lastName" class="col-sm-3 control-label">Фамилия</label>
+            <div class="col-sm-9">
+                <input type="text" id="lastName" class="form-control shortest is-valid" autofocus="">
+            </div>
+        </div>
+       <!-- <label for="phone" class="col-sm-3 control-label">Номер телефона*</label>
+        <div class="input-group mb-3 col-sm-9">
+            <div class="input-group-prepend">
+              <button type="button" class="btn btn-outline-secondary">Action</button>
+              <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(70px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+                <div role="separator" class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a>
+              </div>
+            </div>
+            <input type="text" class="form-control" aria-label="Text input with segmented dropdown button">
+          </div>
+        <div class="form-group">
+            <label for="phone" class="col-sm-3 control-label">Номер телефона*</label>
+            <div class="col-sm-9">
+                <input type="tel" id="phone" name="phone" pattern="+[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="+375XX-XXX-XX-XX" class="form-control" autofocus="">
+            </div>
+        </div>-->
+        <div class="form-group">
+            <label for="email" class="col-sm-3 control-label">Email</label>
+            <div class="col-sm-9">
+                <input type="email" id="email" placeholder="Email" class="form-control is-invalid" name="email">
+            </div>
+            <div class="invalid-feedback">Введите e-mail</div>
+        </div>
+        <div class="form-group">
+            <label for="password" class="col-sm-3 control-label">Password*</label>
+            <div class="col-sm-9">
+                <input type="password" id="password" placeholder="Password" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password" class="col-sm-3 control-label">Confirm Password*</label>
+            <div class="col-sm-9">
+                <input type="password" id="password" placeholder="Password" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="birthDate" class="col-sm-3 control-label">Date of Birth*</label>
+            <div class="col-sm-9">
+                <input type="date" id="birthDate" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber" class="col-sm-3 control-label">Phone number </label>
+            <div class="col-sm-9">
+                <input type="phoneNumber" id="phoneNumber" placeholder="Phone number" class="form-control">
+                <span class="help-block">Your phone number won't be disclosed anywhere </span>
+            </div>
+        </div>
+        <div class="form-group">
+                <label for="Height" class="col-sm-3 control-label">Height* </label>
+            <div class="col-sm-9">
+                <input type="number" id="height" placeholder="Please write your height in centimetres" class="form-control">
+            </div>
+        </div>
+         <div class="form-group">
+                <label for="weight" class="col-sm-3 control-label">Weight* </label>
+            <div class="col-sm-9">
+                <input type="number" id="weight" placeholder="Please write your weight in kilograms" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-3">Gender</label>
+            <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label class="radio-inline">
+                            <input type="radio" id="femaleRadio" value="Female">Female
+                        </label>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="radio-inline">
+                            <input type="radio" id="maleRadio" value="Male">Male
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- /.form-group -->
+        <div class="form-group">
+            <div class="col-sm-9 col-sm-offset-3">
+                <span class="help-block">*Required fields</span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Register</button>
+    </form> <!-- /form -->
+</div>
