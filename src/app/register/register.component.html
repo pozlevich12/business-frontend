@@ -1,108 +1,60 @@
 <div class="container">
     <form class="form-horizontal" role="form">
-        <span class="badge badge-pill badge-warning">Предупреждение</span>
-        <h2 class=" badge badge-pill badge-warning">Регистрация</h2>
+
+        <h2><span class="badge badge-pill badge-warning">Регистрация</span></h2>
         <div class="form-group">
             <label for="firstName" class="col-sm-3 control-label">Имя</label>
             <div class="col-sm-9">
-                <input type="text" id="firstName" class="form-control" autofocus="">
+                <input [(ngModel)]="registerForm.firstName" (keyup)="onKeyName($event)" type="text" name="firstName"
+                    class="form-control"
+                    [ngClass]="{'is-valid': checked && registerFormValid.firstName, 'is-invalid': checked && !registerFormValid.firstName}"
+                    autofocus="">
+                <div *ngIf="checked && !registerFormValid.firstName" class="invalid-feedback">Пожалуйста, введите
+                    корректное имя.</div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="lastName" class="col-sm-3 control-label">Фамилия</label>
-            <div class="col-sm-9">
-                <input type="text" id="lastName" class="form-control shortest is-valid" autofocus="">
-            </div>
-        </div>
-       <!-- <label for="phone" class="col-sm-3 control-label">Номер телефона*</label>
+        <label for="phone" class="col-sm-3 control-label">Номер телефона</label>
         <div class="input-group mb-3 col-sm-9">
             <div class="input-group-prepend">
-              <button type="button" class="btn btn-outline-secondary">Action</button>
-              <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="sr-only">Toggle Dropdown</span>
-              </button>
-              <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(70px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <div role="separator" class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated link</a>
-              </div>
+                <button type="button" class="btn btn-warning btn-phone">+375</button>
             </div>
-            <input type="text" class="form-control" aria-label="Text input with segmented dropdown button">
-          </div>
-        <div class="form-group">
-            <label for="phone" class="col-sm-3 control-label">Номер телефона*</label>
-            <div class="col-sm-9">
-                <input type="tel" id="phone" name="phone" pattern="+[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="+375XX-XXX-XX-XX" class="form-control" autofocus="">
-            </div>
-        </div>-->
-        <div class="form-group">
-            <label for="email" class="col-sm-3 control-label">Email</label>
-            <div class="col-sm-9">
-                <input type="email" id="email" placeholder="Email" class="form-control is-invalid" name="email">
-            </div>
-            <div class="invalid-feedback">Введите e-mail</div>
+            <input [(ngModel)]="registerForm.phoneNumber" (keyup)="onKeyPhone($event)" name="phoneNumber"
+                [ngClass]="{'is-valid': checked && registerFormValid.phoneNumber, 'is-invalid': checked && !registerFormValid.phoneNumber}"
+                type="text" class="form-control">
+            <div *ngIf="checked && !registerFormValid.phoneNumber" class="invalid-feedback">Пожалуйста, введите
+                корректный номер телефона.</div>
         </div>
         <div class="form-group">
-            <label for="password" class="col-sm-3 control-label">Password*</label>
+            <label for="email" class="col-sm-3 control-label">Email <small class="small">(необязательно)</small></label>
             <div class="col-sm-9">
-                <input type="password" id="password" placeholder="Password" class="form-control">
+                <input [(ngModel)]="registerForm.email" (keyup)="onKeyEmail($event)"
+                    [ngClass]="{'is-valid': checked && registerFormValid.email, 'is-invalid': checked && !registerFormValid.email}"
+                    name="email" type="email" class="form-control">
+                <div *ngIf="checked && !registerFormValid.phoneNumber" class="invalid-feedback">Введен неверный
+                    email.<br>Пожалуйста, заполните поле корректно или оставьте его пустым.</div>
             </div>
         </div>
         <div class="form-group">
-            <label for="password" class="col-sm-3 control-label">Confirm Password*</label>
+            <label for="password" class="col-sm-3 control-label">Пароль</label>
             <div class="col-sm-9">
-                <input type="password" id="password" placeholder="Password" class="form-control">
+                <input [(ngModel)]="registerForm.password" (keyup)="onKeyPassword($event)"
+                    [ngClass]="{'is-valid': checked && registerFormValid.password, 'is-invalid': checked && !registerFormValid.password}"
+                    type="password" name="password" class="form-control">
+                <div *ngIf="checked && !registerFormValid.password" class="invalid-feedback">Пароль должен содержать от
+                    6 до 32 символов. Пробелы запрещены.</div>
             </div>
         </div>
         <div class="form-group">
-            <label for="birthDate" class="col-sm-3 control-label">Date of Birth*</label>
+            <label for="passwordSubmit" class="col-sm-3 control-label">Подтвердите пароль</label>
             <div class="col-sm-9">
-                <input type="date" id="birthDate" class="form-control">
+                <input [(ngModel)]="registerForm.confirmPassword" (keyup)="onKeyConfirmPassword($event)"
+                    [ngClass]="{'is-valid': changedPassword && registerFormValid.confirmPassword, 'is-invalid': changedPassword && !registerFormValid.confirmPassword}"
+                    type="password" name="confirmPassword" class="form-control">
+                <div *ngIf="!registerFormValid.confirmPassword" class="invalid-feedback">Пароли не совподают.</div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="phoneNumber" class="col-sm-3 control-label">Phone number </label>
-            <div class="col-sm-9">
-                <input type="phoneNumber" id="phoneNumber" placeholder="Phone number" class="form-control">
-                <span class="help-block">Your phone number won't be disclosed anywhere </span>
-            </div>
-        </div>
-        <div class="form-group">
-                <label for="Height" class="col-sm-3 control-label">Height* </label>
-            <div class="col-sm-9">
-                <input type="number" id="height" placeholder="Please write your height in centimetres" class="form-control">
-            </div>
-        </div>
-         <div class="form-group">
-                <label for="weight" class="col-sm-3 control-label">Weight* </label>
-            <div class="col-sm-9">
-                <input type="number" id="weight" placeholder="Please write your weight in kilograms" class="form-control">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-3">Gender</label>
-            <div class="col-sm-6">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <label class="radio-inline">
-                            <input type="radio" id="femaleRadio" value="Female">Female
-                        </label>
-                    </div>
-                    <div class="col-sm-4">
-                        <label class="radio-inline">
-                            <input type="radio" id="maleRadio" value="Male">Male
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div> <!-- /.form-group -->
-        <div class="form-group">
-            <div class="col-sm-9 col-sm-offset-3">
-                <span class="help-block">*Required fields</span>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Register</button>
-    </form> <!-- /form -->
+        <div class="col-sm-9 confirm">
+        <button (click)="checkForm()" type="submit" class="btn btn-warning btn-block">Регистрация</button>
+        </div>    
+    </form>
 </div>
