@@ -30,7 +30,7 @@
                 <input [(ngModel)]="registerForm.email" (keyup)="onKeyEmail($event)"
                     [ngClass]="{'is-valid': checked && registerFormValid.email, 'is-invalid': checked && !registerFormValid.email}"
                     name="email" type="email" class="form-control">
-                <div *ngIf="checked && !registerFormValid.phoneNumber" class="invalid-feedback">Введен неверный
+                <div *ngIf="checked && !registerFormValid.email" class="invalid-feedback">Введен неверный
                     email.<br>Пожалуйста, заполните поле корректно или оставьте его пустым.</div>
             </div>
         </div>
