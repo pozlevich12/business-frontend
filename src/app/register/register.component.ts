@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
+import { RegisterForm } from '../common/register.form';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -10,14 +12,7 @@ export class RegisterComponent implements OnInit {
 
   checked = false;
   changedPassword = false;
-
-  registerForm = {
-    firstName: "",
-    phoneNumber: "",
-    email: "",
-    password: "",
-    confirmPassword: ""
-  };
+  registerForm: RegisterForm = new RegisterForm();
 
   registerFormValid = {
     firstName: false,
@@ -27,7 +22,7 @@ export class RegisterComponent implements OnInit {
     confirmPassword: false
   }
 
-  constructor(private appComponent: AppComponent) {
+  constructor(private appComponent: AppComponent, private authService: AuthService) {
     this.appComponent.components = [false, true];
   }
 
@@ -74,8 +69,8 @@ export class RegisterComponent implements OnInit {
   }
 
   checkPassword(): boolean {
-    for(let i = 0; i<this.registerForm.password.length; i++) {
-      if(this.registerForm.password.charCodeAt(i) == 32) {
+    for (let i = 0; i < this.registerForm.password.length; i++) {
+      if (this.registerForm.password.charCodeAt(i) == 32) {
         return false;
       }
     }
@@ -164,11 +159,40 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.firstName.length >= 3 && this.registerForm.firstName.length <= 32 ? true : false;
   }
 
+  checkValid(): boolean {
+    if (!this.registerFormValid.firstName) {
+      return false;
+    }
+    if (!this.registerFormValid.phoneNumber) {
+      return false;
+    }
+    if (!this.registerFormValid.email) {
+      return false;
+    }
+    if (!this.registerFormValid.password) {
+      return false;
+    }
+    return true;
+  }
+
   checkForm(): void {
     this.checked = true;
     this.registerFormValid.firstName = this.checkName();
     this.registerFormValid.phoneNumber = this.checkPhone();
     this.registerFormValid.email = this.checkEmail();
     this.registerFormValid.password = this.checkPassword();
+    if (this.checkValid()) { }
+    this.authService.register(this.registerForm).subscribe(
+      data => {
+        console.log(data);
+        //this.isSuccessful = true;
+        // this.isSignUpFailed = false;
+      },
+      err => {
+        console.error("Regiistration was failed: " + err);
+        //this.errorMessage = err.error.message;
+        //this.isSignUpFailed = true;
+      }
+    );
   }
 }
