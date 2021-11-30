@@ -12,6 +12,9 @@ export class RegisterComponent implements OnInit {
 
   checked = false;
   changedPassword = false;
+  isSignUpFailed = false;
+  errorMessage = "";
+  
   registerForm: RegisterForm = new RegisterForm();
 
   registerFormValid = {
@@ -52,8 +55,8 @@ export class RegisterComponent implements OnInit {
     this.changedPassword = true;
     if (this.checked) {
       this.registerFormValid.password = this.checkPassword();
-      this.registerFormValid.confirmPassword = this.checkConfirmPassword();
     }
+    this.registerFormValid.confirmPassword = this.checkConfirmPassword();
   }
 
   onKeyConfirmPassword(event: any) {
@@ -172,27 +175,30 @@ export class RegisterComponent implements OnInit {
     if (!this.registerFormValid.password) {
       return false;
     }
+    if (!this.registerFormValid.confirmPassword) {
+      return false;
+    }
     return true;
   }
 
   checkForm(): void {
-    this.checked = true;
+    this.isSignUpFailed = false;
     this.registerFormValid.firstName = this.checkName();
     this.registerFormValid.phoneNumber = this.checkPhone();
     this.registerFormValid.email = this.checkEmail();
     this.registerFormValid.password = this.checkPassword();
-    if (this.checkValid()) { }
-    this.authService.register(this.registerForm).subscribe(
-      data => {
-        console.log(data);
-        //this.isSuccessful = true;
-        // this.isSignUpFailed = false;
-      },
-      err => {
-        console.error("Regiistration was failed: " + err);
-        //this.errorMessage = err.error.message;
-        //this.isSignUpFailed = true;
-      }
-    );
+    if (this.checkValid()) {
+      this.authService.register(this.registerForm).subscribe(
+        data => {
+          console.log(data);
+        },
+        err => {
+          this.isSignUpFailed = true;
+          this.errorMessage = err.error.message;
+        }
+      );
+    } else {
+      this.checked = true;
+    }
   }
 }

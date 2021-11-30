@@ -2,7 +2,14 @@
     <form class="form-horizontal" role="form">
 
         <h2><span class="badge badge-pill badge-warning">Регистрация</span></h2>
+
         <div class="form-group">
+            <div class="col-sm-9 confirm mt-3" *ngIf="isSignUpFailed">
+                <div class="alert alert-danger" role="alert">
+                    Ошибка регистрации аккаунта.<br>
+                    {{ errorMessage }}
+                </div>
+            </div>
             <label for="firstName" class="col-sm-3 control-label">Имя</label>
             <div class="col-sm-9">
                 <input [(ngModel)]="registerForm.firstName" (keyup)="onKeyName($event)" type="text" name="firstName"
@@ -53,8 +60,9 @@
                 <div *ngIf="!registerFormValid.confirmPassword" class="invalid-feedback">Пароли не совподают.</div>
             </div>
         </div>
+
         <div class="col-sm-9 confirm">
-        <button (click)="checkForm()" type="submit" class="btn btn-warning btn-block">Регистрация</button>
-        </div>    
+            <button (click)="checkForm()" type="submit" class="btn btn-warning btn-block">Регистрация</button>
+        </div>
     </form>
 </div>
