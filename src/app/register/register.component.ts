@@ -195,6 +195,7 @@ export class RegisterComponent implements OnInit {
         err => {
           this.isSignUpFailed = true;
           this.errorMessage = err.error.message;
+          window.scrollTo(0, 0);
         }
       );
     } else {

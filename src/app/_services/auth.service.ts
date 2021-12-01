@@ -21,6 +21,7 @@ export class AuthService {
   }
 
   register(registerForm: RegisterForm): Observable<any> {
+    registerForm.phoneNumber = '+375' + registerForm.phoneNumber;
     return this.http.post<RegisterForm>(AUTH_API + 'signup', registerForm, httpOptions);
   }
 }
