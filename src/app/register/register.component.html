@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf=!isLoggedIn>
     <form class="form-horizontal" role="form">
 
         <h2><span class="badge badge-pill badge-warning">Регистрация</span></h2>
@@ -65,4 +65,11 @@
             <button (click)="checkForm()" type="submit" class="btn btn-warning btn-block">Регистрация</button>
         </div>
     </form>
+</div>
+
+<div class="col-sm-9 confirm mt-3" *ngIf="isLoggedIn">
+    <div class="alert alert-warning" role="alert">
+        Ошибка.<br>
+        Вы авторизованы под действующей учетной записью.
+    </div>
 </div>
