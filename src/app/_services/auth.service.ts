@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaderResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RegisterForm } from '../common/register.form';
+import { LoginForm } from '../common/login.form';
 
 const AUTH_API = 'https://syrovatki-business.herokuapp.com/auth/';
 const AUTH_API2 = 'http://localhost:8080/auth/';
@@ -12,8 +13,9 @@ const AUTH_API2 = 'http://localhost:8080/auth/';
 export class AuthService {
   constructor(private http: HttpClient) { }
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post(AUTH_API + 'signin', { username, password });
+  login(loginForm: LoginForm): Observable<HttpResponse<LoginForm>> {
+    loginForm.phoneNumber = '+375' + loginForm.phoneNumber;
+    return this.http.post<LoginForm>(AUTH_API + 'login', loginForm, { observe: 'response' });
   }
 
   register(registerForm: RegisterForm): Observable<HttpResponse<RegisterForm>> {

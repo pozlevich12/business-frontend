@@ -41,4 +41,7 @@
     .col-sm-9 {
         width: 45%;
     }
+    .if-logging {
+        margin-left: 5%;
+    }
   }

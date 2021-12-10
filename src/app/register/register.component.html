@@ -27,7 +27,7 @@
             </div>
             <input [(ngModel)]="registerForm.phoneNumber" (keyup)="onKeyPhone($event)" name="phoneNumber"
                 [ngClass]="{'is-valid': checked && registerFormValid.phoneNumber, 'is-invalid': checked && !registerFormValid.phoneNumber}"
-                type="text" class="form-control">
+                type="email" class="form-control">
             <div *ngIf="checked && !registerFormValid.phoneNumber" class="invalid-feedback">Пожалуйста, введите
                 корректный номер телефона.</div>
         </div>
@@ -36,7 +36,7 @@
             <div class="col-sm-9">
                 <input [(ngModel)]="registerForm.email" (keyup)="onKeyEmail($event)"
                     [ngClass]="{'is-valid': checked && registerFormValid.email, 'is-invalid': checked && !registerFormValid.email}"
-                    name="email" type="email" class="form-control">
+                    name="email" class="form-control">
                 <div *ngIf="checked && !registerFormValid.email" class="invalid-feedback">Введен неверный
                     email.<br>Пожалуйста, заполните поле корректно или оставьте его пустым.</div>
             </div>
@@ -62,12 +62,12 @@
         </div>
 
         <div class="col-sm-9 confirm">
-            <button (click)="checkForm()" type="submit" class="btn btn-warning btn-block">Регистрация</button>
+                <button (click)="checkForm()" type="submit" id="btn_submit" class="btn btn-warning btn-block"><span id="spinner" hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>  Регистрация</button>
         </div>
     </form>
 </div>
 
-<div class="col-sm-9 confirm mt-3" *ngIf="isLoggedIn">
+<div class="col-sm-9 confirm mt-3 if-logging" *ngIf="isLoggedIn">
     <div class="alert alert-warning" role="alert">
         Ошибка.<br>
         Вы авторизованы под действующей учетной записью.

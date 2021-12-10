@@ -165,6 +165,16 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.firstName.length >= 3 && this.registerForm.firstName.length <= 32 ? true : false;
   }
 
+  setProcessingInDom(processing: any) {
+    if(processing == true) {
+      document.getElementById("btn_submit")?.setAttribute('disabled', 'true');
+      document.getElementById("spinner")?.removeAttribute('hidden');
+    } else {
+      document.getElementById("btn_submit")?.removeAttribute('disabled');
+      document.getElementById("spinner")?.setAttribute('hidden', 'true');
+    }
+  }
+
   checkValid(): boolean {
     if (!this.registerFormValid.firstName) {
       return false;
@@ -191,6 +201,7 @@ export class RegisterComponent implements OnInit {
     this.registerFormValid.email = this.checkEmail();
     this.registerFormValid.password = this.checkPassword();
     if (this.checkValid()) {
+      this.setProcessingInDom(true);
       this.authService.register(this.registerForm).subscribe(
         (data: HttpResponse<RegisterForm>) => {
           this.tokenStorage.saveToken(data.headers.get('auth-token'));
@@ -201,6 +212,7 @@ export class RegisterComponent implements OnInit {
           this.isSignUpFailed = true;
           this.errorMessage = err.error.message;
           window.scrollTo(0, 0);
+          this.setProcessingInDom(false);
         }
       );
       this.registerForm.phoneNumber = this.registerForm.phoneNumber.substring(4);

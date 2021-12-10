@@ -13,7 +13,7 @@
         </form>
 
         <div class="text-end" *ngIf=!isLoggedIn>
-          <a href="#" class="btn btn-outline-light me-2">Вход</a>
+          <a routerLink="login" class="btn btn-outline-light me-2">Вход</a>
           <a href="/signup" routerLink="signup" class="btn btn-warning">Регистрация</a>
         </div>
         <div class="dropdown px-2" *ngIf="isLoggedIn">
@@ -22,7 +22,7 @@
             <img src="{{ avatarUrl }}" alt="{{ firstName }}" class="rounded-circle avatar me-1">
             <strong class="firstName">{{ firstName }}</strong>
           </a>
-          <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser1">
+          <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-macos mx-0 border-0 shadow" aria-labelledby="dropdownUser1">
             <li class="dropdown-li"><a class="dropdown-item" href="">nothing here</a></li>
             <li>
               <hr class="dropdown-divider">
