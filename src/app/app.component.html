@@ -1,14 +1,16 @@
-<header class="p-3 bg-dark text-white">
-    <div class="container">
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="/" routerLink="home" [ngClass]="{'text-white': components[0], 'text-secondary': !components[0]}" class="nav-link px-2">Главная</a></li>
+<header class="bg-dark text-white">
+ 
+  <div class="container-xxl">
+    
+    <div class=" d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <img class="img-phone" src="assets/logo_ezha.svg" height="75" width="125"/>
+      <ul class="px-3 nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="/" routerLink="home" [ngClass]="{'text-white': components[0], 'text-secondary': !components[0]}" class="nav-link px-2 pt-4 pt-phone">Главная</a></li>
           <li><a href="/signup" routerLink="signup" [ngClass]="{'text-white': components[1], 'text-secondary': !components[1]}" 
-            class="nav-link px-2">Регистрация</a></li>
+            class="nav-link px-2 pt-4 pt-phone">Регистрация</a></li>
         </ul>
 
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 mb-phone">
           <input type="search" class="form-control form-control-dark" placeholder="Найти..." aria-label="Search">
         </form>
 
@@ -16,7 +18,7 @@
           <a routerLink="login" class="btn btn-outline-light me-2">Вход</a>
           <a href="/signup" routerLink="signup" class="btn btn-warning">Регистрация</a>
         </div>
-        <div class="dropdown px-2" *ngIf="isLoggedIn">
+        <div class="dropdown px-2 mb-phone" *ngIf="isLoggedIn">
           <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1"
              data-bs-toggle="dropdown" aria-expanded="false">
             <img src="{{ avatarUrl }}" alt="{{ firstName }}" class="rounded-circle avatar me-1">
@@ -31,6 +33,7 @@
           </ul>
         </div>
       </div>
+
     </div>
   </header>
 
