@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CategoriesObject } from '../common/categories.object';
 
-const CATEGORY_API = 'https://syrovatki-business.herokuapp.com/auth/';
+const CATEGORY_API = 'https://syrovatki-business.herokuapp.com/public/getAllCategories';
 const CATEGORY_API2 = 'http://localhost:8080/public/getAllCategories';
 
 @Injectable({
