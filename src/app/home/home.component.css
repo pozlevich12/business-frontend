@@ -1,3 +1,26 @@
 @media screen and (max-width: 1279px) and (max-height: 767px) {
-    
+
   }
+  
+  .accordion-body {
+    padding: 0.1rem 1.25rem;
+  }
+
+.accordion-button{
+  padding-top: 2%;
+  padding-bottom: 2%;
+  box-shadow: none;
+}
+
+.accordion-header {
+  border-radius: 0.25rem;
+}
+
+.accordion-button:active {
+  box-shadow: none;
+}
+
+.accordion-item {
+  border-radius: 0.25rem;
+  
+}
