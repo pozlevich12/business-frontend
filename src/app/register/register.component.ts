@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
   }
 
   constructor(private appComponent: AppComponent, private authService: AuthService, private tokenStorage: TokenStorageService) {
-    this.appComponent.components = [false, true];
+    this.appComponent.components = [false, false];
   }
 
   ngOnInit(): void {

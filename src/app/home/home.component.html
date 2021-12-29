@@ -8,13 +8,13 @@
                     <h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" data-bs-toggle="collapse" [attr.data-bs-target]="'#accordion-1 .item-' + i" aria-expanded="false" [attr.aria-controls]="'accordion-1 .item-' + i">{{category.categoryName}}</button></h2>
                     <div [attr.class]="'accordion-collapse collapse item-' + i" role="tabpanel" data-bs-parent="#accordion-1">
                         <div *ngFor="let subCategory of category['subCategories'];" class="accordion-body">
-                            <p class="mb-0"><a [attr.href]="subCategory" class="link-dark">{{subCategory.subCategoryName}}</a></p>
+                            <p class="mb-0"><a [attr.href]="subCategory.subCategoryId" class="link-dark">{{subCategory.subCategoryName}}</a></p>
                         </div>
                     </div>
                     </div>
                     <ng-template #singleTemplate>
                         <div class="accordion-body">
-                            <p class="mb-0"><a [attr.href]="category" class="link-dark">{{category.categoryName}}</a></p>
+                            <p class="mb-0"><a [attr.href]="category.categoryId" class="link-dark">{{category.categoryName}}</a></p>
                         </div>
                     </ng-template>
                 </div>

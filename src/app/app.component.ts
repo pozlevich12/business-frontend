@@ -18,10 +18,10 @@ export class AppComponent {
   firstName?: string;
   avatarUrl?: string;
 
-  constructor(private tokenStorageService: TokenStorageService, private router: Router) { }
+  constructor(private tokenStorageService: TokenStorageService, public router: Router) { }
 
   ngOnInit(): void {
-    this.router.navigate(['home']);
+    //this.router.navigate(['home']);
     this.setUserInfo();
   }
 

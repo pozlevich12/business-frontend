@@ -1,0 +1,38 @@
+@media screen and (max-width: 375px) and (max-height: 812px) {
+form {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+}
+
+@media screen and (min-width: 376px) and (min-height: 768px) {
+form {
+    margin-top: 2%;
+    margin-left: 5%;
+    width: 35%;
+}
+
+}
+td {
+    width: 30%;
+}
+small {
+    font-size: 70%;
+}
+
+.form-select {
+    font-size: 80%;
+}
+
+label {
+    font-weight: bold;
+    margin-left: 1%;
+}
+
+.form-select {
+    width: 90%;
+}
+
+.form-control {
+    font-size: 90%;
+}

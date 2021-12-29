@@ -14,6 +14,7 @@ import { BoardUserComponent } from './board-user/board-user.component';
 
 import { authInterceptorProviders } from '../_helpers/auth.intreceptor';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CreateAdComponent } from './create-ad/create-ad.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HomeComponent,
     ProfileComponent,
     BoardAdminComponent,
-    BoardUserComponent
+    BoardUserComponent,
+    CreateAdComponent
   ],
   imports: [
     BrowserModule,
