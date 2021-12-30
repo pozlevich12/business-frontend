@@ -11,7 +11,9 @@ form {
     margin-left: 5%;
     width: 35%;
 }
-
+.phone {
+    width: 29%;
+}
 }
 td {
     width: 30%;
@@ -35,4 +37,67 @@ label {
 
 .form-control {
     font-size: 90%;
+}
+
+.input-icons i {
+    position: absolute;
+}
+  
+.form-control[readonly] {
+    background-color: white;
+}
+  
+.icon {
+    padding: 9.8px;
+    min-width: 40px;
+}
+  
+.input-field {
+    width: 100%;
+    padding-left: 35px;
+}
+
+.zoom-phone:hover {
+    transform: scale(1.2);
+    color: red;
+}
+
+.zoom-phone {
+    transition: transform .2s;
+}
+
+
+.dropzone {
+    padding: 1%;
+    z-index: 2;
+    text-align: center;
+    border: dashed 1px #979797;
+    position: relative;
+}
+
+.dropzone:hover {
+    border: dashed 1px black;
+}
+
+.drop-input {
+    opacity: 0;
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
+
+.drop-label {
+    border-radius: 21.5px;
+    background-color: #ffc107;
+    color: black;
+    padding: 0.5% 2%;
+    margin-top: 2%;
+}
+
+h3 {
+    font-size: 100%;
 }

@@ -39,6 +39,20 @@
     <small id="emailHelp" class="form-text text-muted">Используйте от 20 до 2000 символов.</small>
   </div>
   <div class="form-group">
+    <label for="exampleInputEmail1">Загрузите изображения</label>
+    <div class="dropzone" appDnd>
+      <input type="file"  id="fileDropRef"  class="drop-input" multiple (change)="filesDropped($event)"/>
+      <img src="https://cdn-icons-png.flaticon.com/512/568/568717.png" height="7%" width="7%">
+      <h3>Загрузите изображения</h3>
+      <label for="fileDropRef" class="drop-label">Выбрать изображения</label>
+    </div>
+    <div *ngFor="let file of uploadedFiles" style="display: inline-block;" class="mr-2 mt-2 ml-3">
+      <div style="height: 110px; width: 110px; overflow: hidden; text-align: center;" class="rounded">
+      <img [src]="file.url" width="100%" height="100%">
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
     <tr style="width: 50%;">
       <td>
         <label for="exampleInputEmail1">Область</label>
@@ -65,12 +79,21 @@
     </tr>
   </div>
   <div class="form-group">
-    <div class="custom-control custom-switch custom-switch-lg">
-      <input type="checkbox" class="custom-control-input" id="customSwitch2">
-      <label class="custom-control-label" for="customSwitch2">
-          Large Sized Custom Toggle
-      </label>
-  </div>
+    <label>Номер телефона:</label>
+    <tr>
+      <td>
+        <div class="input-icons">
+          <i class="fas fa-phone-alt icon"></i>
+          <input class="form-control input-field" type="text" readonly value="+375 (44) 536-03-86">
+
+        </div>
+      </td>
+      <td>
+        <i class="far fa-trash-alt fa-lg zoom-phone" style="margin-left: 10px;cursor:pointer;"></i>
+      </td>
+    </tr>
+
+
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
