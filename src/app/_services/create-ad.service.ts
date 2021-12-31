@@ -16,7 +16,8 @@ export class CreateAdService {
         const url = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file));
         uploadedFiles.push({
           file,
-          url
+          url,
+          false: Boolean
         });
       }
     }

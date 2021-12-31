@@ -46,9 +46,16 @@
       <h3>Загрузите изображения</h3>
       <label for="fileDropRef" class="drop-label">Выбрать изображения</label>
     </div>
-    <div *ngFor="let file of uploadedFiles" style="display: inline-block;" class="mr-2 mt-2 ml-3">
-      <div style="height: 110px; width: 110px; overflow: hidden; text-align: center;" class="rounded">
-      <img [src]="file.url" width="100%" height="100%">
+    <div *ngFor="let file of uploadedFiles; let i = index;" class="mr-2 mt-2 ml-3 added-image">
+      
+        <div class="rounded" (click)="setTitleImage(i)">
+          <img [src]="file.url" width="100%" height="100%">
+          <div class="closebtn" (click)="deleteImg(file)">
+          <span class="close">&times;</span>
+          </div>
+          <div *ngIf="file.title === true;" class="title-img">
+            <i class="fas fa-lg fa-check-circle i-title-img"></i>
+          </div>
       </div>
     </div>
   </div>

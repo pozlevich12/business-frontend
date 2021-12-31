@@ -3,6 +3,14 @@ form {
     margin-left: 5%;
     margin-right: 5%;
 }
+.added-image .closebtn {
+    width:20%;
+    height:20%;
+    position:absolute;
+    top:0;
+    right:0;
+    background-color: rgb(0 0 0 / 28%);
+}
 }
 
 @media screen and (min-width: 376px) and (min-height: 768px) {
@@ -10,10 +18,39 @@ form {
     margin-top: 2%;
     margin-left: 5%;
     width: 35%;
+    
 }
+.added-image:hover .closebtn {
+    width:20%;
+    height:20%;
+    position:absolute;
+    top:0;
+    right:0;
+    background-color: rgb(0 0 0 / 28%);
+}
+
+
 .phone {
     width: 29%;
 }
+}
+
+.i-title-img {
+    margin-right: 13%!important;
+    position: relative;
+    bottom:30%;
+    right: 20%;
+    color: #1bd321;
+}
+.title-img {
+    width:15%;
+    height:14%;
+    position:absolute;
+    bottom:8%;
+    right:0;
+    border-radius: 50%;
+    margin-right: 6%;
+    background-color: white;
 }
 td {
     width: 30%;
@@ -42,7 +79,7 @@ label {
 .input-icons i {
     position: absolute;
 }
-  
+
 .form-control[readonly] {
     background-color: white;
 }
@@ -70,6 +107,7 @@ label {
 .dropzone {
     padding: 1%;
     z-index: 2;
+    
     text-align: center;
     border: dashed 1px #979797;
     position: relative;
@@ -77,6 +115,32 @@ label {
 
 .dropzone:hover {
     border: dashed 1px black;
+}
+
+.added-image {
+    cursor: pointer;
+    display: inline-block; 
+    position: relative;
+}
+
+.rounded {
+    height: 110px; 
+    width: 110px;
+    overflow: hidden; 
+    text-align: center;
+}
+
+
+
+.close {
+    margin-right: 13%!important;
+    position: relative;
+    bottom:20%;
+    color:white;
+}
+
+.closebtn {
+    cursor: pointer;
 }
 
 .drop-input {
