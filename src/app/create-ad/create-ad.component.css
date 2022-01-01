@@ -3,9 +3,18 @@ form {
     margin-left: 5%;
     margin-right: 5%;
 }
+
+.price-phone {
+    width: 44%!important;
+}
+
+.phone-number {
+    width: 50%;
+}
+
 .added-image .closebtn {
-    width:20%;
-    height:20%;
+    width:16%;
+    height:16%;
     position:absolute;
     top:0;
     right:0;
@@ -21,8 +30,8 @@ form {
     
 }
 .added-image:hover .closebtn {
-    width:20%;
-    height:20%;
+    width:16%;
+    height:16%;
     position:absolute;
     top:0;
     right:0;
@@ -38,12 +47,13 @@ form {
 .i-title-img {
     margin-right: 13%!important;
     position: relative;
-    bottom:30%;
-    right: 20%;
+    bottom:13%;
+    right: 2%;
     color: #1bd321;
+
 }
 .title-img {
-    width:15%;
+    width:14%;
     height:14%;
     position:absolute;
     bottom:8%;
@@ -51,7 +61,19 @@ form {
     border-radius: 50%;
     margin-right: 6%;
     background-color: white;
+    opacity:0; /*Элемент полностью прозрачный (невидимый)*/
+    transition: 0.5s; /*Скорость перехода состояния элемента*/
+    animation: show 0.5s 1; /* Указываем название анимации, её время и количество повторов*/
+    animation-fill-mode: forwards; /* Чтобы элемент оставался в конечном состоянии анимации */
 }
+@keyframes show{
+    0%{
+    opacity:0;
+    }
+    100% {
+    opacity:1;
+    }
+    }
 td {
     width: 30%;
 }
@@ -117,15 +139,27 @@ label {
     border: dashed 1px black;
 }
 
+@keyframes close-show {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
 .added-image {
     cursor: pointer;
     display: inline-block; 
     position: relative;
+    transition: 0.5s; /*Скорость перехода состояния элемента*/
+    animation: show 0.5s 1; /* Указываем название анимации, её время и количество повторов*/
+    animation-fill-mode: forwards; /* Чтобы элемент оставался в конечном состоянии анимации */
 }
 
 .rounded {
-    height: 110px; 
-    width: 110px;
+    height: 145px; 
+    width: 145px;
     overflow: hidden; 
     text-align: center;
 }
@@ -136,11 +170,14 @@ label {
     margin-right: 13%!important;
     position: relative;
     bottom:20%;
+    text-shadow: none!important;
     color:white;
+    transform: scale(1.2);
 }
 
 .closebtn {
     cursor: pointer;
+    border-radius: 0% 20% 0% 0%;
 }
 
 .drop-input {
