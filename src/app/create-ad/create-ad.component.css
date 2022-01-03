@@ -1,82 +1,90 @@
 @media screen and (max-width: 375px) and (max-height: 812px) {
-form {
-    margin-left: 5%;
-    margin-right: 5%;
-}
-
-.price-phone {
-    width: 44%!important;
-}
-
-.phone-number {
-    width: 50%;
-}
-
-.added-image .closebtn {
-    width:16%;
-    height:16%;
-    position:absolute;
-    top:0;
-    right:0;
-    background-color: rgb(0 0 0 / 28%);
-}
+    form {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+    .drop-input .badge {
+        font-size: 100%!important;
+    }
+    .price-phone {
+        width: 44%!important;
+    }
+    .input-price {
+        width: 15%;
+        text-align: right;
+    }
+    .phone-number {
+        width: 50%;
+    }
+    .added-image .closebtn {
+        width: 16%;
+        height: 16%;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: rgb(0 0 0 / 28%);
+    }
 }
 
 @media screen and (min-width: 376px) and (min-height: 768px) {
-form {
-    margin-top: 2%;
-    margin-left: 5%;
-    width: 35%;
-    
-}
-.added-image:hover .closebtn {
-    width:16%;
-    height:16%;
-    position:absolute;
-    top:0;
-    right:0;
-    background-color: rgb(0 0 0 / 28%);
-}
-
-
-.phone {
-    width: 29%;
-}
+    form {
+        margin-top: 2%;
+        margin-left: 5%;
+        width: 35%;
+    }
+    .input-price {
+        width: 10%;
+        text-align: right;
+    }
+    .added-image:hover .closebtn {
+        width: 16%;
+        height: 16%;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: rgb(0 0 0 / 28%);
+    }
+    .phone {
+        width: 29%;
+    }
 }
 
 .i-title-img {
     margin-right: 13%!important;
     position: relative;
-    bottom:13%;
+    bottom: 10%;
     right: 2%;
     color: #1bd321;
-
 }
+
 .title-img {
-    width:14%;
-    height:14%;
-    position:absolute;
-    bottom:8%;
-    right:0;
+    width: 14%;
+    height: 14%;
+    position: absolute;
+    bottom: 8%;
+    right: 0;
     border-radius: 50%;
     margin-right: 6%;
     background-color: white;
-    opacity:0; /*Элемент полностью прозрачный (невидимый)*/
-    transition: 0.5s; /*Скорость перехода состояния элемента*/
-    animation: show 0.5s 1; /* Указываем название анимации, её время и количество повторов*/
-    animation-fill-mode: forwards; /* Чтобы элемент оставался в конечном состоянии анимации */
+    opacity: 0;
+    transition: 0.5s;
+    animation: show 0.5s 1;
+    animation-fill-mode: forwards;
 }
-@keyframes show{
-    0%{
-    opacity:0;
+
+@keyframes show {
+    0% {
+        opacity: 0;
     }
     100% {
-    opacity:1;
+        opacity: 1;
     }
-    }
+}
+
 td {
     width: 30%;
 }
+
 small {
     font-size: 70%;
 }
@@ -105,12 +113,27 @@ label {
 .form-control[readonly] {
     background-color: white;
 }
-  
+
 .icon {
     padding: 9.8px;
     min-width: 40px;
 }
-  
+
+.form-check-input {
+    box-shadow: none;
+    border-color: black;
+}
+
+.form-check-input:checked {
+    background-color: #ffc107;
+    border-color: black;
+}
+
+.descriptionDelivery {
+    animation: show 1s 1;
+    animation-fill-mode: forwards;
+}
+
 .input-field {
     width: 100%;
     padding-left: 35px;
@@ -125,11 +148,9 @@ label {
     transition: transform .2s;
 }
 
-
 .dropzone {
     padding: 1%;
     z-index: 2;
-    
     text-align: center;
     border: dashed 1px #979797;
     position: relative;
@@ -141,37 +162,35 @@ label {
 
 @keyframes close-show {
     0% {
-      opacity: 1;
+        opacity: 1;
     }
     100% {
-      opacity: 0;
+        opacity: 0;
     }
-  }
+}
 
 .added-image {
     cursor: pointer;
-    display: inline-block; 
+    display: inline-block;
     position: relative;
-    transition: 0.5s; /*Скорость перехода состояния элемента*/
-    animation: show 0.5s 1; /* Указываем название анимации, её время и количество повторов*/
-    animation-fill-mode: forwards; /* Чтобы элемент оставался в конечном состоянии анимации */
+    transition: 0.5s;
+    animation: show 0.5s 1;
+    animation-fill-mode: forwards;
 }
 
 .rounded {
-    height: 145px; 
+    height: 145px;
     width: 145px;
-    overflow: hidden; 
+    overflow: hidden;
     text-align: center;
 }
-
-
 
 .close {
     margin-right: 13%!important;
     position: relative;
-    bottom:20%;
+    bottom: 20%;
     text-shadow: none!important;
-    color:white;
+    color: white;
     transform: scale(1.2);
 }
 
@@ -197,6 +216,15 @@ label {
     color: black;
     padding: 0.5% 2%;
     margin-top: 2%;
+}
+
+small {
+    margin-left: 2%;
+}
+
+.btn {
+    border-color: black;
+    box-shadow: none;
 }
 
 h3 {

@@ -2,6 +2,9 @@
     .find-phone {
         display: none;
     }
+    header {
+        margin-bottom: 3%;
+    }
     .mb-phone {
         margin-bottom: 0.5em!important;
     }

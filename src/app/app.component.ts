@@ -21,7 +21,6 @@ export class AppComponent {
   constructor(private tokenStorageService: TokenStorageService, public router: Router) { }
 
   ngOnInit(): void {
-    //this.router.navigate(['home']);
     this.setUserInfo();
   }
 
