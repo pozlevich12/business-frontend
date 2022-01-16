@@ -1,13 +1,13 @@
 import { Directive, HostBinding, HostListener } from '@angular/core';
 import { CreateAdComponent } from './create-ad/create-ad.component';
-import { CreateAdService } from './_services/create-ad.service';
+import { CreateAdService } from './_services/create-ad/create-ad.service';
 
 @Directive({
   selector: '[appDnd]'
 })
 export class DndDirective {
   @HostBinding('style.background') public background = 'white';
-  constructor(private createAdService: CreateAdService, private createAdComponent: CreateAdComponent) { }
+  constructor(private createAdComponent: CreateAdComponent, private createAdService: CreateAdService) { }
 
   @HostListener('dragover', ['$event']) onDragOver(evt: DragEvent) {
     console.log('over');
@@ -26,8 +26,7 @@ export class DndDirective {
     evt.preventDefault();
     evt.stopPropagation();
     this.background = 'white';
-    this.createAdService.filesDropped(evt.dataTransfer!.files).forEach(file => {
-      this.createAdComponent.uploadedFiles.push(file);
-    });
+    const filesDropped = evt.dataTransfer!.files;
+    this.createAdService.filesDropped(filesDropped, this.createAdComponent.uploadedFiles);
   }
 }

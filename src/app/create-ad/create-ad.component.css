@@ -47,25 +47,32 @@
     .phone {
         width: 29%;
     }
+    .zoom-phone:hover {
+        transform: scale(1.2);
+        color: red;
+    }
 }
 
-.i-title-img {
-    margin-right: 13%!important;
-    position: relative;
-    bottom: 10%;
-    right: 2%;
-    color: #1bd321;
+.brightness {
+    filter: brightness(0.5);
+}
+
+.load-title-img {
+    position: absolute;
+    bottom: 5%;
+    left: 21%;
+    margin-right: 6%;
+    opacity: 0;
+    transition: 0.5s;
+    animation: show 0.5s 1;
+    animation-fill-mode: forwards;
 }
 
 .title-img {
-    width: 14%;
-    height: 14%;
     position: absolute;
-    bottom: 8%;
-    right: 0;
-    border-radius: 50%;
+    bottom: 5%;
+    left: 25%;
     margin-right: 6%;
-    background-color: white;
     opacity: 0;
     transition: 0.5s;
     animation: show 0.5s 1;
@@ -87,6 +94,11 @@ td {
 
 small {
     font-size: 70%;
+}
+
+.badge {
+    border-style: solid;
+    border-width: 1px;
 }
 
 .form-select {
@@ -139,7 +151,7 @@ label {
     padding-left: 35px;
 }
 
-.zoom-phone:hover {
+.phone-delete {
     transform: scale(1.2);
     color: red;
 }
@@ -227,6 +239,19 @@ small {
     box-shadow: none;
 }
 
+.alert-warning {
+    font-size: 90%;
+}
+
 h3 {
     font-size: 100%;
+}
+
+.fa-trash-alt {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.phone-delete-text {
+    text-decoration: line-through;
 }

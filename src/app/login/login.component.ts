@@ -1,5 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { LoginForm } from '../common/login.form';
 import { AuthService } from '../_services/auth.service';
@@ -14,8 +15,8 @@ export class LoginComponent implements OnInit {
 
   checked = false;
   isLoginFailed = false;
-  isLoggedIn = false;
   errorMessage = "";
+  returnUrl: string | undefined;
 
   loginForm: LoginForm = new LoginForm();
 
@@ -24,12 +25,15 @@ export class LoginComponent implements OnInit {
     password: false,
   }
 
-  constructor(private appComponent: AppComponent, private authService: AuthService, private tokenStorage: TokenStorageService) {
+  constructor(private appComponent: AppComponent, private authService: AuthService, private tokenStorage: TokenStorageService, private route: ActivatedRoute) {
     this.appComponent.components = [false, false];
   }
 
   ngOnInit(): void {
-    this.isLoggedIn = this.appComponent.isLoggedIn;
+    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
+    if(this.appComponent.isLoggedIn) {
+      this.appComponent.router.navigate(['home']);
+    }
   }
 
   onKeyPhone(event: any) {
@@ -101,7 +105,7 @@ export class LoginComponent implements OnInit {
         (data: HttpResponse<LoginForm>) => {
           this.tokenStorage.saveToken(data.headers.get('auth-token'));
           this.tokenStorage.saveUser(data.body);
-          window.location.href = '/';
+          window.location.href = this.returnUrl!;
         },
         err => {
           this.isLoginFailed = true;

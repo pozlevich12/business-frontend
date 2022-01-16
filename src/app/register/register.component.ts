@@ -15,7 +15,6 @@ export class RegisterComponent implements OnInit {
   checked = false;
   changedPassword = false;
   isSignUpFailed = false;
-  isLoggedIn = false;
   errorMessage = "";
 
   registerForm: RegisterForm = new RegisterForm();
@@ -33,7 +32,9 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isLoggedIn = this.appComponent.isLoggedIn;
+    if(this.appComponent.isLoggedIn) {
+      this.appComponent.router.navigate(['home']);
+    }
   }
 
   onKeyName(event: any) {

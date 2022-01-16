@@ -2,9 +2,14 @@
     <div class="form-group">
         <h2><span class="badge badge-warning mb-3 shadow p-2"><i class="far fa-sm fa-newspaper mx-2"></i> Подача
         объявления</span></h2>
+        <div class="confirm mt-3" *ngIf="isCreateFailed">
+            <div class="alert alert-danger" role="alert">
+                Ошибка при создании объявления.<br> {{ errorMessage }}
+            </div>
+        </div>
         <label>Название</label>
-        <input type="text" class="form-control shadow-sm" id="titleAd" placeholder="Название объявления">
-        <small class="form-text text-muted">Используйте от 3 до 64 символов.</small>
+        <input type="text" class="form-control shadow-sm" [(ngModel)]="title" name="title" (keyup)="onKeyTitle()" id="titleAd" placeholder="Название объявления" [ngClass]="{'is-valid': checked && adValidation.title, 'is-invalid': checked && !adValidation.title}">
+        <small [ngClass]="{'invalid-feedback': checked && !adValidation.title, 'form-text text-muted': checked && adValidation.title}">Используйте от 3 до 64 символов.</small>
     </div>
 
     <div class="form-group">
@@ -30,46 +35,57 @@
     <div class="form-group">
         <label>Цена</label>
         <div style="display: flex;flex-direction: row;">
-            <input type="text" class="form-control shadow-sm input-price" id="priceOne" placeholder="0">
+            <input type="text" class="form-control shadow-sm input-price" [(ngModel)]="price" name="price" (keyup)="onKeyPrice()" id="priceOne" placeholder="0">
             <label for="priceOne" class="pt-1 mr-2">руб.</label>
-            <input type="text" class="form-control shadow-sm input-price" id="priceTwo" placeholder="00">
+            <input type="text" class="form-control shadow-sm input-price" [(ngModel)]="subPrice" name="subPrice" (keyup)="onKeySubPrice()" id="priceTwo" placeholder="00">
             <label for="priceTwo" class="pt-1 mr-2">коп.</label>
-            <select class="form-select shadow-sm price-phone" style="width: 20%;font-weight: bolder;">
-        <option value="2" selected>руб/кг</option>
-        <option value="1">руб/шт</option>
+            <select class="form-select shadow-sm price-phone" [(ngModel)]="priceType" name="priceType" style="width: 20%;font-weight: bolder;">
+        <option value="руб/кг" selected>руб/кг</option>
+        <option value="руб/шт">руб/шт</option>
       </select>
         </div>
 
     </div>
     <div class="form-group">
         <label>Описание</label>
-        <textarea class="form-control shadow-sm" id="descriptionAd" rows="5" placeholder="Описание объявления"></textarea>
-        <small class="form-text text-muted">Используйте от 20 до 2000 символов.</small>
+        <textarea class="form-control shadow-sm" [(ngModel)]="body" name="body" (keyup)="onKeyBody()" id="descriptionAd" rows="5" placeholder="Описание объявления" [ngClass]="{'is-valid': checked && adValidation.body, 'is-invalid': checked && !adValidation.body}"></textarea>
+        <small [ngClass]="{'invalid-feedback': checked && !adValidation.body, 'form-text text-muted': checked && adValidation.body}">Используйте от 20 до 2000 символов.</small>
     </div>
     <div class="form-group">
         <label>Загрузите изображения</label>
         <div class="dropzone mb-3" appDnd>
-            <input type="file" id="fileDropRef" class="drop-input shadow-sm" multiple (change)="filesDropped($event)" />
+            <input type="file" id="fileDropRef" class="drop-input shadow-sm" accept="image/jpeg,image/png" multiple (change)="filesDropped($event.target!)" />
             <img src="https://cdn-icons-png.flaticon.com/512/568/568717.png" height="7%" width="7%">
             <h3>Загрузите изображения</h3>
             <span class="badge badge-warning mb-3 shadow-sm p-2" style="font-size: 100%;">
         <i class="fas fa-file-upload mx-2"></i> Выбрать изображения</span>
         </div>
-        <div *ngFor="let file of uploadedFiles; let i = index;" id='img{{i}}' class="mt-2 ml-3 added-image">
+        <div *ngIf="uploadedFiles.hasUploadError" class="alert alert-warning" role="alert">
+            Не все файлы загружены. Пожалуйста, используйте изображения формата <strong>.jpeg, .png</strong> размером не более <strong>10Mb</strong>.
+        </div>
+        <div *ngFor="let file of uploadedFiles.images; let i = index;" [id]="file.id" class="mt-2 ml-3 added-image shadow">
 
             <div class="rounded shadow-sm" (click)="setTitleImage(i)">
-                <img [src]="file.url" width="100%" height="100%">
+                <img [src]="file.localUrl" width="100%" height="100%" [ngClass]="{'brightness': !file.url}">
                 <div class="closebtn" (click)="deleteImg(i)">
                     <span class="close">&times;</span>
                 </div>
-                <div *ngIf="indexTitleImg === i;" class="title-img">
-                    <i class="fas fa-lg fa-check-circle i-title-img"></i>
+                <div *ngIf="!file.url" class="load-title-img">
+                    <div class="badge badge-warning pb-1 shadow">Загрузка...
+                        <span id="spinner" class="spinner-border spinner-border-sm" style="width: 0.8rem; height: 0.8rem;" role="status "></span>
+                    </div>
+                </div>
+                <div *ngIf="file.id && uploadedFiles.titleImg == i" class="title-img">
+                    <div class="badge badge-warning pb-1 shadow">Титульная
+                    </div>
                 </div>
             </div>
         </div>
+
+
     </div>
-    <div class="form-group">
-        <tr style="width: 50%;">
+    <div class="form-group ">
+        <tr style="width: 50%; ">
             <td>
                 <label>Область</label>
             </td>
@@ -79,46 +95,43 @@
             <tr>
                 <tr>
                     <td>
-                        <select class="form-select shadow-sm">
-          <option selected>Область</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
+                        <select class="form-select shadow-sm " [(ngModel)]="region " name="region " (change)="updateLocation() ">
+                            <option *ngFor="let location of locations " [ngValue]="location.region ">{{location.region}}</option>
+                        </select>
                     </td>
-                    <td><select class="form-select shadow-sm">
-          <option selected>Город/район</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select></td>
+                    <td>
+                        <select class="form-select shadow-sm " [(ngModel)]="town " name="town ">
+                        <option *ngFor="let town of townList " [ngValue]="town.id ">{{town.town}}</option>
+                    </select>
+                    </td>
                 </tr>
     </div>
-    <div class="form-group">
+    <div *ngIf="phoneList.length" class="form-group ">
         <label>Номер телефона:</label>
         <tr>
-            <td class="phone-number">
-                <div class="input-icons">
-                    <i class="fas fa-phone-alt icon"></i>
-                    <input class="form-control input-field shadow-sm" type="text" readonly value="+375 (44) 536-03-86">
+            <td class="phone-number ">
+                <div class="input-icons ">
+                    <i class="fas fa-phone-alt icon "></i>
+                    <input id="phoneNumber" class="form-control input-field shadow-sm " [ngClass]="{'phone-delete-text': !phoneList[0].use}" [(ngModel)]="phoneList[0].phone " name="phoneNumber " type="text " readonly>
                 </div>
             </td>
             <td>
-                <i class="far fa-trash-alt fa-lg zoom-phone" style="margin-left: 10px;cursor:pointer;"></i>
+                <i class="far fa-trash-alt fa-lg zoom-phone " [ngClass]="{'phone-delete': !phoneList[0].use}" (click)="toggleUsePhone()"></i>
             </td>
         </tr>
     </div>
-    <div class="form-group mt-4">
-        <div class="form-check ml-2 mb-3">
-            <input class="form-check-input" type="checkbox" style="cursor:pointer;width:20px;height: 20px;" (change)="toggleDeliveryDescr($event)" value="" id="deliveryCheckbox">
-            <label class="form-check-label ml-2" style="padding-top:3px;">
-        <span><i class="fas fa-lg fa-truck mr-2"></i></span>Доставка
+    <div class="form-group mt-4 ">
+        <div class="form-check ml-2 mb-3 ">
+            <input class="form-check-input " type="checkbox" style="cursor:pointer;width:20px;height:20px; " (change)="toggleDeliveryDescr()" id="deliveryCheckbox">
+            <label class="form-check-label ml-2 " style="padding-top:3px;cursor: pointer;" (click)="toggleDeliveryDescr()">
+        <span><i class="fas fa-lg fa-truck mr-2 "></i></span>Доставка
       </label>
         </div>
-        <div [hidden]="!delivery" class="ml-4 descriptionDelivery">
-            <textarea class="form-control shadow-sm" id="descriptionDelivery" rows="3" placeholder="Условия доставки"></textarea>
-            <small class="form-text text-muted">Опишите условия доставки.</small>
+        <div [hidden]="!delivery " class="ml-4 descriptionDelivery ">
+            <textarea [(ngModel)]="delivaryDescription " [ngClass]="{'is-valid': checked && adValidation.deliveryDescription, 'is-invalid': checked && !adValidation.deliveryDescription}" name="delivaryDescription " (keyup)="onKeyDeliveryDescription()" class="form-control shadow-sm "
+                id="descriptionDelivery " rows="3 " placeholder="Условия доставки "></textarea>
+            <small [ngClass]="{'invalid-feedback': checked && !adValidation.deliveryDescription, 'form-text text-muted': checked && adValidation.deliveryDescription}" class="form-text text-muted ">Опишите условия доставки.</small>
         </div>
     </div>
-    <button type="submit" class="btn btn-warning mt-4">Отправить</button>
+    <button (click)="checkForm() " id="btn_submit" type="submit " class="btn btn-warning mt-4 "><span id="spinner_btn" hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>  Отправить</button>
 </form>

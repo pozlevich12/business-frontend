@@ -1,4 +1,4 @@
-<div class="container" *ngIf=!isLoggedIn>
+<div class="container">
     <form class="form-horizontal" role="form">
 
         <h2><span class="badge badge-pill badge-warning">Регистрация</span></h2>
@@ -6,18 +6,13 @@
         <div class="form-group">
             <div class="col-sm-9 confirm mt-3" *ngIf="isSignUpFailed">
                 <div class="alert alert-danger" role="alert">
-                    Ошибка регистрации аккаунта.<br>
-                    {{ errorMessage }}
+                    Ошибка регистрации аккаунта.<br> {{ errorMessage }}
                 </div>
             </div>
             <label for="firstName" class="col-sm-3 control-label">Имя</label>
             <div class="col-sm-9">
-                <input [(ngModel)]="registerForm.firstName" (keyup)="onKeyName($event)" type="text" name="firstName"
-                    class="form-control"
-                    [ngClass]="{'is-valid': checked && registerFormValid.firstName, 'is-invalid': checked && !registerFormValid.firstName}"
-                    autofocus="">
-                <div *ngIf="checked && !registerFormValid.firstName" class="invalid-feedback">Пожалуйста, введите
-                    корректное имя.</div>
+                <input [(ngModel)]="registerForm.firstName" (keyup)="onKeyName($event)" type="text" name="firstName" class="form-control" [ngClass]="{'is-valid': checked && registerFormValid.firstName, 'is-invalid': checked && !registerFormValid.firstName}" autofocus="">
+                <div *ngIf="checked && !registerFormValid.firstName" class="invalid-feedback">Пожалуйста, введите корректное имя.</div>
             </div>
         </div>
         <label for="phone" class="col-sm-3 control-label">Номер телефона</label>
@@ -25,51 +20,35 @@
             <div class="input-group-prepend">
                 <button type="button" class="btn btn-warning btn-phone">+375</button>
             </div>
-            <input [(ngModel)]="registerForm.phoneNumber" (keyup)="onKeyPhone($event)" name="phoneNumber"
-                [ngClass]="{'is-valid': checked && registerFormValid.phoneNumber, 'is-invalid': checked && !registerFormValid.phoneNumber}"
-                type="email" class="form-control">
-            <div *ngIf="checked && !registerFormValid.phoneNumber" class="invalid-feedback">Пожалуйста, введите
-                корректный номер телефона.</div>
+            <input [(ngModel)]="registerForm.phoneNumber" (keyup)="onKeyPhone($event)" name="phoneNumber" [ngClass]="{'is-valid': checked && registerFormValid.phoneNumber, 'is-invalid': checked && !registerFormValid.phoneNumber}" type="email" class="form-control">
+            <div *ngIf="checked && !registerFormValid.phoneNumber" class="invalid-feedback">Пожалуйста, введите корректный номер телефона.</div>
         </div>
         <div class="form-group">
             <label for="email" class="col-sm-3 control-label">Email <small class="small">(необязательно)</small></label>
             <div class="col-sm-9">
-                <input [(ngModel)]="registerForm.email" (keyup)="onKeyEmail($event)"
-                    [ngClass]="{'is-valid': checked && registerFormValid.email, 'is-invalid': checked && !registerFormValid.email}"
-                    name="email" class="form-control">
-                <div *ngIf="checked && !registerFormValid.email" class="invalid-feedback">Введен неверный
-                    email.<br>Пожалуйста, заполните поле корректно или оставьте его пустым.</div>
+                <input [(ngModel)]="registerForm.email" (keyup)="onKeyEmail($event)" [ngClass]="{'is-valid': checked && registerFormValid.email, 'is-invalid': checked && !registerFormValid.email}" name="email" class="form-control">
+                <div *ngIf="checked && !registerFormValid.email" class="invalid-feedback">Введен неверный email.
+                    <br>Пожалуйста, заполните поле корректно или оставьте его пустым.</div>
             </div>
         </div>
         <div class="form-group">
             <label for="password" class="col-sm-3 control-label">Пароль</label>
             <div class="col-sm-9">
-                <input [(ngModel)]="registerForm.password" (keyup)="onKeyPassword($event)"
-                    [ngClass]="{'is-valid': checked && registerFormValid.password, 'is-invalid': checked && !registerFormValid.password}"
-                    type="password" name="password" class="form-control">
-                <div *ngIf="checked && !registerFormValid.password" class="invalid-feedback">Пароль должен содержать от
-                    6 до 32 символов. Пробелы запрещены.</div>
+                <input [(ngModel)]="registerForm.password" autocomplete="on" (keyup)="onKeyPassword($event)" [ngClass]="{'is-valid': checked && registerFormValid.password, 'is-invalid': checked && !registerFormValid.password}" type="password" name="password" class="form-control">
+                <div *ngIf="checked && !registerFormValid.password" class="invalid-feedback">Пароль должен содержать от 6 до 32 символов. Пробелы запрещены.</div>
             </div>
         </div>
         <div class="form-group">
             <label for="passwordSubmit" class="col-sm-3 control-label">Подтвердите пароль</label>
             <div class="col-sm-9">
-                <input [(ngModel)]="registerForm.confirmPassword" (keyup)="onKeyConfirmPassword($event)"
-                    [ngClass]="{'is-valid': changedPassword && registerFormValid.confirmPassword, 'is-invalid': changedPassword && !registerFormValid.confirmPassword}"
+                <input [(ngModel)]="registerForm.confirmPassword" autocomplete="off" (keyup)="onKeyConfirmPassword($event)" [ngClass]="{'is-valid': changedPassword && registerFormValid.confirmPassword, 'is-invalid': changedPassword && !registerFormValid.confirmPassword}"
                     type="password" name="confirmPassword" class="form-control">
                 <div *ngIf="!registerFormValid.confirmPassword" class="invalid-feedback">Пароли не совподают.</div>
             </div>
         </div>
 
         <div class="col-sm-9 confirm">
-                <button (click)="checkForm()" type="submit" id="btn_submit" class="btn btn-warning btn-block"><span id="spinner" hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>  Регистрация</button>
+            <button (click)="checkForm()" type="submit" id="btn_submit" class="btn btn-warning btn-block"><span id="spinner" hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>  Регистрация</button>
         </div>
     </form>
-</div>
-
-<div class="col-sm-9 confirm mt-3 if-logging" *ngIf="isLoggedIn">
-    <div class="alert alert-warning" role="alert">
-        Ошибка.<br>
-        Вы авторизованы под действующей учетной записью.
-    </div>
 </div>

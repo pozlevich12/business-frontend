@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
 import { CategoriesObject } from '../common/categories.object';
+import { LocationObject } from '../common/locations.object';
 import { HomeService } from '../_services/home.service';
 import { SessionStorageService } from '../_services/session-storage.service';
 
@@ -12,6 +13,7 @@ import { SessionStorageService } from '../_services/session-storage.service';
 export class HomeComponent implements OnInit {
 
   categories!: CategoriesObject[];
+  locations!: LocationObject[];
 
   constructor(private appComponent: AppComponent, private homeService: HomeService, private sessionStorage: SessionStorageService) { 
     this.appComponent.components = [true, false];
@@ -28,5 +30,14 @@ export class HomeComponent implements OnInit {
       this.categories = JSON.parse(categories);
     }
     
+    const locations = this.sessionStorage.getLocations();
+    if(!locations) {
+      this.homeService.loadLocationList().subscribe(body => {
+        this.locations = body;
+        this.sessionStorage.saveLocations(this.locations);
+      });
+    } else {
+      this.locations = JSON.parse(locations);
+    }
   }
 }
