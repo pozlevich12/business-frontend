@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { TokenStorageService } from '../token-storage.service';
 
 const BASE_URL = environment.url;
+const CLOUDINARY_PARAMS = "w_145,h_145,c_fill";
 const MAX_IMG_SIZE = 10000000;
 
 @Injectable({
@@ -28,9 +29,14 @@ export class CreateAdService {
     for (let i = currentSize; i < uploadedFiles.images.length; i++) {
       await this.loadImgApi(uploadedFiles.images[i].file!).toPromise().then(
         (data: any) => {
-          uploadedFiles.images[i].id = data.public_id;
-          uploadedFiles.images[i].url = data.url;
-          document.getElementById('uploaded' + i)?.removeAttribute('hidden');
+          uploadedFiles.images[i].localUrl = data.secure_url.replace(data.secure_url.split('/')[6], CLOUDINARY_PARAMS);
+          const img = document.getElementById('img-' + i);
+          img!.onload = function() { 
+            uploadedFiles.images[i].id = data.public_id;
+            uploadedFiles.images[i].url = data.url;
+            uploadedFiles.images[i].width = data.width;
+            uploadedFiles.images[i].height = data.height;
+          };
         },
         error => {
           uploadedFiles.hasUploadError = true;
@@ -165,5 +171,9 @@ export class CreateAdService {
 
   public createAd(newAd: CreateAd) {
     return this.http.post<CreateAd>(BASE_URL + 'create-ad', newAd);
+  }
+
+  public checkTokenExpire() {
+    return this.http.get(BASE_URL + 'check-token-expired');
   }
 }

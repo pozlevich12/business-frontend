@@ -1,9 +1,6 @@
-@media screen and (max-width: 375px) and (max-height: 812px) {
+@media screen and (max-width: 391px) {
     .find-phone {
         display: none;
-    }
-    header {
-        margin-bottom: 3%;
     }
     .mb-phone {
         margin-bottom: 0.5em!important;
@@ -42,10 +39,7 @@
 
 .dropdown-item:hover {
     background-color: #ffc107;
-    
 }
-
-
 
 .dropdown-item {
     border-radius: 10% / 50%;
@@ -55,12 +49,7 @@
 }
 
 .dropdown-li {
-    
     width: 90%;
     margin-left: auto;
     margin-right: auto;
 }
-
-@media screen and (max-width: 1279px) and (max-height: 812px) {
-    
-  }

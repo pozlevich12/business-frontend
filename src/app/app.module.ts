@@ -16,6 +16,7 @@ import { authInterceptorProviders } from '../_helpers/auth.intreceptor';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CreateAdComponent } from './create-ad/create-ad.component';
 import { DndDirective } from './dnd.directive';
+import { AdComponent } from './ad/ad.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { DndDirective } from './dnd.directive';
     BoardAdminComponent,
     BoardUserComponent,
     CreateAdComponent,
-    DndDirective
+    DndDirective,
+    AdComponent
   ],
   imports: [
     BrowserModule,

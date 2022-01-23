@@ -58,7 +58,7 @@ export class CreateAdComponent implements OnInit {
     if (!this.appComponent.tokenStorageService.getToken()) {
       this.appComponent.router.navigate(['login'], { queryParams: { returnUrl: "/create-ad" } });
     } else {
-
+      this.createAdService.checkTokenExpire().subscribe();
       let categories;
       const intervalInitCategories = setInterval(() => {
         categories = this.sessionStorage.getCategories();
@@ -162,7 +162,7 @@ export class CreateAdComponent implements OnInit {
     const imgList: ImageDTO[] = [];
     this.uploadedFiles.images.forEach(image => {
       const title: boolean = this.uploadedFiles.titleImg === this.uploadedFiles.images.indexOf(image);
-      imgList.push(new ImageDTO(image.id!, image.url!, title));
+      imgList.push(new ImageDTO(image.id!, image.url!, image.width!, image.height!, title));
     });
     const phoneList: string[] = [];
     this.phoneList.forEach(phone => {
@@ -186,6 +186,7 @@ export class CreateAdComponent implements OnInit {
 
   public checkForm(): void {
     this.setProcessingInDom(true);
+    this.createAdService.checkTokenExpire().subscribe();
     const loadingImgProcess = setInterval(() => {
       if (!this.uploadedFiles.loadingProcess) {
         clearInterval(loadingImgProcess);

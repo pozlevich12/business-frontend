@@ -1,5 +1,6 @@
-@media screen and (max-width: 375px) and (max-height: 812px) {
+@media screen and (max-width: 391px) {
     form {
+        margin-top: 5%;
         margin-left: 5%;
         margin-right: 5%;
     }
@@ -26,7 +27,7 @@
     }
 }
 
-@media screen and (min-width: 376px) and (min-height: 768px) {
+@media screen and (min-width: 391px) {
     form {
         margin-top: 2%;
         margin-left: 5%;
@@ -53,6 +54,10 @@
     }
 }
 
+.form-group {
+    margin-bottom: 3%;
+}
+
 .brightness {
     filter: brightness(0.5);
 }
@@ -66,6 +71,7 @@
     transition: 0.5s;
     animation: show 0.5s 1;
     animation-fill-mode: forwards;
+    z-index: 9999;
 }
 
 .title-img {
@@ -128,7 +134,6 @@ label {
 
 .icon {
     padding: 9.8px;
-    min-width: 40px;
 }
 
 .form-check-input {
@@ -197,13 +202,8 @@ label {
     text-align: center;
 }
 
-.close {
-    margin-right: 13%!important;
-    position: relative;
-    bottom: 20%;
-    text-shadow: none!important;
-    color: white;
-    transform: scale(1.2);
+.btn-close {
+    transform: scale(0.9);
 }
 
 .closebtn {

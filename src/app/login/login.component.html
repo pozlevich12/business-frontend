@@ -26,7 +26,8 @@
                                 <label class="form-label mb-4" for="typeEmailX"><b>Телефон</b></label>
 
                                 <div class="form-outline form-white mb-4">
-                                    <input [(ngModel)]="loginForm.password" autocomplete="on" (keyup)="onKeyPassword($event)" [ngClass]="{'is-valid': checked && loginFormValid.password, 'is-invalid': checked && !loginFormValid.password}" type="password" name="password" class="form-control">
+                                    <i class="fa fa-lock"></i>
+                                    <input [(ngModel)]="loginForm.password" id="password" autocomplete="on" (keyup)="onKeyPassword($event)" [ngClass]="{'is-valid': checked && loginFormValid.password, 'is-invalid': checked && !loginFormValid.password}" type="password" name="password" class="form-control">
                                     <div *ngIf="checked && !loginFormValid.password" class="invalid-feedback">Пароль должен содержать от 6 до 32 символов. Пробелы запрещены.</div>
                                     <label class="form-label" for="typePasswordX"><b>Пароль</b></label>
                                 </div>

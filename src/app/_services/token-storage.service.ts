@@ -13,6 +13,7 @@ export class TokenStorageService {
 
   signOut(): void {
     window.localStorage.clear();
+    window.sessionStorage.clear();
   }
 
   public saveToken(token: any): void {

@@ -2,6 +2,10 @@
     margin-top: 2%;
 }
 
+label {
+    font-weight: bold;
+}
+
 .form-control {
     box-shadow: none;
 }
@@ -34,7 +38,7 @@
     margin-bottom: 1%;
 }
 
-@media screen and (min-width: 1280px) and (min-height: 768px) {
+@media screen and (min-width: 391px) {
     .container {
         margin-left: 10%;
     }
@@ -44,4 +48,13 @@
     .if-logging {
         margin-left: 5%;
     }
-  }
+}
+
+@media screen and (max-width: 391px) {
+    .container {
+        margin-top: 5%;
+    }
+    .form-group {
+        margin-bottom: 3%;
+    }
+}

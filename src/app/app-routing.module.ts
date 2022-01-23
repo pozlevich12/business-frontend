@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdComponent } from './ad/ad.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { BoardUserComponent } from './board-user/board-user.component';
 import { CreateAdComponent } from './create-ad/create-ad.component';
@@ -15,7 +16,8 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'user', component: BoardUserComponent },
   { path: 'admin', component: BoardAdminComponent },
-  { path: 'create-ad', component: CreateAdComponent }
+  { path: 'create-ad', component: CreateAdComponent },
+  { path: 'ad', component: AdComponent }
 ];
 
 @NgModule({

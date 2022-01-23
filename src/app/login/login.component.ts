@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
-    if(this.appComponent.isLoggedIn) {
+    if(this.appComponent.isLoggedIn && this.tokenStorage.getToken()) {
       this.appComponent.router.navigate(['home']);
     }
   }
