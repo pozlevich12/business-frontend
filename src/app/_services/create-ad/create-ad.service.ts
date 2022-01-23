@@ -36,6 +36,9 @@ export class CreateAdService {
             uploadedFiles.images[i].url = data.url;
             uploadedFiles.images[i].width = data.width;
             uploadedFiles.images[i].height = data.height;
+            if(i == uploadedFiles.images.length - 1) {
+              uploadedFiles.loadingProcess = false;
+            }
           };
         },
         error => {
@@ -46,7 +49,6 @@ export class CreateAdService {
         }
       );
     }
-    uploadedFiles.loadingProcess = false;
   }
 
   private initUploadedFiles(uploadedFiles: ImageList, filesDropped: FileList) {
@@ -145,7 +147,6 @@ export class CreateAdService {
   }
 
   private deleteImgApi(id: string) {
-    console.log("dsqw");
     this.http.delete(BASE_URL + 'deleteimg/' + id).subscribe(
       data => {
         console.log('Image with id = ' + id + ' deleted successfully.');
