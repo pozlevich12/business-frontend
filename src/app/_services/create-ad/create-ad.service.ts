@@ -145,7 +145,6 @@ export class CreateAdService {
   }
 
   private deleteImgApi(id: string) {
-    console.log("dsqw");
     this.http.delete(BASE_URL + 'deleteimg/' + id).subscribe(
       data => {
         console.log('Image with id = ' + id + ' deleted successfully.');

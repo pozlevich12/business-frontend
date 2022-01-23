@@ -24,24 +24,5 @@ export class AdComponent implements OnInit {
     
   }
 
-  ngAfterViewInit(): void {
-    let width = 512;
-    let height = 512;
-    if(width < 700) {
-
-    }
-    $('#img-carousel-3').attr('position', 'absolute');
-    $('#img-carousel-3').attr('margin-left', '100px');
-    /*for(let i = 0; i < this.images.length; i++) {
-      let img = new Image();
-      img.src = this.images[i];
-      img.onload = ;
-      console.log(img);
-      console.log(img.width + 'x' + img.height);
-    }*/
-   // $('#img0').css("margin-top", "84px");
-  //  $('#img2').css("margin-top", "84px");
-  } 
-
-}
-
+  ngAfterViewInit(): void {}
+  }
