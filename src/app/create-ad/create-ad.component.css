@@ -177,15 +177,6 @@ label {
     border: dashed 1px black;
 }
 
-@keyframes close-show {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
-
 .added-image {
     cursor: pointer;
     display: inline-block;

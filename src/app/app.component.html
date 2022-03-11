@@ -18,12 +18,12 @@
                 <a href="/signup" routerLink="signup" class="btn btn-warning mb-phone">Регистрация</a>
             </div>
             <div class="dropdown px-2 mb-phone" *ngIf="isLoggedIn">
-                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                <a href="#" (click)="toggleDropdownMenuUser()" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="{{ user!.avatarUrl }}" alt="{{ user!.firstName }}" class="rounded-circle avatar me-1">
                     <strong class="firstName">{{ user!.firstName }}</strong>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-macos mx-0 border-0 shadow" aria-labelledby="dropdownUser1">
-                    <li class="dropdown-li"><a class="dropdown-item" href="">nothing here</a></li>
+                    <li class="dropdown-li"><a class="dropdown-item" href="">Избранное <span class="ms-1 badge bg-danger">{{ countFavoriteAd }}</span></a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>

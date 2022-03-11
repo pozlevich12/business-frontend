@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6 col-xl-2 offset-xl-0">
-            <div *ngFor="let category of categories; let i = index" class="list-group mt-3">
+        <div class="col-md-6 col-xl-2 offset-xl-0 category">
+            <div *ngFor="let category of categories; let i = index" class="list-group mt-3 shadow">
                 <a [attr.href]="category.categoryId" class="list-group-item list-group-item-action active" aria-current="true">
                     <i class="fa" [ngClass]="{
                         'fa-seedling': category.categoryId == 5,
@@ -15,7 +15,7 @@
                 <a *ngFor="let subCategory of category['subCategories'];" [attr.href]="subCategory.subCategoryId" class="list-group-item list-group-item-action">{{subCategory.subCategoryName}}</a>
             </div>
         </div>
-        <div class="col-md-6 col-xl-10 mt-2 px-5 banner">
+        <div *ngIf="this.router.url === '/' || this.router.url === '/home'" class="col-md-6 col-xl-10 mt-2 px-5 banner">
             <div class="row">
                 <div class="col">
                     <div id="carousel-1" class="carousel slide" data-bs-ride="carousel">

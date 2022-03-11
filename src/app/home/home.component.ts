@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { CategoriesObject } from '../common/categories.object';
 import { LocationObject } from '../common/locations.object';
@@ -15,7 +16,7 @@ export class HomeComponent implements OnInit {
   categories!: CategoriesObject[];
   locations!: LocationObject[];
 
-  constructor(private appComponent: AppComponent, private homeService: HomeService, private sessionStorage: SessionStorageService) { 
+  constructor(private appComponent: AppComponent, private homeService: HomeService, private sessionStorage: SessionStorageService, public router: Router) { 
     this.appComponent.components = [true, false];
   }
 

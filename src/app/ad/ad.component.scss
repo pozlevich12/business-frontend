@@ -1,17 +1,152 @@
-@media screen and (max-width: 391px) {
-    #carouselExampleControls {
-        margin-top: 5%!important;
-    }
-    .carousel {
-        max-width: 100%;
-        max-height: 300px;
-        overflow: hidden;
-        padding: 0 10px;
-    }
-}
-
 .carousel {
     width: 700px;
     overflow: hidden;
     text-align: center;
+    transition: 0.3s;
+}
+
+.carousel:hover {
+    transition: 0.3s;
+    background-color: rgb(241, 236, 236);
+}
+
+.ad {
+    position: absolute;
+    top: 12%;
+    left: 17%;
+}
+
+.d-flex {
+    width: 700px;
+}
+
+.overflow-x {
+    overflow-x: scroll;
+}
+
+.small-image:hover {
+    transform: scale(1.025);
+    transition: 0.1s;
+    animation: 0.1s 1;
+    animation-fill-mode: forwards;
+}
+
+.col-right {
+    margin-top: 7.5%;
+}
+
+.col-right div {
+    max-width: 60%;
+}
+
+h5 {
+    font-weight: bold;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+}
+
+.firstName {
+    font-size: 120%;
+    text-decoration: underline;
+}
+
+.col-xl-10 {
+    max-width: 83%!important;
+}
+
+.online {
+    color: green;
+    font-weight: bold;
+}
+
+.userinfo {
+    vertical-align: top;
+}
+
+.btn-warning {
+    width: 60%;
+    border-color: black;
+    border-width: 1px;
+    box-shadow: none;
+}
+
+.fa-check-circle {
+    color: green;
+}
+
+.description {
+    color: gray;
+    font-style: italic;
+}
+
+#span-show-phone {
+    font-size: 120%;
+    animation: show 1s 1;
+    animation-fill-mode: forwards;
+}
+
+#span-add-favorites {
+    font-size: 100%;
+    animation-fill-mode: forwards;
+    background-color: #27cb27!important;
+}
+
+.badge {
+    border-color: black;
+    border-width: 1px;
+}
+
+.modal-dialog-scrollable .modal-content {
+    overflow: visible!important;
+}
+
+.modal-content {
+    width: 1px!important;
+    height: 1px!important;
+}
+
+.modal-translate {
+    transform: translateX(-25%);
+}
+
+.modal .close {
+    position: fixed;
+    right: 5%;
+    top: 5%;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.modal .close:hover {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.open-popup {
+    position: absolute;
+    left: 100px;
+    right: 100px;
+    top: 0;
+    bottom: 0;
+    z-index: 10;
+    display: block;
+    background: none;
+}
+
+.open-popup:hover {
+    cursor: zoom-in;
+}
+
+@keyframes show {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
