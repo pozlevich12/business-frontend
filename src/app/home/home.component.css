@@ -1,28 +1,19 @@
-@media screen and (max-width: 391px) {
-    .banner {
-        display: none!important;
-    }
-}
-
-@media screen and (min-width: 391px) {
-    .container-fluid {
-        padding: 2em;
-    }
-}
-
 .list-group-item:hover {
-    transition: 0.1s;
-    transform: scale(1.02);
-    background-color: #ffc107;
-    color: black;
+    color: white;
+}
+
+.carousel {
+    width: 1150px;
+    overflow: hidden;
+    text-align: center;
+    transition: 0.3s;
 }
 
 .list-group-item.active {
-    color: black;
     padding: 5px 10px;
     font-weight: bold;
-    background-color: #ffc107;
     border-color: black;
+    font-size: 90%;
 }
 
 .list-group-item {

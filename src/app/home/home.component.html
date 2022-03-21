@@ -1,40 +1,37 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-6 col-xl-2 offset-xl-0 category">
-            <div *ngFor="let category of categories; let i = index" class="list-group mt-3 shadow">
-                <a [attr.href]="category.categoryId" class="list-group-item list-group-item-action active" aria-current="true">
-                    <i class="fa" [ngClass]="{
-                        'fa-seedling': category.categoryId == 5,
-                        'fa-apple-alt': category.categoryId == 25,
-                        'fa-drumstick-bite': category.categoryId == 35,
-                        'fa-cheese': category.categoryId == 45,
-                        'fa-balance-scale-right': category.categoryId == 55,
-                        'fa-leaf': category.categoryId == 65,
-                        'fa-book': category.categoryId == 75}"></i> {{category.categoryName}}
-                </a>
-                <a *ngFor="let subCategory of category['subCategories'];" [attr.href]="subCategory.subCategoryId" class="list-group-item list-group-item-action">{{subCategory.subCategoryName}}</a>
-            </div>
+<div *ngIf="this.router.url != '/home'" class="d-flex">
+    <div class="flex-column">
+        <div *ngFor="let category of categories; let i = index" class="list-group shadow mb-2" style="width:250px">
+            <a [attr.href]="'ad-list?categoryId=' + category.categoryId" class="list-group-item list-group-item-action active" [style.color]="appComponent.theme.color" [style.background-color]="appComponent.theme.mainColor" aria-current="true">
+                <i class="fa" [ngClass]="{
+                                'fa-seedling': category.categoryId == 5,
+                                'fa-apple-alt': category.categoryId == 25,
+                                'fa-drumstick-bite': category.categoryId == 35,
+                                'fa-cheese': category.categoryId == 45,
+                                'fa-balance-scale-right': category.categoryId == 55,
+                                'fa-leaf': category.categoryId == 65,
+                                'fa-book': category.categoryId == 75}"></i> {{category.categoryName}}
+            </a>
+            <a *ngFor="let subCategory of category['subCategories']" appHoverClass [attr.href]="'ad-list?categoryId='  + category.categoryId +'&subCategoryId=' + subCategory.subCategoryId" class="list-group-item list-group-item-action" [style.background-color]="appComponent.theme.backgroundColor"
+                style="font-size: 90%;">{{subCategory.subCategoryName}}</a>
         </div>
-        <div *ngIf="this.router.url === '/' || this.router.url === '/home'" class="col-md-6 col-xl-10 mt-2 px-5 banner">
-            <div class="row">
-                <div class="col">
-                    <div id="carousel-1" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner" style="border-radius: 25px;">
-                            <div class="carousel-item active "><img height="200" width="1450" src="assets/banner3.png" alt="Slide Image" /></div>
-                            <div class="carousel-item"><img height="200" width="1450" src="assets/banner3.png" alt="Slide Image" /></div>
-                            <div class="carousel-item"><img height="200" width="1450" src="assets/banner3.png" alt="Slide Image" /></div>
+    </div>
 
-                        </div>
-                        <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span></a><a class="carousel-control-next"
-                                href="#carousel-1" role="button" data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Next</span></a></div>
-                        <ol class="carousel-indicators">
-                            <li class="active" data-bs-target="#carousel-1" data-bs-slide-to="0"></li>
-                            <li data-bs-target="#carousel-1" data-bs-slide-to="1"></li>
-                            <li data-bs-target="#carousel-1" data-bs-slide-to="2"></li>
-                        </ol>
-                    </div>
-                </div>
+    <!-- Carousel-banner -->
+    <div *ngIf="this.router.url === '/'" class="mt-2 px-5 banner">
+        <div id="carousel-1" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner" style="border-radius: 25px;">
+                <div class="carousel-item active "><img height="200" width="1150" src="assets/banner3.png" alt="Slide Image" /></div>
+                <div class="carousel-item"><img height="200" width="1150" src="assets/banner3.png" alt="Slide Image" /></div>
+                <div class="carousel-item"><img height="200" width="1150" src="assets/banner3.png" alt="Slide Image" /></div>
+
             </div>
+            <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span></a><a class="carousel-control-next" href="#carousel-1"
+                    role="button" data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Next</span></a></div>
+            <ol class="carousel-indicators">
+                <li class="active" data-bs-target="#carousel-1" data-bs-slide-to="0"></li>
+                <li data-bs-target="#carousel-1" data-bs-slide-to="1"></li>
+                <li data-bs-target="#carousel-1" data-bs-slide-to="2"></li>
+            </ol>
         </div>
     </div>
 </div>

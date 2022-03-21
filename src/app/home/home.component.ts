@@ -4,7 +4,7 @@ import { AppComponent } from '../app.component';
 import { CategoriesObject } from '../common/categories.object';
 import { LocationObject } from '../common/locations.object';
 import { HomeService } from '../_services/home.service';
-import { SessionStorageService } from '../_services/session-storage.service';
+import { TokenStorageService } from '../_services/token-storage.service';
 
 @Component({
   selector: 'app-home',
@@ -16,26 +16,28 @@ export class HomeComponent implements OnInit {
   categories!: CategoriesObject[];
   locations!: LocationObject[];
 
-  constructor(private appComponent: AppComponent, private homeService: HomeService, private sessionStorage: SessionStorageService, public router: Router) { 
-    this.appComponent.components = [true, false];
+  constructor(public appComponent: AppComponent, private homeService: HomeService, private localStorage: TokenStorageService, public router: Router) {
   }
 
   ngOnInit(): void {
-    const categories = this.sessionStorage.getCategories();
+    if(window.location.pathname == '/home') {
+      window.location.href = '/';
+    }
+    const categories = this.localStorage.getCategories();
     if (!categories) {
       this.homeService.loadCategoryList().subscribe(body => {
         this.categories = body;
-        this.sessionStorage.saveCategories(this.categories);
+        this.localStorage.saveCategories(this.categories);
       });
     } else {
       this.categories = JSON.parse(categories);
     }
     
-    const locations = this.sessionStorage.getLocations();
+    const locations = this.localStorage.getLocations();
     if(!locations) {
       this.homeService.loadLocationList().subscribe(body => {
         this.locations = body;
-        this.sessionStorage.saveLocations(this.locations);
+        this.localStorage.saveLocations(this.locations);
       });
     } else {
       this.locations = JSON.parse(locations);

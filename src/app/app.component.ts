@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import * as bootstrap from 'bootstrap';
+import { Theme } from './common/Theme';
 import { User } from './common/User';
 import { TokenStorageService } from './_services/token-storage.service';
 
@@ -12,10 +13,10 @@ import { TokenStorageService } from './_services/token-storage.service';
 
 export class AppComponent {
 
-  title = 'business-frontend';
-  components: boolean[] = [false, false];
   isLoggedIn = false;
   showAdminBoard = false;
+  colorPicker = false;
+  theme: Theme = new Theme();
   dropdown: bootstrap.Dropdown | undefined;
   user: User | undefined;
   countFavoriteAd = 0;
@@ -23,21 +24,34 @@ export class AppComponent {
   constructor(public tokenStorageService: TokenStorageService, public router: Router) { }
 
   ngOnInit(): void {
-    document.title = "BusinessFrontend";
+    document.title = "Ежа";
+    $('html').css('background-color', this.theme.backgroundColor);
+    $('body').css('background-color', this.theme.backgroundColor);
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     if(this.isLoggedIn) {
       this.user = this.tokenStorageService.getUser()!;
       this.countFavoriteAd = this.user.favoriteAdList.length;
     }
-    
   }
 
   ngAfterViewInit(): void {
-    this.dropdown = new bootstrap.Dropdown(document.querySelector('#dropdownUser1')!);
+    if (this.isLoggedIn) {
+      this.dropdown = new bootstrap.Dropdown(document.querySelector('#dropdownUser1')!);
+    }
   }
 
   public toggleDropdownMenuUser() {
       this.dropdown?.toggle();
+  }
+
+  // remove if color is choised
+  public updateBackgroundBody() {
+    $('html').css('background-color', this.theme.backgroundColor);
+    $('body').css('background-color', this.theme.backgroundColor);
+  }
+
+  public toggleColorPicker() {
+    this.colorPicker = !this.colorPicker;
   }
 
   logout(): void {

@@ -27,8 +27,7 @@ export class RegisterComponent implements OnInit {
     confirmPassword: false
   }
 
-  constructor(private appComponent: AppComponent, private authService: AuthService, private tokenStorage: TokenStorageService) {
-    this.appComponent.components = [false, false];
+  constructor(public appComponent: AppComponent, private authService: AuthService, private tokenStorage: TokenStorageService) {
   }
 
   ngOnInit(): void {
@@ -37,25 +36,25 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  onKeyName(event: any) {
+  onKeyName() {
     if (this.checked) {
       this.registerFormValid.firstName = this.checkName();
     }
   }
 
-  onKeyPhone(event: any) {
+  onKeyPhone() {
     if (this.checked) {
       this.registerFormValid.phoneNumber = this.checkPhone();
     }
   }
 
-  onKeyEmail(event: any) {
+  onKeyEmail() {
     if (this.checked) {
       this.registerFormValid.email = this.checkEmail();
     }
   }
 
-  onKeyPassword(event: any) {
+  onKeyPassword() {
     this.changedPassword = true;
     if (this.checked) {
       this.registerFormValid.password = this.checkPassword();
@@ -63,7 +62,7 @@ export class RegisterComponent implements OnInit {
     this.registerFormValid.confirmPassword = this.checkConfirmPassword();
   }
 
-  onKeyConfirmPassword(event: any) {
+  onKeyConfirmPassword() {
     this.changedPassword = true;
     this.registerFormValid.confirmPassword = this.checkConfirmPassword();
   }

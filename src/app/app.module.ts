@@ -11,12 +11,13 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { BoardUserComponent } from './board-user/board-user.component';
-
 import { authInterceptorProviders } from '../_helpers/auth.intreceptor';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CreateAdComponent } from './create-ad/create-ad.component';
 import { DndDirective } from './dnd.directive';
 import { AdComponent } from './ad/ad.component';
+import { AdListComponent } from './ad-list/ad-list.component';
+import { HoverClassDirective } from './hover-class.directive';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,9 @@ import { AdComponent } from './ad/ad.component';
     BoardUserComponent,
     CreateAdComponent,
     DndDirective,
-    AdComponent
+    AdComponent,
+    AdListComponent,
+    HoverClassDirective
   ],
   imports: [
     BrowserModule,

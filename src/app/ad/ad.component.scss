@@ -1,5 +1,5 @@
 .carousel {
-    width: 700px;
+    width: 600px;
     overflow: hidden;
     text-align: center;
     transition: 0.3s;
@@ -8,16 +8,6 @@
 .carousel:hover {
     transition: 0.3s;
     background-color: rgb(241, 236, 236);
-}
-
-.ad {
-    position: absolute;
-    top: 12%;
-    left: 17%;
-}
-
-.d-flex {
-    width: 700px;
 }
 
 .overflow-x {
@@ -31,72 +21,28 @@
     animation-fill-mode: forwards;
 }
 
-.col-right {
-    margin-top: 7.5%;
-}
-
-.col-right div {
-    max-width: 60%;
-}
-
-h5 {
-    font-weight: bold;
-}
-
-.avatar {
-    width: 80px;
-    height: 80px;
-}
-
-.firstName {
-    font-size: 120%;
-    text-decoration: underline;
-}
-
-.col-xl-10 {
-    max-width: 83%!important;
-}
-
 .online {
     color: green;
     font-weight: bold;
 }
 
-.userinfo {
-    vertical-align: top;
+.btn {
+    width: 60%;
+    box-shadow: none;
 }
 
 .btn-warning {
-    width: 60%;
     border-color: black;
     border-width: 1px;
-    box-shadow: none;
 }
 
 .fa-check-circle {
     color: green;
 }
 
-.description {
-    color: gray;
-    font-style: italic;
-}
-
-#span-show-phone {
-    font-size: 120%;
+.animation-show {
     animation: show 1s 1;
     animation-fill-mode: forwards;
-}
-
-#span-add-favorites {
-    font-size: 100%;
-    animation-fill-mode: forwards;
-    background-color: #27cb27!important;
-}
-
-.badge {
-    border-color: black;
-    border-width: 1px;
 }
 
 .modal-dialog-scrollable .modal-content {
@@ -104,12 +50,10 @@ h5 {
 }
 
 .modal-content {
-    width: 1px!important;
-    height: 1px!important;
-}
-
-.modal-translate {
-    transform: translateX(-25%);
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    left: 50%;
 }
 
 .modal .close {

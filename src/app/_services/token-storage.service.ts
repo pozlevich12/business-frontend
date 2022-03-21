@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
+import { CategoriesObject } from '../common/categories.object';
+import { LocationObject } from '../common/locations.object';
 import { User } from '../common/User';
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
+const CATEGORIES = 'categories';
+const LOCATIONS = 'locations';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +40,32 @@ export class TokenStorageService {
       return JSON.parse(userObject);
     }
     return null;
+  }
+
+  public updateFavoriteList(favoriteList: number[]) {
+    const userObject = window.localStorage.getItem(USER_KEY);
+    if (userObject) {
+      const user: User = JSON.parse(userObject);
+      user.favoriteAdList = favoriteList;
+      this.saveUser(user);
+    }
+  }
+
+  public saveCategories(categories: CategoriesObject[]): void {
+    window.localStorage.removeItem(CATEGORIES);
+    window.localStorage.setItem(CATEGORIES, JSON.stringify(categories));
+  }
+
+  public getCategories(): string | null {
+    return window.localStorage.getItem(CATEGORIES);
+  }
+
+  public saveLocations(locations: LocationObject[]): void {
+    window.localStorage.removeItem(LOCATIONS);
+    window.localStorage.setItem(LOCATIONS, JSON.stringify(locations));
+  }
+
+  public getLocations(): string | null {
+    return window.localStorage.getItem(LOCATIONS);
   }
 }

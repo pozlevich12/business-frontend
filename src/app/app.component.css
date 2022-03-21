@@ -17,6 +17,13 @@
     }
 }
 
+header {
+    width: 100%;
+    height: 100px;
+    position: fixed;
+    z-index: 100;
+}
+
 .btn {
     box-shadow: none;
 }
@@ -34,18 +41,10 @@
 .dropdown-menu {
     width: auto;
     border-radius: 10%;
-    background-color: #343a40;
 }
 
 .dropdown-item:hover {
     background-color: #ffc107;
-}
-
-.dropdown-item {
-    border-radius: 10% / 50%;
-    color: white;
-    font-weight: bold;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 .dropdown-li {

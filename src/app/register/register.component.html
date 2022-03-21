@@ -1,54 +1,43 @@
-<div class="container">
-    <form class="form-horizontal" role="form">
+<form class="ps-5">
+    <h2><span class="badge badge-pill shadow mb-2 ms-2" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color"><i class="fas fa-solid fa-user me-3"></i>Регистрация аккаунта</span></h2>
+    <div class="mt-3" *ngIf="isSignUpFailed">
+        <div class="alert alert-danger" role="alert">
+            Ошибка регистрации аккаунта.<br> {{ errorMessage }}
+        </div>
+    </div>
+    <label>Имя</label>
+    <div class="mb-3">
+        <input [(ngModel)]="registerForm.firstName" (keyup)="onKeyName()" type="text" name="firstName" class="form-control shadow-sm" [ngClass]="{'is-valid': checked && registerFormValid.firstName, 'is-invalid': checked && !registerFormValid.firstName}" autofocus="">
+        <div *ngIf="checked && !registerFormValid.firstName" class="invalid-feedback">Пожалуйста, введите корректное имя.</div>
+    </div>
+    <label>Номер телефона</label>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <button type="button" class="btn" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color">+375</button>
+        </div>
+        <input [(ngModel)]="registerForm.phoneNumber" (keyup)="onKeyPhone()" name="phoneNumber" [ngClass]="{'is-valid': checked && registerFormValid.phoneNumber, 'is-invalid': checked && !registerFormValid.phoneNumber}" class="form-control shadow-sm">
+        <div *ngIf="checked && !registerFormValid.phoneNumber" class="invalid-feedback">Пожалуйста, введите корректный номер телефона.</div>
+    </div>
+    <div class="mb-3">
+        <label>Email <small class="small">(необязательно)</small></label>
+        <input [(ngModel)]="registerForm.email" (keyup)="onKeyEmail()" [ngClass]="{'is-valid': checked && registerFormValid.email, 'is-invalid': checked && !registerFormValid.email}" name="email" class="form-control shadow-sm">
+        <div *ngIf="checked && !registerFormValid.email" class="invalid-feedback">Введен неверный email.
+            <br>Пожалуйста, заполните поле корректно или оставьте его пустым.
+        </div>
+    </div>
+    <div class="mb-3">
+        <label>Пароль</label>
+        <div>
+            <input [(ngModel)]="registerForm.password" autocomplete="on" (keyup)="onKeyPassword()" [ngClass]="{'is-valid': checked && registerFormValid.password, 'is-invalid': checked && !registerFormValid.password}" type="password" name="password" class="form-control shadow-sm">
+            <div *ngIf="checked && !registerFormValid.password" class="invalid-feedback">Пароль должен содержать от 6 до 32 символов. Пробелы запрещены.</div>
+        </div>
+    </div>
+    <label>Подтвердите пароль</label>
+    <div class="mb-5">
+        <input [(ngModel)]="registerForm.confirmPassword" autocomplete="off" (keyup)="onKeyConfirmPassword()" [ngClass]="{'is-valid': changedPassword && registerFormValid.confirmPassword, 'is-invalid': changedPassword && !registerFormValid.confirmPassword}" type="password"
+            name="confirmPassword" class="form-control shadow-sm">
+        <div *ngIf="!registerFormValid.confirmPassword" class="invalid-feedback">Пароли не совподают.</div>
+    </div>
 
-        <h2><span class="badge bg-warning text-dark badge-pill">Регистрация</span></h2>
-
-        <div class="form-group">
-            <div class="col-sm-9 confirm mt-3" *ngIf="isSignUpFailed">
-                <div class="alert alert-danger" role="alert">
-                    Ошибка регистрации аккаунта.<br> {{ errorMessage }}
-                </div>
-            </div>
-            <label for="firstName" class="col-sm-3 control-label">Имя</label>
-            <div class="col-sm-9">
-                <input [(ngModel)]="registerForm.firstName" (keyup)="onKeyName($event)" type="text" name="firstName" class="form-control" [ngClass]="{'is-valid': checked && registerFormValid.firstName, 'is-invalid': checked && !registerFormValid.firstName}" autofocus="">
-                <div *ngIf="checked && !registerFormValid.firstName" class="invalid-feedback">Пожалуйста, введите корректное имя.</div>
-            </div>
-        </div>
-        <label for="phone" class="col-sm-3 control-label">Номер телефона</label>
-        <div class="input-group mb-3 col-sm-9">
-            <div class="input-group-prepend">
-                <button type="button" class="btn btn-warning btn-phone">+375</button>
-            </div>
-            <input [(ngModel)]="registerForm.phoneNumber" (keyup)="onKeyPhone($event)" name="phoneNumber" [ngClass]="{'is-valid': checked && registerFormValid.phoneNumber, 'is-invalid': checked && !registerFormValid.phoneNumber}" type="email" class="form-control">
-            <div *ngIf="checked && !registerFormValid.phoneNumber" class="invalid-feedback">Пожалуйста, введите корректный номер телефона.</div>
-        </div>
-        <div class="form-group">
-            <label for="email" class="col-sm-3 control-label">Email <small class="small">(необязательно)</small></label>
-            <div class="col-sm-9">
-                <input [(ngModel)]="registerForm.email" (keyup)="onKeyEmail($event)" [ngClass]="{'is-valid': checked && registerFormValid.email, 'is-invalid': checked && !registerFormValid.email}" name="email" class="form-control">
-                <div *ngIf="checked && !registerFormValid.email" class="invalid-feedback">Введен неверный email.
-                    <br>Пожалуйста, заполните поле корректно или оставьте его пустым.</div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="password" class="col-sm-3 control-label">Пароль</label>
-            <div class="col-sm-9">
-                <input [(ngModel)]="registerForm.password" autocomplete="on" (keyup)="onKeyPassword($event)" [ngClass]="{'is-valid': checked && registerFormValid.password, 'is-invalid': checked && !registerFormValid.password}" type="password" name="password" class="form-control">
-                <div *ngIf="checked && !registerFormValid.password" class="invalid-feedback">Пароль должен содержать от 6 до 32 символов. Пробелы запрещены.</div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="passwordSubmit" class="col-sm-3 control-label">Подтвердите пароль</label>
-            <div class="col-sm-9">
-                <input [(ngModel)]="registerForm.confirmPassword" autocomplete="off" (keyup)="onKeyConfirmPassword($event)" [ngClass]="{'is-valid': changedPassword && registerFormValid.confirmPassword, 'is-invalid': changedPassword && !registerFormValid.confirmPassword}"
-                    type="password" name="confirmPassword" class="form-control">
-                <div *ngIf="!registerFormValid.confirmPassword" class="invalid-feedback">Пароли не совподают.</div>
-            </div>
-        </div>
-
-        <div class="col-sm-9 confirm">
-            <button (click)="checkForm()" type="submit" id="btn_submit" class="btn btn-warning btn-block"><span id="spinner" hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>  Регистрация</button>
-        </div>
-    </form>
-</div>
+    <button (click)="checkForm()" type="submit" id="btn_submit" class="btn shadow" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color"><span id="spinner" hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>  Регистрация</button>
+</form>

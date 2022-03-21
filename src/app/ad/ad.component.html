@@ -1,80 +1,82 @@
-<app-home></app-home>
-<div *ngIf="ad" class="col-md-6 col-xl-10 mt-2 px-5 banner ad">
-    <div class="row">
-        <div class="col">
-            <div>
-                <h2 style="text-shadow: black;font-weight: bolder;" class="mb-0">{{ad.adTitle}}
-                    <span class="badge bg-warning text-dark ms-2 mb-1" style="font-size: 60%"><i class="fas fa-ruble-sign"></i> {{ad.price}} {{ad.priceType}}</span>
-                </h2>
-                <label class="description"><i class="fas fa-map-marker-alt me-2"></i>{{ad.location.fullNameLocation}}</label>
-            </div>
-            <div>
-                <a href="#" class="link-dark"><i class="fa pe-1" [ngClass]="{'fa-seedling': ad?.category.id == 5, 'fa-apple-alt': ad?.category.id == 25, 'fa-drumstick-bite': ad?.category.id == 35, 'fa-cheese': ad?.category.id == 45, 'fa-balance-scale-right': ad?.category.id == 55, 'fa-leaf': ad?.category.id == 65, 'fa-book': ad?.category.id == 75}"></i>{{ad.category.category}}</a>                <i class="fas fa-angle-right me-2 ms-2"></i>
-                <a href="#" class="link-dark">{{ad.subCategory.subCategory}}</a> <i class="fas fa-angle-right me-2 ms-2"></i>
-                <a href="/ad" class="link-dark">{{ad.adTitle}}</a>
-            </div>
-            <div id="carouselExampleControls" class="carousel slide border border-dark rounded shadow mt-4" data-bs-ride="carousel" data-bs-interval="false">
-                <div class="carousel-inner">
-                    <div *ngFor="let img of images; let i = index" class="carousel-item" [ngClass]="{active: i === 0}">
-                        <img [src]=img.cloudinaryUrl id='img-carousel-{{i}}' alt="...">
+<div *ngIf="ad" style="width: 1000px">
+    <div class="flex-column border-bottom border-2">
+        <div>
+            <h2 style="text-shadow: black;font-weight: bolder;" class="mb-0">{{ad.adTitle}}
+                <span class="badge bg-warning text-dark ms-2 mb-1" style="font-size: 60%">{{ad.price}} {{ad.priceType}}</span>
+            </h2>
+            <label class="text-muted fst-italic"><i class="fas fa-map-marker-alt me-2"></i>{{ad.location.fullNameLocation}}</label>
+        </div>
+        <div class="mb-3">
+            <a [attr.href]="'ad-list?categoryId=' + ad.category.id" class="link-dark"><i class="fa pe-1" [ngClass]="{'fa-seedling': ad.category.id == 5, 'fa-apple-alt': ad.category.id == 25, 'fa-drumstick-bite': ad?.category.id == 35, 'fa-cheese': ad?.category.id == 45, 'fa-balance-scale-right': ad?.category.id == 55, 'fa-leaf': ad?.category.id == 65, 'fa-book': ad?.category.id == 75}"></i>{{ad.category.category}}</a>            <i class="fas fa-angle-right me-2 ms-2"></i>
+            <a [attr.href]="'ad-list?categoryId=' + ad.category.id + '&subCategoryId=' + ad.subCategory.id" class="link-dark">{{ad.subCategory.subCategory}}</a> <i class="fas fa-angle-right me-2 ms-2"></i>
+            <a [attr.href]="'ad?id=' + ad.id" class="link-dark">{{ad.adTitle}}</a>
+        </div>
+        <div class="d-flex">
+            <div class="flex-column" style="width:650px">
+                <div id="carouselExampleControls" class="carousel slide border border-dark rounded shadow me-5" data-bs-ride="carousel" data-bs-interval="false">
+                    <div class="carousel-inner">
+                        <div *ngFor="let img of images; let i = index" class="carousel-item" [ngClass]="{active: i === 0}">
+                            <img [src]=img.cloudinaryUrl width="600px" height="400px" id='img-carousel-{{i}}'>
+                            <div class="open-popup" (click)="scrollPopup(i)" data-bs-toggle="modal" data-bs-target="#popupModalToggle"></div>
+                        </div>
+                    </div>
+
+                    <button class="carousel-control-prev " type="button " data-bs-target="#carouselExampleControls " data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon " aria-hidden="true "></span>
+                    </button>
+                    <button class="carousel-control-next " type="button " data-bs-target="#carouselExampleControls " data-bs-slide="next">
+                    <span class="carousel-control-next-icon " aria-hidden="true "></span>
+                    </button>
+                </div>
+                <div *ngIf="images!.length> 1" style="width:600px" class="d-flex align-content-stretch mb-4" [ngClass]="{'overflow-x': images!.length > 6}">
+                    <div *ngFor="let file of images; let i = index;" (click)="toggleCarousel(i)" [id]="file.cloudinaryId" class="mt-4 mb-2 me-1 ms-1 small-image border border-dark rounded shadow">
+                        <div>
+                            <img [src]="file.cloudinaryUrl" style="cursor: pointer;" width="96px" height="96px" id='img-{{i}}'>
+                        </div>
                     </div>
                 </div>
-                <div class="open-popup" data-bs-toggle="modal" data-bs-target="#popupModalToggle"></div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-        </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-        </button>
             </div>
-        </div>
-        <div class="col col-right">
-            <div>
-                <h5><i class="fas fa-user"></i> Информация о продавце</h5>
-                <td>
-                    <img src="{{ ad.author!.avatarUrl }}" alt="{{ ad.author!.firstName }}" class="rounded avatar mt-2 ms-4">
-                </td>
-                <td class="ps-3 userinfo pt-2">
-                    <strong class="firstName">{{ ad.author!.firstName }}</strong><br>
-                    <strong *ngIf="online" class="online">Сейчас в сети</strong>
-                    <label *ngIf="lastVisit" style="color: gray">{{lastVisit}}</label>
-                </td>
-                <button type="button" id="viewPhone" (click)="viewPhone()" class="btn btn-warning ms-4 mt-3">Связаться</button>
-                <span id="span-show-phone" class="badge bg-warning text-dark ms-4 mt-3" hidden><i class="fas fa-phone-alt icon me-2"></i><a href='tel:{{ad!.author.phoneNumber}}' class="link-dark">{{ad!.author.phoneNumber}}</a></span>
-                <button *ngIf="!isFavoriteAd" type="button" id="addFavorites" (click)='addFavorites()' class="btn btn-warning ms-4 mt-3">Добавить в избранное</button>
-                <span *ngIf="isFavoriteAd" id="span-add-favorites" class="badge bg-warning text-dark ms-4 mt-3"><i class="fas fa-solid fa-check"></i>Добавлено в избранное</span>
-            </div>
-            <div class="mt-4">
-                <h5><i class="fas fa-info-circle"></i> Описание товара</h5>
-                <p class="text-muted ms-4" style="word-wrap: break-word;">
-                    {{ad.body}}
-                </p>
-            </div>
-            <div>
-                <h5><i class="far fa-check-circle"></i> Доставка</h5>
-                <p class="text-muted ms-4" style="word-wrap: break-word;">
-                    {{ad.deliveryDescription}}
-                </p>
-            </div>
-        </div>
-    </div>
-    <div *ngIf="images!.length > 1" class="d-flex align-content-stretch" [ngClass]="{'overflow-x': images!.length > 6}">
-        <div *ngFor="let file of images; let i = index;" (click)="toggleCarousel(i)" [id]="file.cloudinaryId" class="mt-4 mb-2 me-1 ms-1 small-image border border-dark rounded shadow">
-            <div>
-                <img [src]="file.cloudinaryUrl" style="cursor: pointer;" width="96px" height="96px" id='img-{{i}}'>
-            </div>
-        </div>
-    </div>
 
+            <div class="flex-column" style="width:350px">
+                <div class="mb-4">
+                    <p class="fw-bold fs-5"><i class="fas fa-user"></i> Информация о продавце</p>
+                    <div class="d-flex ms-4">
+                        <img src="{{ ad.author!.avatarUrl }}" width=75px height=75px alt="{{ ad.author!.firstName }}" class="rounded me-2">
+                        <div class="flex-column">
+                            <label class="fw-bold text-decoration-underline">{{ ad.author!.firstName }}</label><br>
+                            <label [hidden]="!online" class="online">Сейчас в сети</label>
+                            <label [hidden]="online" class="text-muted">{{lastVisit}}</label>
+                        </div>
+                    </div>
+                    <button type="button" id="viewPhone" (click)="viewPhone()" class="btn ms-4 mt-3" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color">Контакты продавца</button>
+                    <a class="btn animation-show  ms-4 mt-3" id="href-show-phone" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color" href='tel:{{ad!.author.phoneNumber}}' hidden><i class="fas fa-phone-alt icon me-2"></i>{{ad!.author.phoneNumber}}</a>
+                    <button [hidden]="appComponent.user?.favoriteAdList?.includes(ad.id)" type="button" (click)='toggleFavorite(ad.id)' [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color" class="btn ms-4 mt-3">Добавить в избранное</button>
+                    <button [hidden]="!appComponent.user?.favoriteAdList?.includes(ad.id)" type="button" (click)='toggleFavorite(ad.id)' class="btn btn-danger animation-show ms-4 mt-3">Убрать из избранных</button>
+
+                </div>
+                <div class="mb-4">
+                    <p class="fw-bold fs-5 me-5"><i class="fas fa-info-circle"></i> Описание товара</p>
+                    <label class="text-muted text-break ms-4" style="margin-right: 20%">
+                        {{ad.body}}
+                    </label>
+                </div>
+                <div>
+                    <h5><i class="far fa-check-circle"></i> Доставка</h5>
+                    <p class="text-muted ms-4" style="word-wrap: break-word;">
+                        {{ad.deliveryDescription}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="modal fade" id="popupModalToggle" aria-hidden="true" tabindex="-1">
+
+<div class="modal fade" id="popupModalToggle" style="z-index: 9999" aria-hidden="true" tabindex="-1">
     <span class="close" data-bs-toggle="modal" data-bs-target="#popupModalToggle">&times;</span>
     <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div *ngFor="let img of imagesPopup; let i = index" class="mb-4">
-                <img [src]=img.cloudinaryUrl id='img-carousel-{{i}}' class="rounded" [ngClass]="{'modal-translate': img.width >= 1200}" [style.margin-bottom]="i + 1 == imagesPopup?.length && imagesPopup?.length != 1?'40px':''">
+        <div class="modal-content flex-column align-items-center">
+            <div *ngFor="let img of imagesPopup; let i = index" class=" mb-4">
+                <img [src]=img.cloudinaryUrl id='img-popup-{{i}}' class="rounded" [style.margin-bottom]="i + 1 == imagesPopup?.length && imagesPopup?.length != 1?'40px':''">
             </div>
         </div>
     </div>

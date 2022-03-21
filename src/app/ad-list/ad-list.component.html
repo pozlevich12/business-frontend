@@ -1,0 +1,54 @@
+<div class="d-flex px-2 pb-4 mb-4 border-bottom" id="filter" [style.background-color]="appComponent.theme.backgroundColor" [ngClass]="{'filter-top': scrollTop, 'filter-scroll': !scrollTop}">
+    <div class="flex-column me-3">
+        <label class="label-form">Категория</label>
+        <select class="form-select form-select-sm shadow-sm" style="width:175px;" [(ngModel)]="filter.categoryId" name="categoryId" (change)="updateSubCategories()" [disabled]="loadingPage">
+            <option [ngValue]=-1>Все категории</option>
+            <option *ngFor="let category of categories" [ngValue]="category.categoryId">{{category.categoryName}}</option>
+            </select>
+    </div>
+    <div class="flex-column me-3">
+        <label class="label-form">Подкатегория</label>
+        <select class="form-select form-select-sm shadow-sm" style="width:100px;" [(ngModel)]="filter.subCategoryId" name="subCategoryId" (change)="refreshFilter()" [disabled]="loadingPage">
+            <option [ngValue]=-1>Все</option>
+                <ng-container *ngFor="let category of categories">
+            <option *ngFor="let subCategory of category['subCategories']" [selected]="filter.subCategoryId == subCategory.subCategoryId" [hidden]='category.categoryId != filter.categoryId' [ngValue]="subCategory.subCategoryId">{{subCategory.subCategoryName}}</option>
+        </ng-container>
+</select></div>
+    <div class="flex-column me-3">
+        <label class="label-form">Область</label>
+        <select class="form-select form-select-sm shadow-sm" style="width:130px;" [(ngModel)]="filter.region " name="region " (change)="updateLocation() " [disabled]="loadingPage">
+            <option [ngValue]=-1>Вся Беларусь</option>
+            <option *ngFor="let location of locations " [ngValue]="location.regionId ">{{location.region}}</option>
+</select></div>
+    <div class="flex-column me-3">
+        <label class="label-form">Город/район</label>
+        <select class="form-select form-select-sm shadow-sm" style="width:140px;" [(ngModel)]="filter.town " name="town " (change)="refreshFilter()" [disabled]="loadingPage">
+            <option [ngValue]=-1>Все</option>
+            <ng-container *ngFor="let location of locations">
+                <option *ngFor="let town of location['townList'] " [selected]="filter.town == town.id" [hidden]="location.regionId != filter.region" [ngValue]="town.id ">{{town.town}}</option>
+            </ng-container>
+            
+</select></div>
+    <div class="d-flex align-items-center mt-3">
+        <input class="form-check-input me-2" type="checkbox" [(ngModel)]="filter.delivery " name="hasDelivery " (change)="refreshFilter()" [style.background-color]="filter.delivery?appComponent.theme.mainColor:''" [disabled]="loadingPage">
+        <span class="me-2"><i class="fas fa-truck me-2"></i>С Доставкой</span>
+        <button type="button" (click)="resetFilter()" class="btn btn-danger" [disabled]="loadingPage" style="background: #e30000; width:95px!important"><span [hidden]="!loadingPage" class="spinner-border spinner-border-sm"></span><div *ngIf="!loadingPage">Сбросить</div></button>
+    </div>
+</div>
+
+<div style="margin-top: 100px;width:870px" [ngStyle]="{'opacity': loadingPage ? '0.33':'1'}">
+    <div *ngFor="let ad of adList" class="d-flex mb-4 border-bottom">
+        <div class="me-3" style="width: 200px; height: 140px; text-align: center">
+            <img class="rounded-3" [src]=ad.imgTitleUrl>
+        </div>
+        <div class="d-flex flex-column me-auto mb-2" style="overflow: hidden;max-width: 50%;">
+            <a href="ad?id={{ad.id}}" target="_blank" class="link-dark">{{ad.adTitle}}</a>
+            <span class="mb-auto">{{ad.price}} {{ad.priceType}}</span>
+            <label><i class="fas fa-map-marker-alt text-muted me-2"></i>{{ad.town}}</label>
+        </div>
+        <div class="d-flex flex-column mb-2">
+            <i class="ms-auto fas fa-bookmark mb-auto" (click)="toggleFavorite(ad.id)" [ngStyle]="{'color': appComponent.user?.favoriteAdList?.includes(ad.id) ? '#e30000':'gray'}" [title]="appComponent.user?.favoriteAdList?.includes(ad.id) ? 'Избранное' : 'Добавить в избранное'"></i>
+            <label class="text-muted" title="Дата подачи объявления">{{ad.created}}</label>
+        </div>
+    </div>
+</div>

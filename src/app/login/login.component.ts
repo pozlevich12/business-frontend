@@ -25,8 +25,7 @@ export class LoginComponent implements OnInit {
     password: false,
   }
 
-  constructor(private appComponent: AppComponent, private authService: AuthService, private tokenStorage: TokenStorageService, private route: ActivatedRoute) {
-    this.appComponent.components = [false, false];
+  constructor(public appComponent: AppComponent, private authService: AuthService, private tokenStorage: TokenStorageService, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {

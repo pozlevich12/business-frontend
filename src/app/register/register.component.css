@@ -1,8 +1,11 @@
-.container {
-    margin-top: 2%;
+form {
+    margin-left: 100px;
+    margin-top: 25px;
+    width: 500px;
 }
 
 label {
+    margin-left: 5px;
     font-weight: bold;
 }
 
@@ -15,46 +18,10 @@ label {
 }
 
 .invalid-feedback {
+    margin-left: 5px;
     font-size: 75%;
-}
-
-.btn-warning {
-    border-color: black;
-}
-
-.confirm {
-    margin-top: 5%;
 }
 
 .small {
     font-size: 75%;
-}
-
-.btn-warning:hover {
-    background-color: #ffc107;
-}
-
-.form-group {
-    margin-bottom: 1%;
-}
-
-@media screen and (min-width: 391px) {
-    .container {
-        margin-left: 10%;
-    }
-    .col-sm-9 {
-        width: 45%;
-    }
-    .if-logging {
-        margin-left: 5%;
-    }
-}
-
-@media screen and (max-width: 391px) {
-    .container {
-        margin-top: 5%;
-    }
-    .form-group {
-        margin-bottom: 3%;
-    }
 }

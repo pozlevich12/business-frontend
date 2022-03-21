@@ -4,7 +4,7 @@ import { AdService } from '../_services/ad/ad.service';
 import * as bootstrap from 'bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { TokenStorageService } from '../_services/token-storage.service';
+import { AppComponent } from '../app.component';
 
 @Component({
   templateUrl: './ad.component.html',
@@ -18,19 +18,20 @@ export class AdComponent implements OnInit {
   lastVisit: string = "";
   images: ImageDTO[] | undefined;
   imagesPopup: ImageDTO[] | undefined;
-  isFavoriteAd: boolean | undefined;
   carousel: bootstrap.Carousel | undefined;
   rollCarousel: boolean = false;
-  constructor(private adService: AdService, private route: ActivatedRoute, private tokenStorageService: TokenStorageService) {
+
+  constructor(public appComponent: AppComponent, private adService: AdService, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.queryParams["id"];
-    this.isFavoriteAd = this.tokenStorageService.getUser()?.favoriteAdList.includes(Number(this.id));
+    if (!this.id) {
+      window.location.href = 'ad-list';
+    }
     this.adService.getAd(this.id!).subscribe(response => {
       const data = JSON.parse(response);
       this.ad = data;
-      document.title = this.ad.adTitle;
       this.setLastVisit(this.ad.author.lastVisit);
       this.images = this.adService.fillImageList(data);
       this.imagesPopup = this.adService.fillPopupImageList(data);
@@ -40,10 +41,21 @@ export class AdComponent implements OnInit {
       });
   }
 
+  public scrollPopup(index: number) {
+    if (index > 0) {
+      $('#popupModalToggle').on('shown.bs.modal', function () {
+        $('#popupModalToggle').animate({
+          scrollTop: $('#img-popup-' + index).offset()!.top - 150
+        }, 750);
+        $(this).off('shown.bs.modal');
+      });
+    }
+  }
+
   public toggleCarousel(index: number) {
-    if(!this.rollCarousel) {
+    if (!this.rollCarousel) {
       this.rollCarousel = true;
-      if(this.carousel) {
+      if (this.carousel) {
         this.carousel.to(index);
       } else {
         this.carousel = new bootstrap.Carousel(document.querySelector('#carouselExampleControls')!);
@@ -53,23 +65,13 @@ export class AdComponent implements OnInit {
     }
   }
 
-  public addFavorites() {
-    $("#span-add-favorites").css("animation", "show 1s 1");
-    this.isFavoriteAd = true;
-    this.adService.addFavoriteAd(this.id!).subscribe(
-      data => {
-        const user = this.tokenStorageService.getUser();
-        user?.favoriteAdList.push(data);
-      this.tokenStorageService.saveUser(user);
-    },
-    error => {
-      console.error(error.error);
-    });
+  public toggleFavorite(id: number) {
+    this.adService.toggleFavorite(this.appComponent.user!, id);
   }
 
   public viewPhone() {
     $("#viewPhone").hide();
-    $("#span-show-phone").removeAttr("hidden");
+    $("#href-show-phone").removeAttr("hidden");
   }
 
   private setLastVisit(date: string) {

@@ -1,6 +1,6 @@
-<form>
+<form disabled>
     <div class="form-group">
-        <h2><span class="badge bg-warning text-dark mb-3 shadow p-2"><i class="far fa-sm fa-newspaper mx-2"></i> Подача
+        <h2><span class="badge mb-3 shadow" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color"><i class="far fa-sm fa-newspaper mx-2"></i> Подача
         объявления</span></h2>
         <div class="confirm mt-3" *ngIf="isCreateFailed">
             <div class="alert alert-danger" role="alert">
@@ -57,7 +57,7 @@
             <input type="file" id="fileDropRef" class="drop-input shadow-sm" accept="image/jpeg,image/png" multiple (change)="filesDropped($event.target!)" />
             <img src="https://cdn-icons-png.flaticon.com/512/568/568717.png" height="7%" width="7%">
             <h3>Загрузите изображения</h3>
-            <span class="badge bg-warning text-dark mb-3 shadow-sm p-2" style="font-size: 100%;">
+            <span class="badge mb-3 shadow-sm p-2" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color" style="font-size: 100%;">
         <i class="fas fa-file-upload mx-2"></i> Выбрать изображения</span>
         </div>
         <div *ngIf="uploadedFiles.hasUploadError" class="alert alert-warning" role="alert">
@@ -122,7 +122,7 @@
     </div>
     <div class="form-group mt-4 ">
         <div class="form-check ms-2 mb-3 ">
-            <input class="form-check-input " type="checkbox" style="cursor:pointer;width:20px;height:20px; " (change)="toggleDeliveryDescr()" id="deliveryCheckbox">
+            <input class="form-check-input " type="checkbox" style="cursor:pointer;width:20px;height:20px; " [style.background-color]="delivery?appComponent.theme.mainColor:''" (change)="toggleDeliveryDescr()" id="deliveryCheckbox">
             <label class="form-check-label ms-2 " style="padding-top:3px;cursor: pointer;" (click)="toggleDeliveryDescr()">
         <span><i class="fas fa-lg fa-truck me-2 "></i></span> Доставка
       </label>
@@ -133,5 +133,5 @@
             <small [ngClass]="{'invalid-feedback': checked && !adValidation.deliveryDescription, 'form-text text-muted': checked && adValidation.deliveryDescription}" class="form-text text-muted ">Опишите условия доставки.</small>
         </div>
     </div>
-    <button (click)="checkForm() " id="btn_submit" type="submit " class="btn btn-warning mt-4 "><span id="spinner_btn" hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>  Отправить</button>
+    <button (click)="checkForm() " id="btn_submit" type="submit " class="btn mt-4 " [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color"><span id="spinner_btn" hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>  Отправить</button>
 </form>

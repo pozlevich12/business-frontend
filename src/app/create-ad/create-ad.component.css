@@ -28,11 +28,6 @@
 }
 
 @media screen and (min-width: 391px) {
-    form {
-        margin-top: 2%;
-        margin-left: 5%;
-        width: 35%;
-    }
     .input-price {
         width: 10%;
         text-align: right;
@@ -52,6 +47,11 @@
         transform: scale(1.2);
         color: red;
     }
+}
+
+form {
+    margin-left: 15%;
+    width: 700px;
 }
 
 .form-group {
@@ -102,21 +102,13 @@ small {
     font-size: 70%;
 }
 
-.badge {
-    border-style: solid;
-    border-width: 1px;
-}
-
-.form-select {
-    font-size: 80%;
-}
-
 label {
     font-weight: bold;
     margin-left: 1%;
 }
 
 .form-select {
+    font-size: 80%;
     width: 90%;
 }
 
@@ -211,14 +203,6 @@ label {
     top: 0;
     left: 0;
     cursor: pointer;
-}
-
-.drop-label {
-    border-radius: 21.5px;
-    background-color: #ffc107;
-    color: black;
-    padding: 0.5% 2%;
-    margin-top: 2%;
 }
 
 small {

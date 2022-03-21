@@ -12,6 +12,7 @@ import * as $ from 'jquery';
 import { ImageList } from '../common/ImageList.object';
 import { ImageDTO } from '../common/ImageDTO.object';
 import { PhoneDTO } from '../common/PhoneDTO';
+import { TokenStorageService } from '../_services/token-storage.service';
 
 @Component({
   selector: 'app-create-ad',
@@ -50,8 +51,7 @@ export class CreateAdComponent implements OnInit {
 
   phoneList: PhoneDTO[] = [];
 
-  constructor(public appComponent: AppComponent, private createAdService: CreateAdService, private sessionStorage: SessionStorageService) {
-    this.appComponent.components = [false, true];
+  constructor(public appComponent: AppComponent, private createAdService: CreateAdService, private localStorage: TokenStorageService) {
   }
 
   ngOnInit() {
@@ -61,7 +61,7 @@ export class CreateAdComponent implements OnInit {
       this.createAdService.checkTokenExpire().subscribe();
       let categories;
       const intervalInitCategories = setInterval(() => {
-        categories = this.sessionStorage.getCategories();
+        categories = this.localStorage.getCategories();
         if (categories) {
           this.categories = JSON.parse(categories);
           this.category = this.categories[0].categoryId;
@@ -69,19 +69,19 @@ export class CreateAdComponent implements OnInit {
           this.subCategory = this.subCategories[0].subCategoryId;
           clearInterval(intervalInitCategories);
         }
-      }, 250);
+      }, 100);
 
       let locations;
       const intervalInitLocations = setInterval(() => {
-        locations = this.sessionStorage.getLocations();
+        locations = this.localStorage.getLocations();
         if (locations) {
           this.locations = JSON.parse(locations);
-          this.region = this.locations[0].region;
+          this.region = this.locations[0].region!;
           this.townList = this.locations[0].townList!;
           this.town = this.townList[0].id;
           clearInterval(intervalInitLocations);
         }
-      }, 250);
+      }, 100);
 
       this.createAdService.fillPhoneNumbersDTO(this.phoneList);
     }
@@ -196,7 +196,6 @@ export class CreateAdComponent implements OnInit {
         if (this.createAdService.validNewAd(newAd)) {
           this.createAdService.createAd(newAd).subscribe(
             (data: any) => {
-              console.log(data);
               this.setProcessingInDom(false);
               window.scrollTo(0, 0);
             },
@@ -213,6 +212,6 @@ export class CreateAdComponent implements OnInit {
           window.scrollTo(0, 0);
         }
       }
-    }, 250);
+    }, 100);
   }
 }
