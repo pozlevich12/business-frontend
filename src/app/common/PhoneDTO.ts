@@ -1,8 +1,7 @@
 export class PhoneDTO {
+    id: number | undefined;
+    idViber: number | undefined;
     phone: string | undefined;
     use: boolean = true;
-
-    constructor(phone: string) {
-        this.phone = phone;
-    }
+    useViber: boolean = true;
 }

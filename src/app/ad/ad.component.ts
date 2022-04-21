@@ -1,27 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { ImageDTO } from '../common/ImageDTO.object';
+import { Image } from '../common/Image';
 import { AdService } from '../_services/ad/ad.service';
 import * as bootstrap from 'bootstrap';
 import { ActivatedRoute } from '@angular/router';
-import { DatePipe } from '@angular/common';
 import { AppComponent } from '../app.component';
+import { DateService } from '../_services/date.service';
 
 @Component({
   templateUrl: './ad.component.html',
   styleUrls: ['./ad.component.scss']
 })
+
 export class AdComponent implements OnInit {
 
   ad: any | undefined;
   id: number | undefined;
-  online: boolean | undefined;
-  lastVisit: string = "";
-  images: ImageDTO[] | undefined;
-  imagesPopup: ImageDTO[] | undefined;
+  online: boolean = true;
+  lastVisit: string | undefined;
+  images: Image[] | undefined;
+  imagesPopup: Image[] | undefined;
   carousel: bootstrap.Carousel | undefined;
   rollCarousel: boolean = false;
 
-  constructor(public appComponent: AppComponent, private adService: AdService, private route: ActivatedRoute) {
+  constructor(public appComponent: AppComponent, private adService: AdService, private route: ActivatedRoute, private dateService: DateService) {
   }
 
   ngOnInit(): void {
@@ -32,7 +33,10 @@ export class AdComponent implements OnInit {
     this.adService.getAd(this.id!).subscribe(response => {
       const data = JSON.parse(response);
       this.ad = data;
-      this.setLastVisit(this.ad.author.lastVisit);
+      this.lastVisit = this.dateService.mapLastVisit(this.ad.author.lastVisit);
+      if (this.lastVisit) {
+        this.online = false;
+      }
       this.images = this.adService.fillImageList(data);
       this.imagesPopup = this.adService.fillPopupImageList(data);
     },
@@ -72,18 +76,5 @@ export class AdComponent implements OnInit {
   public viewPhone() {
     $("#viewPhone").hide();
     $("#href-show-phone").removeAttr("hidden");
-  }
-
-  private setLastVisit(date: string) {
-    const diff = new Date().getTime() - new Date(date).getTime();
-    if (diff < 600000) {
-      this.online = true;
-    } else if (diff < 3600000) {
-      this.lastVisit = 'Заходил(а) ' + Math.round(diff / 60000) + " минут назад";
-    } else if (diff < 86400000) {
-      this.lastVisit = 'Заходил(а) ' + Math.round(diff / 3600000) + "ч. назад";
-    } else {
-      this.lastVisit = 'Был(а) в сети ' + new DatePipe("en-US").transform(date, 'dd-MM-YYYY')?.replace("-", ".").replace("-", ".");
-    }
   }
 }

@@ -1,18 +1,24 @@
 <div *ngIf="this.router.url != '/home'" class="d-flex">
     <div class="flex-column">
-        <div *ngFor="let category of categories; let i = index" class="list-group shadow mb-2" style="width:250px">
-            <a [attr.href]="'ad-list?categoryId=' + category.categoryId" class="list-group-item list-group-item-action active" [style.color]="appComponent.theme.color" [style.background-color]="appComponent.theme.mainColor" aria-current="true">
-                <i class="fa" [ngClass]="{
-                                'fa-seedling': category.categoryId == 5,
-                                'fa-apple-alt': category.categoryId == 25,
-                                'fa-drumstick-bite': category.categoryId == 35,
-                                'fa-cheese': category.categoryId == 45,
-                                'fa-balance-scale-right': category.categoryId == 55,
-                                'fa-leaf': category.categoryId == 65,
-                                'fa-book': category.categoryId == 75}"></i> {{category.categoryName}}
+
+        <div class="list-group shadow mb-2" style="width:250px">
+            <a href="ad-list" class="list-group-item list-group-item-action active" [style.color]="appComponent.theme.color" [style.background-color]="appComponent.theme.mainColor" aria-current="true">
+                <i class="fa fa-search"></i> Все объявления
             </a>
-            <a *ngFor="let subCategory of category['subCategories']" appHoverClass [attr.href]="'ad-list?categoryId='  + category.categoryId +'&subCategoryId=' + subCategory.subCategoryId" class="list-group-item list-group-item-action" [style.background-color]="appComponent.theme.backgroundColor"
-                style="font-size: 90%;">{{subCategory.subCategoryName}}</a>
+        </div>
+        <div *ngFor="let category of categories; let i = index" class="list-group shadow mb-2" style="width:250px">
+            <a [attr.href]="'ad-list?categoryId=' + category.id" class="list-group-item list-group-item-action active" [style.color]="appComponent.theme.color" [style.background-color]="appComponent.theme.mainColor" aria-current="true">
+                <i class="fa" [ngClass]="{
+                                'fa-seedling': category.id == 5,
+                                'fa-apple-alt': category.id == 25,
+                                'fa-drumstick-bite': category.id == 35,
+                                'fa-cheese': category.id == 45,
+                                'fa-balance-scale-right': category.id == 55,
+                                'fa-leaf': category.id == 65,
+                                'fa-book': category.id == 75}"></i> {{category.category}}
+            </a>
+            <a *ngFor="let subCategory of category['subCategoryList']" appHoverClass [attr.href]="'ad-list?categoryId='  + category.id +'&subCategoryId=' + subCategory.id" class="list-group-item list-group-item-action" [style.background-color]="appComponent.theme.backgroundColor"
+                style="font-size: 90%;">{{subCategory.subCategory}}</a>
         </div>
     </div>
 

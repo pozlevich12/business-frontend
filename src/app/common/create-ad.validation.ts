@@ -1,11 +1,6 @@
 export class CreateAdValidation {
-    title: boolean;
-    body: boolean;
-    deliveryDescription: boolean;
-
-    constructor() {
-        this.title = false;
-        this.body = false;
-        this.deliveryDescription = false;
-    }
+    title: boolean | undefined;
+    body: boolean | undefined;
+    communication: boolean | undefined;
+    deliveryDescription: boolean | undefined;
 }

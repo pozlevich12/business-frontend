@@ -22,10 +22,15 @@ export class AdListComponent implements OnInit {
   categories: CategoriesObject[] = [];
   locations: LocationObject[] = [];
 
+  allAdLoaded: boolean = false;
+
   scrollTop: boolean = true;
   loadingPage: boolean = true;
 
-  constructor(private localStorage: TokenStorageService, private adListService: AdListService, public appComponent: AppComponent, private adService: AdService, private route: ActivatedRoute) { }
+  loadingNewAd: boolean = false;
+
+  constructor(private localStorage: TokenStorageService, private adListService: AdListService,
+    public appComponent: AppComponent, private adService: AdService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.fillFilterFromQueryParams();
@@ -70,50 +75,73 @@ export class AdListComponent implements OnInit {
   private fillCategories(categories: any): boolean {
     this.categories = JSON.parse(categories);
 
-    if (this.filter.categoryId == -1 && this.filter.subCategoryId == -1) {
+    if (!this.filter.categoryId && !this.filter.subCategoryId) {
       return true;
     }
 
-    if (this.filter.categoryId == -1 && this.filter.subCategoryId != -1) {
+    if (!this.filter.categoryId && this.filter.subCategoryId) {
       return false;
     }
 
-    const categoryIndex = this.categories.map(e => e.categoryId).indexOf(this.filter.categoryId);
-    if (this.filter.categoryId != -1 && categoryIndex == -1) {
+    const categoryIndex = this.categories.map(category => category.id).indexOf(this.filter.categoryId!);
+    if (this.filter.categoryId && categoryIndex == -1) {
       return false;
     }
 
-    const indexSubCategory = this.categories[categoryIndex].subCategories.map(e => e.subCategoryId).indexOf(this.filter.subCategoryId);
-    if (indexSubCategory == -1 && this.filter.subCategoryId != -1) {
-      return false;
+    if (this.filter.subCategoryId) {
+      const indexSubCategory = this.categories[categoryIndex].subCategoryList
+        .map(subCategory => subCategory.id)
+        .indexOf(this.filter.subCategoryId);
+      if (indexSubCategory == -1 && this.filter.subCategoryId) {
+        return false;
+      }
     }
-
+    
     return true;
+  }
+
+  public getNextAd() {
+    this.loadingNewAd = true;
+    this.filter.offset = this.filter.offset + 15;
+    this.adListService.getUnparsedAdList(this.filter).then((adList) => {
+      if (adList.length < 15) {
+        this.allAdLoaded = true;
+      }
+      this.adList = this.adList.concat(adList);
+      this.loadingNewAd = false;
+    });
   }
 
   private fillLocations(locations: any): boolean {
     this.locations = JSON.parse(locations);
-    if (this.filter.region == -1 && this.filter.town == -1) {
+    if (!this.filter.region && !this.filter.town) {
       return true;
     }
-    if (this.filter.region == -1 && this.filter.town != -1) {
+    if (!this.filter.region && this.filter.town) {
       return false;
     }
 
-    const regionIndex = this.locations.map(e => e.regionId).indexOf(this.filter.region);
-    if (this.filter.region != -1 && regionIndex == -1) {
+    const regionIndex = this.locations.map(region => region.id).indexOf(this.filter.region);
+    if (this.filter.region && regionIndex == -1) {
       return false;
     }
 
-    const townIndex = this.locations[regionIndex].townList?.map(e => e.id).indexOf(this.filter.town);
-    if (townIndex == -1 && this.filter.town != -1) {
-      return false;
+    if (this.filter.town) {
+      const townIndex = this.locations[regionIndex].locationList?.map(town => town.id).indexOf(this.filter.town);
+      if (townIndex == -1 && this.filter.town) {
+        return false;
+      }
     }
 
     return true;
   }
 
   private fillDelivery(): boolean {
+
+    if (!this.filter.delivery) {
+      return true;
+    }
+
     let delivery = String(this.filter.delivery).toLowerCase();
     if (delivery == 'true' || delivery == '1') {
       this.filter.delivery = true;
@@ -127,18 +155,18 @@ export class AdListComponent implements OnInit {
   }
 
   public updateSubCategories() {
-    this.filter.subCategoryId = -1;
+    this.filter.subCategoryId = undefined;
     this.refreshFilter();
   }
 
   public updateLocation() {
-    this.filter.town = -1;
+    this.filter.town = undefined;
     this.refreshFilter();
   }
 
   public refreshFilter() {
     this.loadingPage = true;
-    this.adListService.getUnparsedAdList(this.filter).then((adList) => {
+    this.adListService.getUnparsedAdList(this.filter).then(adList => {
       this.adList = adList;
       this.loadingPage = false;
       window.scrollTo(0, 0);

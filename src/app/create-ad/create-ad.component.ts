@@ -1,18 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
-import { CategoriesObject } from '../common/categories.object';
 import { CreateAd } from '../common/create-ad.object';
 import { CreateAdValidation } from '../common/create-ad.validation';
-import { LocationObject } from '../common/locations.object';
-import { SubCategoryObject } from '../common/subcategory.object';
-import { Town } from '../common/town.object';
 import { CreateAdService } from '../_services/create-ad/create-ad.service';
-import { SessionStorageService } from '../_services/session-storage.service';
-import * as $ from 'jquery';
-import { ImageList } from '../common/ImageList.object';
-import { ImageDTO } from '../common/ImageDTO.object';
 import { PhoneDTO } from '../common/PhoneDTO';
-import { TokenStorageService } from '../_services/token-storage.service';
+import { CreateAdSet } from '../common/CreateAdSet';
 
 @Component({
   selector: 'app-create-ad',
@@ -21,197 +13,124 @@ import { TokenStorageService } from '../_services/token-storage.service';
 })
 export class CreateAdComponent implements OnInit {
 
-  adValidation: CreateAdValidation = new CreateAdValidation();
-  isCreateFailed: boolean = false;
-  errorMessage: string | undefined;
-  checked: boolean = false;
-
-
-  uploadedFiles: ImageList = new ImageList();
-
-  delivery: boolean = false;
-  delivaryDescription: string = "";
-
-  title: string = "";
-  body: string = "";
-
-  categories: CategoriesObject[] = [];
-  subCategories: SubCategoryObject[] = [];
-  category: number = 0;
-  subCategory: number = 0;
-
-  price: string = "";
-  subPrice: string = "";
-  priceType: string = "руб/кг";
-
-  locations: LocationObject[] = [];
-  townList: Town[] = [];
-  region: string = "";
-  town: number = 0;
-
+  createAdSet: CreateAdSet = new CreateAdSet();
+  ad: CreateAd = new CreateAd();
   phoneList: PhoneDTO[] = [];
+  adValidation: CreateAdValidation = new CreateAdValidation();
+  checked: boolean = false;
+  process: boolean = false;
+  errorMessage: string | undefined;
 
-  constructor(public appComponent: AppComponent, private createAdService: CreateAdService, private localStorage: TokenStorageService) {
+  constructor(public appComponent: AppComponent, private createAdService: CreateAdService) {
   }
 
   ngOnInit() {
     if (!this.appComponent.tokenStorageService.getToken()) {
       this.appComponent.router.navigate(['login'], { queryParams: { returnUrl: "/create-ad" } });
     } else {
-      this.createAdService.checkTokenExpire().subscribe();
-      let categories;
-      const intervalInitCategories = setInterval(() => {
-        categories = this.localStorage.getCategories();
-        if (categories) {
-          this.categories = JSON.parse(categories);
-          this.category = this.categories[0].categoryId;
-          this.subCategories = this.categories[0].subCategories!;
-          this.subCategory = this.subCategories[0].subCategoryId;
-          clearInterval(intervalInitCategories);
+      this.createAdService.getCreateAdSet().subscribe(
+        data => {
+          this.createAdSet = data;
+          this.phoneList = this.createAdService.initPhoneList(this.createAdSet.availableCommunications!);
+          this.ad.category = this.createAdSet.categories![0].id;
+          this.ad.priceType = this.createAdSet.priceTypes![0];
+          this.ad.region = this.createAdSet.locations![0].id;
+          this.updateSubCategories();
+          this.updateLocation();
+        },
+        error => {
+          console.log(error);
         }
-      }, 100);
-
-      let locations;
-      const intervalInitLocations = setInterval(() => {
-        locations = this.localStorage.getLocations();
-        if (locations) {
-          this.locations = JSON.parse(locations);
-          this.region = this.locations[0].region!;
-          this.townList = this.locations[0].townList!;
-          this.town = this.townList[0].id;
-          clearInterval(intervalInitLocations);
-        }
-      }, 100);
-
-      this.createAdService.fillPhoneNumbersDTO(this.phoneList);
+      );
     }
   }
 
   public updateLocation() {
-    const index = this.locations.map(e => e.region).indexOf(this.region);
-    this.townList = this.locations[index].townList!;
-    this.town = this.townList[0].id;
+    const index = this.createAdSet.locations
+      ?.map(locationObject => locationObject.id).indexOf(this.ad.region);
+    this.ad.town = this.createAdSet.locations![index!].locationList![0].id;
   }
 
   public updateSubCategories() {
-    const index = this.categories.map(e => e.categoryId).indexOf(this.category);
-    this.subCategories = this.categories[index].subCategories!;
-    if (this.subCategories.length == 0) {
-      return;
-    }
-    this.subCategory = this.subCategories[0].subCategoryId;
+    const index = this.createAdSet.categories
+      ?.map(categoryObject => categoryObject.id).indexOf(this.ad.category!);
+    this.ad.subCategory = this.createAdSet.categories![index!].subCategoryList[0]?.id;
   }
 
   public setTitleImage(index: number) {
-    this.createAdService.setTitleImg(this.uploadedFiles, index);
+    if (!this.process) {
+      this.createAdService.setTitleImg(this.ad.imgList, index);
+    }
   }
 
   public filesDropped(target: EventTarget) {
     const filesDropped = (target as HTMLInputElement).files!;
-    this.createAdService.filesDropped(filesDropped, this.uploadedFiles);
+    this.createAdService.filesDropped(filesDropped, this.ad.imgList);
   }
 
   public deleteImg(index: number) {
-    this.createAdService.deleteImg(this.uploadedFiles, index);
+    if (!this.process) {
+      this.createAdService.deleteImg(this.ad.imgList, index);
+    }
   }
 
   public onKeyBody() {
     if (this.checked) {
-      this.adValidation.body = this.createAdService.checkBody(this.body);
+      this.createAdService.checkBody(this.ad, this.adValidation);
     }
   }
 
-  public onKeySubPrice() {
-    this.subPrice = this.createAdService.checkSubPrice(this.subPrice);
-  }
-
   public onKeyPrice() {
-    this.price = this.createAdService.checkPrice(this.price);
+    this.ad.price = this.createAdService.getValidPrice(this.ad.price!);
   }
 
   public onKeyTitle() {
     if (this.checked) {
-      this.adValidation.title = this.createAdService.checkTitle(this.title);
+      this.createAdService.checkTitle(this.ad, this.adValidation);
     }
   }
 
   public onKeyDeliveryDescription() {
     if (this.checked) {
-      this.adValidation.deliveryDescription = this.createAdService.checkDeliveryDescription(this.delivaryDescription, this.delivery);
+      this.createAdService.checkDeliveryDescription(this.ad, this.adValidation);
     }
   }
 
-  public toggleUsePhone() {
-    this.phoneList[0].use = !this.phoneList[0].use;
-    $("#phoneNumber").prop('readonly', this.phoneList[0].use);
-    $("#phoneNumber").prop('disabled', !this.phoneList[0].use);
-  }
-
-  public toggleDeliveryDescr() {
-    this.delivery = !this.delivery;
-    $("#deliveryCheckbox").prop('checked', this.delivery);
-  }
-
-  private updateAdValidation() {
-    this.adValidation.title = this.createAdService.checkTitle(this.title);
-    this.adValidation.body = this.createAdService.checkBody(this.body);
-    this.adValidation.deliveryDescription = this.createAdService.checkDeliveryDescription(this.delivaryDescription, this.delivery);
-  }
-
-  private getNewAdObject(): CreateAd {
-    const imgList: ImageDTO[] = [];
-    this.uploadedFiles.images.forEach(image => {
-      const title: boolean = this.uploadedFiles.titleImg === this.uploadedFiles.images.indexOf(image);
-      imgList.push(new ImageDTO(image.id!, image.url!, image.width!, image.height!, title));
-    });
-    const phoneList: string[] = [];
-    this.phoneList.forEach(phone => {
-      if (phone.use) {
-        phoneList.push(phone.phone!);
+  public toggleUsePhone(index: number) {
+    if (!this.process) {
+      this.phoneList![index].use = !this.phoneList![index].use;
+      this.phoneList[index].useViber = this.phoneList![index].use;
+      if (this.checked) {
+        this.createAdService.checkCommunication(this.phoneList, this.adValidation);
       }
-    })
-    return new CreateAd(this.title, this.body, this.category, this.subCategory, this.town,
-      Number(this.price + '.' + this.subPrice), this.priceType, imgList, phoneList, this.delivery, this.delivaryDescription);
-  }
-
-  private setProcessingInDom(processing: boolean) {
-    if (processing) {
-      document.getElementById("btn_submit")?.setAttribute('disabled', 'true');
-      document.getElementById("spinner_btn")?.removeAttribute('hidden');
-    } else {
-      document.getElementById("btn_submit")?.removeAttribute('disabled');
-      document.getElementById("spinner_btn")?.setAttribute('hidden', 'true');
     }
   }
 
-  public checkForm(): void {
-    this.setProcessingInDom(true);
-    this.createAdService.checkTokenExpire().subscribe();
-    const loadingImgProcess = setInterval(() => {
-      if (!this.uploadedFiles.loadingProcess) {
-        clearInterval(loadingImgProcess);
-        this.isCreateFailed = false;
-        this.updateAdValidation();
-        const newAd = this.getNewAdObject();
-        if (this.createAdService.validNewAd(newAd)) {
-          this.createAdService.createAd(newAd).subscribe(
-            (data: any) => {
-              this.setProcessingInDom(false);
-              window.scrollTo(0, 0);
-            },
-            err => {
-              this.setProcessingInDom(false);
-              this.isCreateFailed = true;
-              this.errorMessage = err.error.message;
-              window.scrollTo(0, 0);
-            }
-          );
-        } else {
-          this.checked = true;
-          this.setProcessingInDom(false);
+  public toggleUseViber(index: number) {
+    if (!this.process && this.phoneList[index].use) {
+      this.phoneList[index].useViber = !this.phoneList[index].useViber;
+    }
+  }
+
+  public async createAd() {
+    this.process = true;
+    if (this.createAdService.validNewAd(this.ad, this.phoneList, this.adValidation)) {
+      await this.createAdService.prepareCreateAd(this.ad, this.phoneList);
+      this.createAdService.createAd(this.ad).subscribe(
+        (id: any) => {
+          window.location.href = '/ad?id=' + id;
+        },
+        err => {
+          this.process = false;
+          this.errorMessage = err.error?.message ? err.error.message : "Server error.";
           window.scrollTo(0, 0);
         }
-      }
-    }, 100);
-  }
+      );
+    } else {
+      this.checked = true;
+      this.process = false;
+      this.errorMessage = "Пожалуйста, проверьте правильность заполнения формы.";
+      window.scrollTo(0, 0);
+    }
+  };
 }

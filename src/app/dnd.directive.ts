@@ -10,7 +10,6 @@ export class DndDirective {
   constructor(private createAdComponent: CreateAdComponent, private createAdService: CreateAdService) { }
 
   @HostListener('dragover', ['$event']) onDragOver(evt: DragEvent) {
-    console.log('over');
     evt.preventDefault();
     evt.stopPropagation();
     this.background = '#F8F8F8';
@@ -26,7 +25,9 @@ export class DndDirective {
     evt.preventDefault();
     evt.stopPropagation();
     this.background = 'white';
-    const filesDropped = evt.dataTransfer!.files;
-    this.createAdService.filesDropped(filesDropped, this.createAdComponent.uploadedFiles);
+    if (!this.createAdComponent.process) {
+      const filesDropped = evt.dataTransfer!.files;
+      this.createAdService.filesDropped(filesDropped, this.createAdComponent.ad.imgList);
+    }
   }
 }

@@ -1,30 +1,16 @@
-import { ImageDTO } from "./ImageDTO.object";
+import { Image } from "./Image";
 
 export class CreateAd {
-    title: string;
-    body: string;
-    category: number;
-    subCategory: number;
-    town: number;
-    price: number;
-    priceType: string;
-    imgList: ImageDTO[];
-    phoneList: string[];
-    delivery: boolean;
-    deliveryDescription: string;
-
-    constructor(title: string, body: string, category: number, subCategory: number, town: number,
-        price: number, priceType: string, imgList: ImageDTO[], phoneList: string[], delivery: boolean, deliveryDescription: string) {
-        this.title = title;
-        this.body = body;
-        this.category = category;
-        this.subCategory = subCategory;
-        this.town = town;
-        this.price = price;
-        this.priceType = priceType;
-        this.imgList = imgList;
-        this.phoneList = phoneList;
-        this.delivery = delivery;
-        this.deliveryDescription = deliveryDescription;
-    }
+    title: string = "";
+    body: string = "";
+    category: number | undefined;
+    subCategory: number | undefined;
+    region: number | undefined;
+    town: number | undefined;
+    price: string | undefined;
+    priceType: string | undefined;
+    imgList: Image[] = [];
+    communicationList: number[] = [];
+    delivery: boolean = false;
+    deliveryDescription: string = "";
 }

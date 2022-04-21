@@ -1,8 +1,8 @@
 import { Town } from "./town.object";
 
 export class LocationObject {
-    regionId?: number;
+    id?: number;
     region?: string;
-    townList?: Town[];
+    locationList?: Town[];
   }
   

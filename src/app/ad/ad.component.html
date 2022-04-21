@@ -1,5 +1,5 @@
 <div *ngIf="ad" style="width: 1000px">
-    <div class="flex-column border-bottom border-2">
+    <div class="flex-column border-2">
         <div>
             <h2 style="text-shadow: black;font-weight: bolder;" class="mb-0">{{ad.adTitle}}
                 <span class="badge bg-warning text-dark ms-2 mb-1" style="font-size: 60%">{{ad.price}} {{ad.priceType}}</span>
@@ -7,8 +7,12 @@
             <label class="text-muted fst-italic"><i class="fas fa-map-marker-alt me-2"></i>{{ad.location.fullNameLocation}}</label>
         </div>
         <div class="mb-3">
-            <a [attr.href]="'ad-list?categoryId=' + ad.category.id" class="link-dark"><i class="fa pe-1" [ngClass]="{'fa-seedling': ad.category.id == 5, 'fa-apple-alt': ad.category.id == 25, 'fa-drumstick-bite': ad?.category.id == 35, 'fa-cheese': ad?.category.id == 45, 'fa-balance-scale-right': ad?.category.id == 55, 'fa-leaf': ad?.category.id == 65, 'fa-book': ad?.category.id == 75}"></i>{{ad.category.category}}</a>            <i class="fas fa-angle-right me-2 ms-2"></i>
-            <a [attr.href]="'ad-list?categoryId=' + ad.category.id + '&subCategoryId=' + ad.subCategory.id" class="link-dark">{{ad.subCategory.subCategory}}</a> <i class="fas fa-angle-right me-2 ms-2"></i>
+            <a [attr.href]="'ad-list?categoryId=' + ad.category.id" class="link-dark"><i class="fa pe-1" [ngClass]="{'fa-seedling': ad.category.id == 5, 'fa-apple-alt': ad.category.id == 25, 'fa-drumstick-bite': ad?.category.id == 35, 'fa-cheese': ad?.category.id == 45, 'fa-balance-scale-right': ad?.category.id == 55, 'fa-leaf': ad?.category.id == 65, 'fa-book': ad?.category.id == 75}"></i>{{ad.category.category}}</a>
+            <i class="fas fa-angle-right me-2 ms-2"></i>
+            <ng-container *ngIf="ad.subCategory">
+                <a [attr.href]="'ad-list?categoryId=' + ad.category.id + '&subCategoryId=' + ad.subCategory.id" class="link-dark">{{ad.subCategory.subCategory}}</a>
+                <i class="fas fa-angle-right me-2 ms-2"></i>
+            </ng-container>
             <a [attr.href]="'ad?id=' + ad.id" class="link-dark">{{ad.adTitle}}</a>
         </div>
         <div class="d-flex">
@@ -16,7 +20,7 @@
                 <div id="carouselExampleControls" class="carousel slide border border-dark rounded shadow me-5" data-bs-ride="carousel" data-bs-interval="false">
                     <div class="carousel-inner">
                         <div *ngFor="let img of images; let i = index" class="carousel-item" [ngClass]="{active: i === 0}">
-                            <img [src]=img.cloudinaryUrl width="600px" height="400px" id='img-carousel-{{i}}'>
+                            <img [src]=img.cloudinaryUrl id='img-carousel-{{i}}'>
                             <div class="open-popup" (click)="scrollPopup(i)" data-bs-toggle="modal" data-bs-target="#popupModalToggle"></div>
                         </div>
                     </div>
@@ -30,9 +34,8 @@
                 </div>
                 <div *ngIf="images!.length> 1" style="width:600px" class="d-flex align-content-stretch mb-4" [ngClass]="{'overflow-x': images!.length > 6}">
                     <div *ngFor="let file of images; let i = index;" (click)="toggleCarousel(i)" [id]="file.cloudinaryId" class="mt-4 mb-2 me-1 ms-1 small-image border border-dark rounded shadow">
-                        <div>
-                            <img [src]="file.cloudinaryUrl" style="cursor: pointer;" width="96px" height="96px" id='img-{{i}}'>
-                        </div>
+
+                        <img [src]="file.smallUrl" style="cursor: pointer;" id='img-{{i}}'>
                     </div>
                 </div>
             </div>
@@ -44,8 +47,8 @@
                         <img src="{{ ad.author!.avatarUrl }}" width=75px height=75px alt="{{ ad.author!.firstName }}" class="rounded me-2">
                         <div class="flex-column">
                             <label class="fw-bold text-decoration-underline">{{ ad.author!.firstName }}</label><br>
-                            <label [hidden]="!online" class="online">Сейчас в сети</label>
-                            <label [hidden]="online" class="text-muted">{{lastVisit}}</label>
+                            <small [hidden]="!online" class="online">Сейчас в сети</small>
+                            <small [hidden]="online" class="text-muted">{{lastVisit}}</small>
                         </div>
                     </div>
                     <button type="button" id="viewPhone" (click)="viewPhone()" class="btn ms-4 mt-3" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color">Контакты продавца</button>

@@ -210,7 +210,7 @@ export class RegisterComponent implements OnInit {
         },
         err => {
           this.isSignUpFailed = true;
-          this.errorMessage = err.error.message;
+          this.errorMessage = err.error;
           window.scrollTo(0, 0);
           this.setProcessingInDom(false);
         }

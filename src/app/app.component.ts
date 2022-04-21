@@ -30,7 +30,6 @@ export class AppComponent {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     if(this.isLoggedIn) {
       this.user = this.tokenStorageService.getUser()!;
-      this.countFavoriteAd = this.user.favoriteAdList.length;
     }
   }
 

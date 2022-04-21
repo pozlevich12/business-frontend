@@ -13,7 +13,7 @@
     <label>Номер телефона</label>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <button type="button" class="btn" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color">+375</button>
+            <button type="button" class="btn" tabindex="-1" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color">+375</button>
         </div>
         <input [(ngModel)]="registerForm.phoneNumber" (keyup)="onKeyPhone()" name="phoneNumber" [ngClass]="{'is-valid': checked && registerFormValid.phoneNumber, 'is-invalid': checked && !registerFormValid.phoneNumber}" class="form-control shadow-sm">
         <div *ngIf="checked && !registerFormValid.phoneNumber" class="invalid-feedback">Пожалуйста, введите корректный номер телефона.</div>

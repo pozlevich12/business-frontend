@@ -108,7 +108,7 @@ export class LoginComponent implements OnInit {
         },
         err => {
           this.isLoginFailed = true;
-          this.errorMessage = err.error.message;
+          this.errorMessage = err.error;
           window.scrollTo(0, 0);
           this.setProcessingInDom(false);
         }

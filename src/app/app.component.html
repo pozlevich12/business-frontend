@@ -26,7 +26,7 @@
                         <strong [style.color]="theme.color" class="firstName">{{ user!.firstName }}</strong>
                     </a>
                     <ul class="dropdown-menu mx-0 border-0 shadow" [style.background-color]="theme.mainColor" aria-labelledby="dropdownUser1">
-                        <li class="dropdown-li"><a class="dropdown-item rounded-pill fw-bold" [style.color]="theme.color" href="">Избранное <span class="ms-1 badge bg-danger">{{ countFavoriteAd }}</span></a></li>
+                        <li class="dropdown-li"><a class="dropdown-item rounded-pill fw-bold" [style.color]="theme.color" href="">Избранное <span class="ms-1 badge bg-danger">{{ user?.favoriteAdList?.length }}</span></a></li>
                         <li class="dropdown-li"><a class="dropdown-item rounded-pill fw-bold" [style.color]="theme.color" style="cursor:pointer" (click)="toggleColorPicker()">Color picker</a></li>
                         <li [style.color]="theme.color">
                             <hr class="dropdown-divider">

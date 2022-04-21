@@ -1,9 +1,9 @@
 export class SubCategoryObject {
-    subCategoryId: number;
-    subCategoryName: string;
+    id: number;
+    subCategory: string;
 
     constructor(subCategory: any) {
-        this.subCategoryId = subCategory.subCategoryId;
-        this.subCategoryName = subCategory.subCategoryName;
+        this.id = subCategory.id;
+        this.subCategory = subCategory.subCategory;
     }
 }

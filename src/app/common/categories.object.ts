@@ -1,13 +1,13 @@
 import { SubCategoryObject } from "./subcategory.object";
 
 export class CategoriesObject {
-    categoryId: number;
-    categoryName: string;
-    subCategories: SubCategoryObject[];
+    id: number;
+    category: string;
+    subCategoryList: SubCategoryObject[];
 
     constructor(categoriesResponse: any) {
-        this.categoryId = categoriesResponse.categoryId;
-        this.categoryName = categoriesResponse.categoryName;
-        this.subCategories = categoriesResponse.subCategories;
+        this.id = categoriesResponse.id;
+        this.category = categoriesResponse.category;
+        this.subCategoryList = categoriesResponse.subCategoryList;
     }
 }

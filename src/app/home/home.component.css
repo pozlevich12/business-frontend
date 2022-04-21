@@ -12,7 +12,7 @@
 .list-group-item.active {
     padding: 5px 10px;
     font-weight: bold;
-    border-color: black;
+    border: none;
     font-size: 90%;
 }
 

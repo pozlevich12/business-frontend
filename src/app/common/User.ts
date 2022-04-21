@@ -1,4 +1,5 @@
 export class User {
+    phoneNumber: string;
     firstName: string;
     phoneNumbers: string[];
     roles: string;
@@ -6,6 +7,7 @@ export class User {
     favoriteAdList: number[];
 
     constructor(user: any) {
+        this.phoneNumber = user.phoneNumber;
         this.firstName = user.firstName;
         this.phoneNumbers = user.phoneNumbers;
         this.roles = user.roles;
