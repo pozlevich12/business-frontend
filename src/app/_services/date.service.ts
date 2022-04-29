@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { AdList } from '../common/AdList';
 
@@ -7,6 +6,26 @@ const ONE_HOUR_ON_MILLIS = 3600000;
 const ONE_MINUTE_ON_MILLIS = 60000;
 const ONLINE_TIME_ON_MILLIS = 600000;
 
+const LOCATION_OPTION = "ru-RU";
+
+const OPTION_HH_MM: any = {
+  hour: "2-digit",
+  minute: "2-digit"
+};
+
+const OPTION_DD_MM_HH_MM: any = {
+  day: "numeric",
+  month: "short",
+  hour: "2-digit",
+  minute: "2-digit"
+};
+
+const OPTION_DD_MM_YYYY: any = {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit"
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,42 +33,41 @@ export class DateService {
 
   constructor() { }
 
-  public mapLastVisit(date: string): string | undefined {
+  public userIsOnline(date: Date): boolean {
+    const diff = new Date().getTime() - date.getTime();
+    return diff <= ONLINE_TIME_ON_MILLIS;
+  }
+
+  public mapLastVisit(date: Date): string {
 
     const current = new Date();
-    const visit = new Date(date);
-    
-    const diff = current.getTime() - visit.getTime();
+    const diff = current.getTime() - date.getTime();
 
-    if (diff <= ONLINE_TIME_ON_MILLIS) {
-      return;
-    }
-
-    if (this.isToday(current, visit)) {
+    if (this.isToday(current, date)) {
       if (diff < ONE_HOUR_ON_MILLIS) {
         return 'Заходил(а) ' + Math.round(diff / ONE_MINUTE_ON_MILLIS) + " минут назад";
       } else {
         return 'Заходил(а) ' + Math.round(diff / ONE_HOUR_ON_MILLIS) + "ч. назад";
       }
-    } else if (this.isYesterday(current, visit)) {
-      return 'Заходил(а) вчера, в ' + date.substring(11, 16);
+    } else if (this.isYesterday(current, date)) {
+      return 'Заходил(а) вчера, в ' + date.toLocaleTimeString(LOCATION_OPTION, OPTION_HH_MM);
     } else {
-      return 'Был(а) в сети ' + new DatePipe("en-US").transform(date, 'dd-MM-YYYY')?.replace("-", ".").replace("-", ".");
+      return 'Был(а) в сети ' + date.toLocaleDateString(LOCATION_OPTION, OPTION_DD_MM_YYYY);
     }
   }
 
   public mapCreatedDate(ad: AdList) {
     const current = new Date();
     const created = new Date(ad.created);
-    
+
     if (this.isToday(current, created)) {
-      ad.created = 'Сегодня, ' + ad.created.substring(11, 16);
+      ad.created = 'Сегодня, ' + created.toLocaleTimeString(LOCATION_OPTION, OPTION_HH_MM);
     } else if (this.isYesterday(current, created)) {
-      ad.created = 'Вчера, ' + ad.created.substring(11, 16);
+      ad.created = 'Вчера, ' + created.toLocaleTimeString(LOCATION_OPTION, OPTION_HH_MM);
     } else if (this.isThisYear(current, created)) {
-      ad.created = ad.created.substring(8, 10) + this.mapMonthName(created.getMonth()) + ad.created.substring(11, 16);
+      ad.created = created.toLocaleDateString(LOCATION_OPTION, OPTION_DD_MM_HH_MM);
     } else {
-      ad.created = ad.created.substring(8, 10) + '-' + ad.created.substring(5, 7) + '-' + ad.created.substring(0, 4);
+      ad.created = created.toLocaleDateString(LOCATION_OPTION, OPTION_DD_MM_YYYY);
     }
   }
 
@@ -68,33 +86,5 @@ export class DateService {
 
   private isThisYear(date: Date, comparableDate: Date): boolean {
     return date.getFullYear() == comparableDate.getFullYear();
-  }
-
-  private mapMonthName(month: number): string {
-    if (month == 0) {
-      return " янв., ";
-    } else if (month == 1) {
-      return " фев., ";
-    } else if (month == 2) {
-      return " мар., ";
-    } else if (month == 3) {
-      return " апр., ";
-    } else if (month == 4) {
-      return " мая, ";
-    } else if (month == 5) {
-      return " июн., ";
-    } else if (month == 6) {
-      return " июл., ";
-    } else if (month == 7) {
-      return " авг., ";
-    } else if (month == 8) {
-      return " сен., ";
-    } else if (month == 9) {
-      return " окт., ";
-    } else if (month == 10) {
-      return " ноя., ";
-    } else {
-      return " дек., ";
-    }
   }
 }

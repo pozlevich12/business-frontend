@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { Theme } from './common/Theme';
 import { User } from './common/User';
-import { TokenStorageService } from './_services/token-storage.service';
+import { TokenStorageService } from './_services/auth/token-storage.service';
 
 @Component({
   selector: 'app-root',

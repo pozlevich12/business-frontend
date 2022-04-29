@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
 import { NEVER, Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { TokenStorageService } from 'src/app/_services/token-storage.service';
+import { TokenStorageService } from 'src/app/_services/auth/token-storage.service';
 import { Router } from '@angular/router';
 
 const TOKEN_HEADER_KEY = 'Authorization';

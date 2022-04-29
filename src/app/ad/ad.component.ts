@@ -5,6 +5,7 @@ import * as bootstrap from 'bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { DateService } from '../_services/date.service';
+import { Ad } from '../common/Ad';
 
 @Component({
   templateUrl: './ad.component.html',
@@ -13,11 +14,10 @@ import { DateService } from '../_services/date.service';
 
 export class AdComponent implements OnInit {
 
-  ad: any | undefined;
+  ad: Ad | undefined;
   id: number | undefined;
-  online: boolean = true;
-  lastVisit: string | undefined;
-  images: Image[] | undefined;
+  authorOnline: boolean | undefined;
+  authorLastVisit: string | undefined;
   imagesPopup: Image[] | undefined;
   carousel: bootstrap.Carousel | undefined;
   rollCarousel: boolean = false;
@@ -30,15 +30,16 @@ export class AdComponent implements OnInit {
     if (!this.id) {
       window.location.href = 'ad-list';
     }
-    this.adService.getAd(this.id!).subscribe(response => {
-      const data = JSON.parse(response);
-      this.ad = data;
-      this.lastVisit = this.dateService.mapLastVisit(this.ad.author.lastVisit);
-      if (this.lastVisit) {
-        this.online = false;
+    this.adService.getAd(this.id!).subscribe(ad => {
+      this.ad = ad;
+      console.log(this.ad);
+      this.ad.author.lastVisit = new Date(this.ad.author.lastVisit);  //  important
+      this.authorOnline = this.dateService.userIsOnline(ad.author.lastVisit);
+      if (!this.authorOnline) {
+        this.authorLastVisit = this.dateService.mapLastVisit(ad.author.lastVisit);
       }
-      this.images = this.adService.fillImageList(data);
-      this.imagesPopup = this.adService.fillPopupImageList(data);
+      this.ad.imgList = this.adService.fillImageList(ad.imgList);
+      this.imagesPopup = this.adService.fillPopupImageList(ad.imgList);
     },
       error => {
         console.log(error);

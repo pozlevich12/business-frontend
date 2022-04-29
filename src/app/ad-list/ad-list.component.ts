@@ -5,9 +5,9 @@ import { AdFilter } from '../common/AdFilter';
 import { AdList } from '../common/AdList';
 import { CategoriesObject } from '../common/categories.object';
 import { LocationObject } from '../common/locations.object';
-import { AdListService } from '../_services/ad-list/ad-list.service';
+import { AdListService } from '../_services/ad/ad-list.service';
 import { AdService } from '../_services/ad/ad.service';
-import { TokenStorageService } from '../_services/token-storage.service';
+import { TokenStorageService } from '../_services/auth/token-storage.service';
 
 @Component({
   selector: 'app-ad-list',

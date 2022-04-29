@@ -1,9 +1,8 @@
 <form class="flex-column">
-    <h3><span class="badge mb-3 shadow" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color"><i class="far fa-sm fa-newspaper mx-2"></i> Подача
-        объявления</span></h3>
+    <h3><span class="badge mb-3 shadow" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color"><i class="fas fa-pen me-2"></i> Редактирование объявления</span></h3>
     <div class="confirm mt-3" *ngIf="errorMessage">
         <div class="alert alert-danger" role="alert">
-            Ошибка при создании объявления.<br> {{ errorMessage }}
+            Ошибка при обновлении объявления.<br> {{ errorMessage }}
         </div>
     </div>
     <div class="mb-3">
@@ -75,7 +74,7 @@
 
     <div class="mb-3">
         <label class="label-input">Загрузите изображения</label>
-        <div class="dropzone mb-3" appDnd>
+        <div class="dropzone mb-3" appDndEditAd>
             <input [disabled]="process" type="file" class="drop-input shadow-sm" accept="image/jpeg,image/png" multiple (change)="filesDropped($event.target!)" />
             <img src="https://cdn-icons-png.flaticon.com/512/568/568717.png" height="7%" width="7%">
             <p>Загрузите изображения</p>
@@ -137,5 +136,5 @@
             <small [ngClass]="{'invalid-feedback': checked && !adValidation.deliveryDescription}" class="form-text text-muted ">Опишите условия доставки.</small>
         </div>
     </div>
-    <button (click)="createAd() " type="submit " class="btn mt-4" [disabled]="process" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color"><span [hidden]="!process" class="spinner-border spinner-border-sm"></span>  Отправить</button>
+    <button (click)="updateAd() " type="submit " class="btn mt-4" [disabled]="process" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color"><span [hidden]="!process" class="spinner-border spinner-border-sm"></span>  Обновить объявление</button>
 </form>

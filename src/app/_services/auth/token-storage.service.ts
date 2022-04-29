@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CategoriesObject } from '../common/categories.object';
-import { LocationObject } from '../common/locations.object';
-import { User } from '../common/User';
+import { CategoriesObject } from 'src/app/common/categories.object';
+import { LocationObject } from 'src/app/common/locations.object';
+import { User } from 'src/app/common/User';
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';

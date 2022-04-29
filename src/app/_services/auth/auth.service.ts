@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RegisterForm } from '../common/register.form';
-import { LoginForm } from '../common/login.form';
+import { RegisterForm } from '../../common/register.form';
+import { LoginForm } from '../../common/login.form';
 import { environment } from 'src/environments/environment';
 
 const BASE_URL = environment.url;

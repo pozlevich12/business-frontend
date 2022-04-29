@@ -8,16 +8,15 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
-import { ProfileComponent } from './profile/profile.component';
-import { BoardAdminComponent } from './board-admin/board-admin.component';
-import { BoardUserComponent } from './board-user/board-user.component';
 import { authInterceptorProviders } from '../_helpers/auth.intreceptor';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CreateAdComponent } from './create-ad/create-ad.component';
-import { DndDirective } from './dnd.directive';
 import { AdComponent } from './ad/ad.component';
 import { AdListComponent } from './ad-list/ad-list.component';
-import { HoverClassDirective } from './hover-class.directive';
+import { HoverClassDirective } from 'src/_helpers/dnd/hover-class.directive';
+import { AdEditComponent } from './ad-edit/ad-edit.component';
+import { DndDirectiveEditAd } from '../_helpers/dnd/dnd-edit-ad.directive';
+import { DndDirective } from 'src/_helpers/dnd/dnd.directive';
 
 @NgModule({
   declarations: [
@@ -25,14 +24,13 @@ import { HoverClassDirective } from './hover-class.directive';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    ProfileComponent,
-    BoardAdminComponent,
-    BoardUserComponent,
     CreateAdComponent,
     DndDirective,
+    DndDirectiveEditAd,
     AdComponent,
     AdListComponent,
-    HoverClassDirective
+    HoverClassDirective,
+    AdEditComponent
   ],
   imports: [
     BrowserModule,

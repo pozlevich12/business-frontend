@@ -1,6 +1,7 @@
 import { Image } from "./Image";
 
 export class CreateAd {
+    id: number | undefined;
     title: string = "";
     body: string = "";
     category: number | undefined;

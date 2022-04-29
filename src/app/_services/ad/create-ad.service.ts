@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Observable } from 'rxjs';
 import { Communication } from 'src/app/common/Communication';
 import { CreateAd } from 'src/app/common/create-ad.object';
 import { CreateAdValidation } from 'src/app/common/create-ad.validation';
@@ -58,7 +57,7 @@ export class CreateAdService {
           if (i < uploadedImg.length) {
             this.imgLoadHasProblem();
             console.error(error);
-            this.deleteImg(uploadedImg, i);
+            uploadedImg = uploadedImg.splice(i, 1);
             i--;
           }
         }
@@ -67,6 +66,11 @@ export class CreateAdService {
   }
 
   public deleteImg(uploadedImg: Image[], index: number) {
+    if (!this.isAllImgLoaded(uploadedImg)) {
+      alert("Необходимо дождаться загрузки всех изображений");
+      return;
+    }
+
     const isTitleRemove: boolean = uploadedImg[index].title!;
     if (uploadedImg[index].cloudinaryId !== undefined) {
       this.deleteImgApi(uploadedImg[index].cloudinaryId!);
@@ -78,6 +82,11 @@ export class CreateAdService {
   }
 
   public setTitleImg(uploadedImg: Image[], index: number) {
+    if (index >= uploadedImg.length
+      || uploadedImg[index].cloudinaryId == undefined) {
+      return;
+    }
+
     for (let i = 0; i < uploadedImg.length; i++) {
       if (i == index) {
         uploadedImg[i].title = true;
@@ -108,19 +117,17 @@ export class CreateAdService {
   /*   Validation Service   */
 
   public validNewAd(ad: CreateAd, phoneList: PhoneDTO[], adValidation: CreateAdValidation): boolean {
-    let valid: boolean = true;
     this.checkTitle(ad, adValidation);
     this.checkBody(ad, adValidation);
     this.checkCommunication(phoneList, adValidation);
     this.checkDeliveryDescription(ad, adValidation);
-    for (const [field, value] of Object.entries(adValidation)) {
+    for (const [, value] of Object.entries(adValidation)) {
       if (!value) {
-        valid = false;
-        break;
+        return false;
       }
     }
 
-    return valid;
+    return true;
   }
 
   public checkTitle(ad: CreateAd, adValidation: CreateAdValidation) {
@@ -173,7 +180,15 @@ export class CreateAdService {
     return price;
   }
 
-  /*   Prepare CreateAd   */
+  /*   Prepare data   */
+
+  public initCreateAd(createAdSet: CreateAdSet): CreateAd {
+    const createAd = new CreateAd();
+    createAd.category = createAdSet.categories![0].id;
+    createAd.priceType = createAdSet.priceTypes![0];
+    createAd.region = createAdSet.locations![0].id;
+    return createAd;
+  }
 
   public async prepareCreateAd(ad: CreateAd, phoneList: PhoneDTO[]) {
     await this.waitImgLoad(ad);
@@ -186,8 +201,12 @@ export class CreateAdService {
     return this.http.post<CreateAd>(CREATE_AD_API, newAd);
   }
 
-  public getCreateAdSet(): Observable<CreateAdSet> {
-    return this.http.get<CreateAdSet>(GET_AD_SET_API);
+  public getCreateAdSet(): Promise<CreateAdSet> {
+    return new Promise(resolve => {
+      this.http.get<CreateAdSet>(GET_AD_SET_API).subscribe(data => {
+        resolve(data);
+      });
+    });
   }
 
   private loadImgApi(img: File) {
@@ -196,7 +215,7 @@ export class CreateAdService {
     return this.http.post<File>(UPLOAD_IMG_API, formData);
   }
 
-  private deleteImgApi(id: string) {
+  public deleteImgApi(id: string) {
     this.http.delete(DELETE_IMG_API + id).subscribe(
       () => {
         console.log('Image with id = ' + id + ' deleted successfully.');
@@ -243,16 +262,19 @@ export class CreateAdService {
     return communicationList;
   }
 
-  private async waitImgLoad(ad: CreateAd) {
-    /* убрать async & await */
-    return await new Promise(resolve => {
+  private waitImgLoad(ad: CreateAd): Promise<void> {
+    return new Promise(resolve => {
       const interval = setInterval(() => {
-        if (ad.imgList.length == 0 || !ad.imgList.filter(img => img.cloudinaryId === undefined).length) {
-          resolve('img loaded');
+        if (this.isAllImgLoaded(ad.imgList)) {
           clearInterval(interval);
+          resolve();
         }
       }, 50);
     });
+  }
+
+  public isAllImgLoaded(uploadedImg: Image[]): boolean {
+    return !uploadedImg.filter(img => img.cloudinaryId === undefined).length;
   }
 
   private imgLoadHasProblem() {

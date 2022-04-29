@@ -4,11 +4,11 @@ import { AppComponent } from '../app.component';
 import { CategoriesObject } from '../common/categories.object';
 import { LocationObject } from '../common/locations.object';
 import { HomeService } from '../_services/home.service';
-import { TokenStorageService } from '../_services/token-storage.service';
+import { TokenStorageService } from '../_services/auth/token-storage.service';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
+  templateUrl: 'home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {

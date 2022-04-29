@@ -1,6 +1,6 @@
 import { Directive, HostBinding, HostListener } from '@angular/core';
-import { CreateAdComponent } from './create-ad/create-ad.component';
-import { CreateAdService } from './_services/create-ad/create-ad.service';
+import { CreateAdComponent } from 'src/app/create-ad/create-ad.component';
+import { CreateAdService } from 'src/app/_services/ad/create-ad.service';
 
 @Directive({
   selector: '[appDnd]'

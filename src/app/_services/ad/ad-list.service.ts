@@ -7,7 +7,6 @@ import { DateService } from '../date.service';
 
 const BASE_URL = environment.url;
 const CLOUDINARY_PARAMS_FOR_HORIZONTAL = "w_200,h_140,c_fill";
-const CLOUDINARY_PARAMS_FOR_VERTICAL = "w_200,h_140,c_fill";
 const CLOUDINARY_PARAMS_EQUALS = "h_140";
 
 @Injectable({
@@ -17,6 +16,7 @@ export class AdListService {
 
   constructor(private http: HttpClient, private dateService: DateService) { }
 
+  /*  check for refactoring  */
   public getAdList(filter: AdFilter) {
     return this.http.get(BASE_URL + 'public/get-ad-list', {
       responseType: 'text',
@@ -46,7 +46,8 @@ export class AdListService {
         });
       },
       error => {
-        alert(error);
+        console.error(error);
+        alert('Something went wrong');
       }
     );
     return adList;
@@ -54,10 +55,9 @@ export class AdListService {
 
   private mapImg(ad: AdList) {
     if (ad.titleImgUrl) {
-      if (ad.titleImgHeight == ad.titleImgWidth) {
+      if (ad.titleImgHeight == ad.titleImgWidth
+        || ad.titleImgHeight > ad.titleImgWidth) {
         ad.titleImgUrl = ad.titleImgUrl.replace(ad.titleImgUrl.split('/')[6], CLOUDINARY_PARAMS_EQUALS);
-      } else if (ad.titleImgHeight > ad.titleImgWidth) {
-        ad.titleImgUrl = ad.titleImgUrl.replace(ad.titleImgUrl.split('/')[6], CLOUDINARY_PARAMS_FOR_VERTICAL);
       } else {
         ad.titleImgUrl = ad.titleImgUrl.replace(ad.titleImgUrl.split('/')[6], CLOUDINARY_PARAMS_FOR_HORIZONTAL);
       }
