@@ -216,11 +216,7 @@ export class CreateAdService {
   }
 
   public deleteImgApi(id: string) {
-    this.http.delete(DELETE_IMG_API + id).subscribe(
-      () => {
-        console.log('Image with id = ' + id + ' deleted successfully.');
-      }
-    );
+    this.http.delete(DELETE_IMG_API + id).subscribe(() => { });
   }
 
   /*   Util   */
@@ -232,6 +228,7 @@ export class CreateAdService {
       const phone: PhoneDTO = new PhoneDTO();
       phone.id = comm.id;
       phone.phone = comm.value;
+      phone.use = true;
       phoneList.push(phone);
     });
 
@@ -240,6 +237,7 @@ export class CreateAdService {
         phoneList.every(phone => {
           if (phone.phone == comm.value) {
             phone.idViber = comm.id;
+            phone.useViber = true;
           }
           return true;
         });

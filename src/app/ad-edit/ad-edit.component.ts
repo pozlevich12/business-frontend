@@ -34,14 +34,13 @@ export class AdEditComponent implements OnInit {
     this.adEditService.getCreateAdSet()
       .then((createAdSet: CreateAdSet) => {
         this.createAdSet = createAdSet;
-        this.phoneList = this.adEditService.initPhoneList(this.createAdSet.availableCommunications!);
+        this.phoneList = this.adEditService.initPhoneList(this.appComponent.user?.communicationList!);
       })
       .then(() => {
         this.adEditService.getAd(this.id!)
           .then(ad => {
-            const originAd = ad;
-            this.adEditService.initEditableAd(this.id!, this.ad, originAd);
-            this.adEditService.initUsageCommunications(this.phoneList, originAd);
+            this.adEditService.initEditableAd(this.id!, this.ad, ad);
+            this.adEditService.initUsageCommunications(this.phoneList, this.ad.id!);
           });
       });
   }

@@ -22,7 +22,7 @@
                     <div class="carousel-inner">
                         <div *ngFor="let img of ad.imgList; let i = index" class="carousel-item" [ngClass]="{active: i === 0}">
                             <img [src]=img.cloudinaryUrl id='img-carousel-{{i}}'>
-                            <div class="open-popup" (click)="scrollPopup(i)" data-bs-toggle="modal" data-bs-target="#popupModalToggle"></div>
+                            <div *ngIf="imagesPopup" class="open-popup" (click)="scrollPopup(i)" data-bs-toggle="modal" data-bs-target="#popupModalToggle"></div>
                         </div>
                     </div>
 
@@ -52,8 +52,11 @@
                             <small [hidden]="authorOnline" class="text-muted">{{authorLastVisit}}</small>
                         </div>
                     </div>
-                    <button type="button" id="viewPhone" (click)="viewPhone()" class="btn ms-4 mt-3" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color">Контакты продавца</button>
-                    <a class="btn animation-show  ms-4 mt-3" id="href-show-phone" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color" href='tel:{{ad!.author.phoneNumber}}' hidden><i class="fas fa-phone-alt icon me-2"></i>{{ad!.author.phoneNumber}}</a>
+                    <button [hidden]="communications.length" type="button" (click)="loadCommunication()" class="btn ms-4 mt-3" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color">Контакты продавца</button>
+                    <div *ngFor="let phone of communications; let i = index" class="d-flex">
+                        <a class="btn animation-show  ms-4 mt-3 me-1" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color" [ngStyle]="{'width': phone.useViber ? '170px': ''}" href='tel:{{phone.phone}}'><i class="fas fa-phone-alt icon me-2"></i>{{phone.phone}}</a>
+                        <a *ngIf="phone.useViber" class="animation-show viber-link mt-3" title="Открыть чат в Viber" [href]="getSanitizeUrlForViber(i)"><img src="assets/viber_msg_link.png" /></a>
+                    </div>
                     <button [hidden]="appComponent.user?.favoriteAdList?.includes(ad.id)" type="button" (click)='toggleFavorite(ad.id)' [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color" class="btn ms-4 mt-3">Добавить в избранное</button>
                     <button [hidden]="!appComponent.user?.favoriteAdList?.includes(ad.id)" type="button" (click)='toggleFavorite(ad.id)' class="btn btn-danger animation-show ms-4 mt-3">Убрать из избранных</button>
 

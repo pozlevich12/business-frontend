@@ -29,7 +29,7 @@ export class CreateAdComponent implements OnInit {
       .then((createAdSet: CreateAdSet) => {
         this.createAdSet = createAdSet;
         this.ad = this.createAdService.initCreateAd(this.createAdSet);
-        this.phoneList = this.createAdService.initPhoneList(this.createAdSet.availableCommunications!);
+        this.phoneList = this.createAdService.initPhoneList(this.appComponent.user?.communicationList!);
         this.updateSubCategories();
         this.updateLocation();
       });

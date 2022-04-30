@@ -37,18 +37,9 @@ export class TokenStorageService {
   public getUser(): User | null {
     const userObject = window.localStorage.getItem(USER_KEY);
     if(userObject) {
-      return JSON.parse(userObject);
+      return new User(JSON.parse(userObject));
     }
     return null;
-  }
-
-  public updateFavoriteList(favoriteList: number[]) {
-    const userObject = window.localStorage.getItem(USER_KEY);
-    if (userObject) {
-      const user: User = JSON.parse(userObject);
-      user.favoriteAdList = favoriteList;
-      this.saveUser(user);
-    }
   }
 
   public saveCategories(categories: CategoriesObject[]): void {

@@ -62,20 +62,22 @@ export class AdEditService {
     return imageList;
   }
 
-  public initUsageCommunications(communicationList: PhoneDTO[], ad: Ad) {
-    communicationList.forEach(communication => {
-      communication.useViber = false;
-      communication.use = false;
-      ad.communications
-        .filter((comm: any) => comm.value == communication.phone)
-        .forEach((comm: any) => {
-          if (comm.communication == 'PHONE') {
-            communication.use = true;
-          }
-          if (comm.communication == 'VIBER') {
-            communication.useViber = true;
-          }
-        });
+  public initUsageCommunications(communicationList: PhoneDTO[], adId: number) {
+    this.adService.getCommunications(adId).subscribe(communications => {
+      communicationList.forEach(communication => {
+        communication.use = false;
+        communication.useViber = false;
+        communications
+          .filter(comm => comm.value == communication.phone)
+          .forEach(comm => {
+            if (comm.communication == 'PHONE') {
+              communication.use = true;
+            }
+            if (comm.communication == 'VIBER') {
+              communication.useViber = true;
+            }
+          });
+      });
     });
   }
 

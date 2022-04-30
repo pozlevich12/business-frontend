@@ -29,7 +29,7 @@
         <label>Пароль</label>
         <div>
             <input [(ngModel)]="registerForm.password" autocomplete="on" (keyup)="onKeyPassword()" [ngClass]="{'is-valid': checked && registerFormValid.password, 'is-invalid': checked && !registerFormValid.password}" type="password" name="password" class="form-control shadow-sm">
-            <div *ngIf="checked && !registerFormValid.password" class="invalid-feedback">Пароль должен содержать от 6 до 32 символов. Пробелы запрещены.</div>
+            <div *ngIf="checked && !registerFormValid.password" class="invalid-feedback">Пароль должен содержать от 6 до 18 символов. Пробелы запрещены.</div>
         </div>
     </div>
     <label>Подтвердите пароль</label>

@@ -80,7 +80,7 @@ export class RegisterComponent implements OnInit {
         return false;
       }
     }
-    if (this.registerForm.password.length < 6 || this.registerForm.password.length > 32) {
+    if (this.registerForm.password.length < 6 || this.registerForm.password.length > 18) {
       return false;
     }
     return true;

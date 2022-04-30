@@ -8,6 +8,7 @@ import { DateService } from '../date.service';
 const BASE_URL = environment.url;
 const CLOUDINARY_PARAMS_FOR_HORIZONTAL = "w_200,h_140,c_fill";
 const CLOUDINARY_PARAMS_EQUALS = "h_140";
+const NO_IMAGE_DEFAULT_URL = "assets/ad_list_no_image.png";
 
 @Injectable({
   providedIn: 'root'
@@ -54,13 +55,15 @@ export class AdListService {
   }
 
   private mapImg(ad: AdList) {
-    if (ad.titleImgUrl) {
-      if (ad.titleImgHeight == ad.titleImgWidth
-        || ad.titleImgHeight > ad.titleImgWidth) {
-        ad.titleImgUrl = ad.titleImgUrl.replace(ad.titleImgUrl.split('/')[6], CLOUDINARY_PARAMS_EQUALS);
-      } else {
-        ad.titleImgUrl = ad.titleImgUrl.replace(ad.titleImgUrl.split('/')[6], CLOUDINARY_PARAMS_FOR_HORIZONTAL);
-      }
+    if (!ad.titleImgUrl) {
+      ad.titleImgUrl = NO_IMAGE_DEFAULT_URL;
+      return;
+    }
+
+    if (ad.titleImgWidth > ad.titleImgHeight) {
+      ad.titleImgUrl = ad.titleImgUrl.replace(ad.titleImgUrl.split('/')[6], CLOUDINARY_PARAMS_FOR_HORIZONTAL);
+    } else {
+      ad.titleImgUrl = ad.titleImgUrl.replace(ad.titleImgUrl.split('/')[6], CLOUDINARY_PARAMS_EQUALS);
     }
   }
 }

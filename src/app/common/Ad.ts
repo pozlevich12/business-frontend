@@ -33,6 +33,7 @@ export class Ad {
         this.price = ad.price;
         this.priceType = ad.priceType;
         this.author = ad.author;
+        this.author.lastVisit = new Date(this.author.lastVisit);
         this.category = ad.category;
         this.location = ad.location;
     }

@@ -24,8 +24,21 @@ header {
     z-index: 100;
 }
 
+.container-xxl {
+    max-width: 1730px;
+}
+
+.active-link {
+    color: #537030!important;
+    font-weight: bold;
+}
+
 .btn {
     box-shadow: none;
+}
+
+.nav-link {
+    padding-top: 50px;
 }
 
 .rounded-circle {
@@ -44,7 +57,7 @@ header {
 }
 
 .dropdown-item:hover {
-    background-color: #ffc107;
+    background-color: red;
 }
 
 .dropdown-li {

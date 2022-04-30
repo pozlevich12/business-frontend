@@ -6,6 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { DateService } from '../_services/date.service';
 import { Ad } from '../common/Ad';
+import { PhoneDTO } from '../common/PhoneDTO';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './ad.component.html',
@@ -18,11 +20,12 @@ export class AdComponent implements OnInit {
   id: number | undefined;
   authorOnline: boolean | undefined;
   authorLastVisit: string | undefined;
+  communications: PhoneDTO[] = [];
   imagesPopup: Image[] | undefined;
   carousel: bootstrap.Carousel | undefined;
   rollCarousel: boolean = false;
 
-  constructor(public appComponent: AppComponent, private adService: AdService, private route: ActivatedRoute, private dateService: DateService) {
+  constructor(public appComponent: AppComponent, private adService: AdService, private route: ActivatedRoute, private dateService: DateService, private sanitizer: DomSanitizer) {
   }
 
   ngOnInit(): void {
@@ -30,16 +33,14 @@ export class AdComponent implements OnInit {
     if (!this.id) {
       window.location.href = 'ad-list';
     }
-    this.adService.getAd(this.id!).subscribe(ad => {
-      this.ad = ad;
-      console.log(this.ad);
-      this.ad.author.lastVisit = new Date(this.ad.author.lastVisit);  //  important
-      this.authorOnline = this.dateService.userIsOnline(ad.author.lastVisit);
+    this.adService.getAd(this.id!).subscribe(adResponse => {
+      this.ad = new Ad(adResponse);
+      this.authorOnline = this.dateService.userIsOnline(this.ad.author.lastVisit);
       if (!this.authorOnline) {
-        this.authorLastVisit = this.dateService.mapLastVisit(ad.author.lastVisit);
+        this.authorLastVisit = this.dateService.mapLastVisit(this.ad.author.lastVisit);
       }
-      this.ad.imgList = this.adService.fillImageList(ad.imgList);
-      this.imagesPopup = this.adService.fillPopupImageList(ad.imgList);
+      this.ad.imgList = this.adService.fillImageList(this.ad.imgList);
+      this.imagesPopup = this.adService.fillPopupImageList(this.ad.imgList);
     },
       error => {
         console.log(error);
@@ -74,8 +75,12 @@ export class AdComponent implements OnInit {
     this.adService.toggleFavorite(this.appComponent.user!, id);
   }
 
-  public viewPhone() {
-    $("#viewPhone").hide();
-    $("#href-show-phone").removeAttr("hidden");
+  public loadCommunication() {
+    this.adService.initUsageCommunications(this.communications, this.ad!.id);
+  }
+
+  public getSanitizeUrlForViber(index: number) {
+    return this.sanitizer
+      .bypassSecurityTrustUrl('viber://chat/?number=%2B' + this.communications[index].phone?.substring(1, 13));
   }
 }
