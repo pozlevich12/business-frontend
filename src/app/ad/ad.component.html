@@ -70,7 +70,7 @@
                         {{ad.body}}
                     </label>
                 </div>
-                <div>
+                <div *ngIf="ad.delivery">
                     <h5><i class="far fa-check-circle"></i> Доставка</h5>
                     <p class="text-muted ms-4" style="word-wrap: break-word;">
                         {{ad.deliveryDescription}}

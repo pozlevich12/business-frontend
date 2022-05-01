@@ -44,12 +44,15 @@
         </div>
         <div class="d-flex flex-column me-auto mb-2" style="overflow: hidden;max-width: 50%;">
             <a href="ad?id={{ad.id}}" target="_blank" class="link-dark">{{ad.adTitle}}</a>
-            <span class="mb-auto">{{ad.price}} {{ad.priceType}}</span>
+            <div class="d-flex mb-auto mt-2">
+                <label class="me-2">{{ad.price}} {{ad.priceType}}</label>
+                <i *ngIf="ad.delivery" title="Доставка" class="fas fa-truck mt-1" [style.color]="appComponent.theme.mainColor"></i>
+            </div>
             <label><i class="fas fa-map-marker-alt text-muted me-2"></i>{{ad.town}}</label>
         </div>
         <div class="d-flex flex-column mb-2">
             <i class="ms-auto fas fa-bookmark mb-auto" (click)="toggleFavorite(ad.id)" [ngStyle]="{'color': appComponent.user?.favoriteAdList?.includes(ad.id) ? '#e30000':'gray'}" [title]="appComponent.user?.favoriteAdList?.includes(ad.id) ? 'Избранное' : 'Добавить в избранное'"></i>
-            <label class="text-muted" title="Дата подачи объявления">{{ad.created}}</label>
+            <small class="text-muted" title="Дата подачи объявления">{{ad.created}}</small>
         </div>
     </div>
 

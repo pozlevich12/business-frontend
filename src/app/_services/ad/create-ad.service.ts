@@ -144,8 +144,13 @@ export class CreateAdService {
   }
 
   public checkDeliveryDescription(ad: CreateAd, adValidation: CreateAdValidation) {
-    adValidation.deliveryDescription = ad.delivery
-      && ad.deliveryDescription.trim().length > 1000 ? false : true;
+    if (!ad.delivery || !ad.deliveryDescription) {
+      adValidation.deliveryDescription = true;
+      return;
+    }
+
+    adValidation.deliveryDescription =
+      ad.deliveryDescription.trim().length > 1000 ? false : true;
   }
 
   public getValidPrice(price: string): string {
