@@ -39,7 +39,7 @@ export class AdComponent implements OnInit {
       if (!this.authorOnline) {
         this.authorLastVisit = this.dateService.mapLastVisit(this.ad.author.lastVisit);
       }
-      this.ad.imgList = this.adService.fillImageList(this.ad.imgList);
+      this.ad.imgList = this.adService.fillImageList(adResponse.imgList);
       this.imagesPopup = this.adService.fillPopupImageList(this.ad.imgList);
     },
       error => {
