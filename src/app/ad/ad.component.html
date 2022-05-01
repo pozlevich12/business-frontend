@@ -14,7 +14,10 @@
                 <i class="fas fa-angle-right me-2 ms-2 mt-1"></i>
             </ng-container>
             <a [attr.href]="'ad?id=' + ad.id" class="link-dark">{{ad.title}}</a>
-            <a *ngIf="ad.author.id == appComponent.user?.id" [attr.href]="'ad-edit?id=' + ad.id" class="edit-ad-link small link-secondary ms-auto me-5"><i class="fas fa-pen me-2"></i>Редактировать</a>
+            <div *ngIf="ad.author.id == appComponent.user?.id" class="ms-auto me-5">
+                <a [attr.href]="'ad-edit?id=' + ad.id" class="edit-ad-link small link-secondary me-3"><i class="fas fa-pen me-1"></i>Редактировать</a>
+                <a data-bs-toggle="modal" data-bs-target="#confirmDeleteAdModal" class="edit-ad-link small link-danger"><i class="fas fa-trash-alt me-1"></i>Удалить</a>
+            </div>
         </div>
         <div class="d-flex">
             <div class="flex-column" style="width:650px">
@@ -78,12 +81,32 @@
     </div>
 </div>
 
+<!--   Images popup modal     -->
 <div class="modal fade" id="popupModalToggle" style="z-index: 9999" aria-hidden="true" tabindex="-1">
     <span class="close" data-bs-toggle="modal" data-bs-target="#popupModalToggle">&times;</span>
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content flex-column align-items-center">
             <div *ngFor="let img of imagesPopup; let i = index" class=" mb-4">
                 <img [src]=img.cloudinaryUrl id='img-popup-{{i}}' class="rounded" [style.margin-bottom]="i + 1 == imagesPopup?.length && imagesPopup?.length != 1?'40px':''">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--    Confirm delete ad modal    -->
+<div class="modal fade" id="confirmDeleteAdModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Подтвердите действие</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы действительно хотите удалить текущее объявление?
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="processDelete" (click)="deleteAd()" type="button" class="btn btn-danger"><span [hidden]="!processDelete" class="spinner-border spinner-border-sm me-2"></span>Удалить</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
             </div>
         </div>
     </div>

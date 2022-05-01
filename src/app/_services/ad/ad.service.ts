@@ -12,6 +12,7 @@ import { PhoneDTO } from 'src/app/common/PhoneDTO';
 const BASE_URL = environment.url;
 const GET_COMMUNICATIONS_API = 'public/get-ad-communications';
 const GET_AD_API = 'public/view-ad/';
+const DELETE_AD_API = 'delete-ad';
 
 const CLOUDINARY_PARAMS_FOR_96_96 = "w_96,h_96,c_fill";
 const CLOUDINARY_PARAMS_FOR_HORIZONTAL = "w_600,h_400,c_fill";
@@ -145,5 +146,9 @@ export class AdService {
 
   public getCommunications(id: number): Observable<Communication[]> {
     return this.http.get<Communication[]>(BASE_URL + GET_COMMUNICATIONS_API, { params: { "adId": id } });
+  }
+
+  public deleteAd(id: number): Observable<void> {
+    return this.http.delete<void>(BASE_URL + DELETE_AD_API, { params: { "id": id } });
   }
 }

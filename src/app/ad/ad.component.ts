@@ -24,6 +24,7 @@ export class AdComponent implements OnInit {
   imagesPopup: Image[] | undefined;
   carousel: bootstrap.Carousel | undefined;
   rollCarousel: boolean = false;
+  processDelete: boolean = false;
 
   constructor(public appComponent: AppComponent, private adService: AdService, private route: ActivatedRoute, private dateService: DateService, private sanitizer: DomSanitizer) {
   }
@@ -82,5 +83,15 @@ export class AdComponent implements OnInit {
   public getSanitizeUrlForViber(index: number) {
     return this.sanitizer
       .bypassSecurityTrustUrl('viber://chat/?number=%2B' + this.communications[index].phone?.substring(1, 13));
+  }
+
+  public deleteAd() {
+    this.processDelete = true;
+    this.adService.deleteAd(this.ad!.id).subscribe(() => {
+      window.location.href = '/ad-list';
+    },
+      () => {
+        this.processDelete = false;
+      });
   }
 }

@@ -21,6 +21,7 @@
 
 .edit-ad-link:hover {
     opacity: 100%;
+    cursor: pointer;
 }
 
 .overflow-x {
@@ -32,6 +33,10 @@
     transition: 0.1s;
     animation: 0.1s 1;
     animation-fill-mode: forwards;
+}
+
+.modal-footer .btn {
+    width: 25%;
 }
 
 .online {
@@ -58,18 +63,18 @@
     animation-fill-mode: forwards;
 }
 
-.modal-dialog-scrollable .modal-content {
+#popupModalToggle .modal-dialog-scrollable .modal-content {
     overflow: visible!important;
 }
 
-.modal-content {
+#popupModalToggle .modal-content {
     width: 1px;
     height: 1px;
     position: absolute;
     left: 50%;
 }
 
-.modal .close {
+#popupModalToggle .modal .close {
     position: fixed;
     right: 5%;
     top: 5%;
@@ -78,7 +83,7 @@
     font-weight: bold;
 }
 
-.modal .close:hover {
+#popupModalToggle .modal .close:hover {
     color: #bbb;
     text-decoration: none;
     cursor: pointer;
