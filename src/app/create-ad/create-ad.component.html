@@ -77,7 +77,7 @@
         <label class="label-input">Загрузите изображения</label>
         <div class="dropzone mb-3" appDnd>
             <input [disabled]="process" type="file" class="drop-input shadow-sm" accept="image/jpeg,image/png" multiple (change)="filesDropped($event.target!)" />
-            <img src="https://cdn-icons-png.flaticon.com/512/568/568717.png" height="7%" width="7%">
+            <img src="assets/upload_img.png">
             <p>Загрузите изображения</p>
             <span class="badge mb-3 shadow-sm p-2" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color" style="font-size: 100%;">
         <i class="fas fa-file-upload mx-2"></i> Выбрать изображения</span>
@@ -116,7 +116,7 @@
             <div *ngFor="let phone of phoneList; let i = index;" class="d-flex">
                 <div class="phone-number flex-column me-3 mb-4">
                     <label class="label-input" [ngClass]="{'text-decoration-line-through': !phone.use}"><i class="fas fa-phone-alt pt-2 me-1"></i>{{phone.phone}}</label><br>
-                    <ng-container *ngIf="phone.idViber"><img src="https://res.cloudinary.com/dwdneivtl/image/upload/w_20/viber-icon_zsrlwp.png" class="me-2"> <label class="fw-bold" [ngClass]="{'viber-on': phone.useViber, 'viber-off': !phone.useViber}" (click)="toggleUseViber(i)">Указывать ссылку Viber <i class="ms-1 fas fa-info-circle" title="Нажмите, что бы изменить"></i></label>
+                    <ng-container *ngIf="phone.idViber"><img src="assets/added_communication_viber.png" class="me-2"> <label class="fw-bold" [ngClass]="{'viber-on': phone.useViber, 'viber-off': !phone.useViber}" (click)="toggleUseViber(i)">Указывать ссылку Viber <i class="ms-1 fas fa-info-circle" title="Нажмите, что бы изменить"></i></label>
                     </ng-container>
                 </div>
                 <i class="far fa-trash-alt fa-lg zoom-phone mt-2" [ngClass]="{'phone-delete': !phone.use, 'mt-4': phone.idViber}" (click)="toggleUsePhone(i)"></i>
