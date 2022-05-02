@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AdFilter } from 'src/app/common/AdFilter';
 import { AdList } from 'src/app/common/AdList';
 import { environment } from 'src/environments/environment';
@@ -18,11 +19,9 @@ export class AdListService {
   constructor(private http: HttpClient, private dateService: DateService) { }
 
   /*  check for refactoring  */
-  public getAdList(filter: AdFilter) {
-    return this.http.get(BASE_URL + 'public/get-ad-list', {
-      responseType: 'text',
-      params: this.getFilterHttpParams(filter)
-    });
+  public getAdList(filter: AdFilter): Observable<AdList[]> {
+    return this.http.get<AdList[]>(BASE_URL + 'public/get-ad-list',
+      { params: this.getFilterHttpParams(filter) });
   }
 
   private getFilterHttpParams(filter: AdFilter) {
@@ -36,22 +35,20 @@ export class AdListService {
       .append('offset', filter.offset);
   }
 
-  public async getUnparsedAdList(filter: AdFilter): Promise<AdList[]> {
-    let adList: AdList[] = [];
-    await this.getAdList(filter).toPromise().then(
-      data => {
-        adList = JSON.parse(data);
-        adList.forEach(ad => {
-          this.mapImg(ad);
-          this.dateService.mapCreatedDate(ad);
-        });
-      },
-      error => {
-        console.error(error);
-        alert('Something went wrong');
-      }
-    );
-    return adList;
+  public getUnparsedAdList(filter: AdFilter): Promise<AdList[]> {
+    return new Promise(resolve => {
+      this.getAdList(filter).subscribe(adList => {
+        this.mapAdListResponse(adList);
+        resolve(adList);
+      });
+    });
+  }
+
+  public mapAdListResponse(adList: AdList[]) {
+    adList.forEach(ad => {
+      this.mapImg(ad);
+      this.dateService.mapCreatedDate(ad);
+    });
   }
 
   private mapImg(ad: AdList) {

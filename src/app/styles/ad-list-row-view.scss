@@ -1,0 +1,19 @@
+.link-dark {
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.link-dark:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.fa-bookmark {
+    font-size: 125%;
+}
+
+.fa-bookmark:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    color: red;
+}

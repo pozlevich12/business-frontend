@@ -5,28 +5,28 @@
         <div class="container-xxl">
 
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <a href="/"><img class="mt-3 img-phone me-4" src="assets/logo_ezha.png" height="75" width="175" /></a>
-                <ul class="px-3 nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mt-phone mb-md-0">
-                    <li><a href="/" [style.color]="theme.color" [ngClass]="{'active-link': this.router.url == '/'}" class="nav-link px-2 pt-phone">Главная</a></li>
-                    <li><a href="/create-ad" routerLink="create-ad" [style.color]="theme.color" [ngClass]="{'active-link': this.router.url == '/create-ad'}" class="nav-link px-2 pt-phone">Подать объявление</a></li>
-                    <li><a href="/" [style.color]="theme.color" class="nav-link px-2 pt-phone">Избранное<span class="ms-1 badge bg-danger">{{ user?.favoriteAdList?.length }}</span></a></li>
+                <a href="/"><img class="mt-3 me-4" src="assets/logo_ezha.png" height="75" width="175" /></a>
+                <ul class="px-3 nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="/" [style.color]="theme.color" [ngClass]="{'active-link': this.router.url == '/'}" class="nav-link px-2">Главная</a></li>
+                    <li><a href="/create-ad" routerLink="create-ad" [style.color]="theme.color" [ngClass]="{'active-link': this.router.url == '/create-ad'}" class="nav-link px-2">Подать объявление</a></li>
+                    <li><a href="/favorite-board" [style.color]="theme.color" [ngClass]="{'active-link': this.router.url == '/favorite-board'}" class="nav-link px-2">Избранное<span class="ms-1 badge bg-danger">{{ user?.favoriteAdList?.length }}</span></a></li>
                 </ul>
 
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 mb-phone find-phone">
+                <form id="search" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" style="padding-top: 25px">
                     <input type="search" [style.background-color]="theme.backgroundColor" class="form-control form-control-dark" placeholder="Найти...">
                 </form>
-                <div class="me-5">
+                <div class="me-5" style="padding-top: 25px">
                     <div class="text-end" *ngIf=!isLoggedIn>
-                        <a routerLink="login" class="btn btn-outline-light me-2 mb-phone">Вход</a>
-                        <a href="/signup" routerLink="signup" class="btn btn-warning mb-phone">Регистрация</a>
+                        <button class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#signInModal">Вход</button>
+                        <a href="/signup" routerLink="signup" class="btn btn-warning">Регистрация</a>
                     </div>
-                    <div class="dropdown px-2 mb-phone" *ngIf="isLoggedIn">
+                    <div class="dropdown px-2" *ngIf="isLoggedIn">
                         <a href="#" (click)="toggleDropdownMenuUser()" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="{{ user!.avatarUrl }}" alt="{{ user!.firstName }}" class="rounded-circle avatar me-1">
                             <strong [style.color]="theme.color" class="firstName">{{ user!.firstName }}</strong>
                         </a>
                         <ul class="dropdown-menu mx-0 border-0 shadow" [style.background-color]="theme.mainColor" aria-labelledby="dropdownUser1">
-                            <li class="dropdown-li"><a class="dropdown-item rounded-pill fw-bold" [style.color]="theme.color" href="">Избранное <span class="ms-1 badge bg-danger">{{ user?.favoriteAdList?.length }}</span></a></li>
+                            <li class="dropdown-li"><a class="dropdown-item rounded-pill fw-bold" [style.color]="theme.color" href="/favorite-board">Избранное <span class="ms-1 badge bg-danger">{{ user?.favoriteAdList?.length }}</span></a></li>
                             <li class="dropdown-li"><a class="dropdown-item rounded-pill fw-bold" [style.color]="theme.color" style="cursor:pointer" (click)="toggleColorPicker()">Color picker</a></li>
                             <li [style.color]="theme.color">
                                 <hr class="dropdown-divider">
@@ -41,7 +41,7 @@
     </header>
 
     <div class="d-flex pt-4 ps-4">
-        <div *ngIf="this.router.url === '/' || this.router.url.includes('/ad?') || this.router.url.includes('/ad-list')" class="me-5" style="margin-top:100px">
+        <div *ngIf="this.router.url === '/' || this.router.url.includes('/ad?') || this.router.url.includes('/ad-list') || this.router.url.includes('/favorite-board')" class="me-5" style="margin-top:100px">
             <app-home></app-home>
         </div>
         <div style="margin-top:100px">
@@ -71,4 +71,23 @@
     <button>
         Copy
     </button>
+</div>
+
+<!--    Sign in modal    -->
+<div class="modal fade" id="signInModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
 </div>

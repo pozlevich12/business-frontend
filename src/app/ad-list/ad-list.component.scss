@@ -1,3 +1,4 @@
+@import '../styles/ad-list-row-view.scss';
 .label-form {
     font-weight: bold;
     font-size: 90%;
@@ -26,26 +27,6 @@ select:hover {
 .badge {
     border-style: solid;
     border-width: 1px;
-}
-
-.fa-bookmark {
-    font-size: 125%;
-}
-
-.fa-bookmark:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-    color: red;
-}
-
-.link-dark {
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.link-dark:hover {
-    cursor: pointer;
-    text-decoration: underline;
 }
 
 #filter {

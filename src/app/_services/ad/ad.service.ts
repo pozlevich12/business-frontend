@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Image } from 'src/app/common/Image';
@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { TokenStorageService } from '../auth/token-storage.service';
 import { Communication } from 'src/app/common/Communication';
 import { PhoneDTO } from 'src/app/common/PhoneDTO';
+import { FavoriteAdService } from './favorite-ad.service';
 
 const BASE_URL = environment.url;
 const GET_COMMUNICATIONS_API = 'public/get-ad-communications';
@@ -26,7 +27,7 @@ const NO_IMAGE_DEFAULT_URL = "assets/ad_no_image.png";
 })
 export class AdService {
 
-  constructor(private http: HttpClient, private localStorageService: TokenStorageService) { }
+  constructor(private http: HttpClient) { }
 
   public fillImageList(imgList: Image[]): Image[] {
     const images: Image[] = [];
@@ -71,34 +72,6 @@ export class AdService {
       images.push(this.getImageObject(img.id, img.cloudinaryId, url, "", img.width, img.height, img.title));
     });
     return images;
-  }
-
-  public toggleFavorite(user: User, id: number) {
-    if (!user) {
-      this.addFavoriteAd(id).subscribe(() => { });
-      //  redirect to login page if unauthorized
-      return;
-    }
-    const index = user.favoriteAdList.indexOf(id);
-    if (index != -1) {
-      this.deleteFavoriteAd(id).subscribe(() => {
-        user.favoriteAdList.splice(index, 1);
-        this.localStorageService.saveUser(user);
-      });
-    } else {
-      this.addFavoriteAd(id).subscribe(() => {
-        user.favoriteAdList.push(id);
-        this.localStorageService.saveUser(user);
-      });
-    }
-  }
-
-  public addFavoriteAd(id: number): Observable<any> {
-    return this.http.get(BASE_URL + 'favorite-add/' + id, { responseType: "text" });
-  }
-
-  public deleteFavoriteAd(id: number): Observable<any> {
-    return this.http.get(BASE_URL + 'favorite-delete/' + id, { responseType: "text" });
   }
 
   private getImageObject(id: number, cloudinaryId: string, cloudinaryUrl: string, smallUrl: string, width: number, height: number, title: boolean): Image {

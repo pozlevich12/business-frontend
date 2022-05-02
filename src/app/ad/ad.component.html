@@ -7,7 +7,7 @@
             <label class="text-muted fst-italic"><i class="fas fa-map-marker-alt me-2"></i>{{ad.location.fullNameLocation}}</label>
         </div>
         <div class="d-flex mb-3">
-            <a [attr.href]="'ad-list?categoryId=' + ad.category.id" class="link-dark"><i class="fa pe-1" [ngClass]="{'fa-seedling': ad.category?.id == 5, 'fa-apple-alt': ad.category?.id == 25, 'fa-drumstick-bite': ad?.category?.id == 35, 'fa-cheese': ad?.category?.id == 45, 'fa-balance-scale-right': ad?.category?.id == 55, 'fa-leaf': ad?.category?.id == 65, 'fa-book': ad?.category?.id == 75}"></i>{{ad.category.category}}</a>
+            <a [attr.href]="'ad-list?categoryId=' + ad.category.id" class="link-dark"><i class="fa pe-1" [ngClass]="{'fa-seedling': ad.category?.id == 5, 'fa-apple-alt': ad.category?.id == 25, 'fa-drumstick-bite': ad?.category?.id == 35, 'fa-cheese': ad?.category?.id == 45, 'fa-balance-scale-right': ad?.category?.id == 55, 'fa-leaf': ad?.category?.id == 65,'fa-feather-alt': ad?.category?.id == 70, 'fa-book': ad?.category?.id == 75}"></i>{{ad.category.category}}</a>
             <i class="fas fa-angle-right me-2 ms-2 mt-1"></i>
             <ng-container *ngIf="ad.category.subCategoryId">
                 <a [attr.href]="'ad-list?categoryId=' + ad.category.id + '&subCategoryId=' + ad.category.subCategoryId" class="link-dark">{{ad.category.subCategoryName}}</a>

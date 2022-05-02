@@ -1,0 +1,19 @@
+<h4><span class="badge mb-5 shadow me-3" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color"><i class="fas fa-star me-2"></i> Избранные объявления <span class="ms-1 badge bg-danger ms-3">{{ appComponent.user?.favoriteAdList?.length }}</span></span>
+    <span><button type="button" (click)="deleteAllFavoriteAd()" class="btn btn-sm btn-danger mb-auto">Очистить все</button></span></h4>
+<div *ngFor="let ad of adList; let i = index" class="d-flex mb-4 border-bottom" style="width: 1125px;">
+    <div class="me-3" style="width: 200px; height: 140px; text-align: center">
+        <img class="rounded-3" [src]="ad.titleImgUrl">
+    </div>
+    <div class="d-flex flex-column me-auto mb-2" style="overflow: hidden;max-width: 50%;">
+        <a href="ad?id={{ad.id}}" target="_blank" class="link-dark">{{ad.adTitle}}</a>
+        <div class="d-flex mb-auto mt-2">
+            <label class="me-2">{{ad.price}} {{ad.priceType}}</label>
+            <i *ngIf="ad.delivery" title="Доставка" class="fas fa-sm fa-truck mt-1" [style.color]="appComponent.theme.mainColor"></i>
+        </div>
+        <label><i class="fas fa-map-marker-alt text-muted me-2"></i>{{ad.town}}</label>
+    </div>
+    <div class="d-flex flex-column mb-2">
+        <button type="button" (click)="deleteFavoriteAd(i)" class="btn btn-sm btn-danger mb-auto">Убрать из избранных</button>
+        <small class="text-muted ms-auto" title="Дата подачи объявления">{{ad.created}}</small>
+    </div>
+</div>

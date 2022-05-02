@@ -15,10 +15,10 @@
                                 'fa-cheese': category.id == 45,
                                 'fa-balance-scale-right': category.id == 55,
                                 'fa-leaf': category.id == 65,
-                                'fa-book': category.id == 75,
-                                'fa-feather-alt': category.id == 85}"></i> {{category.category}}
+                                'fa-feather-alt': category.id == 70,
+                                'fa-book': category.id == 75}"></i> {{category.category}}
             </a>
-            <a *ngFor="let subCategory of category['subCategoryList']" appHoverClass [attr.href]="'ad-list?categoryId='  + category.id +'&subCategoryId=' + subCategory.id" class="list-group-item list-group-item-action" [style.background-color]="appComponent.theme.backgroundColor"
+            <a *ngFor="let subCategory of category['subCategoryList']" appHoverClass [attr.href]="'ad-list?categoryId='  + category.id +'&subCategoryId=' + subCategory.id" class="list-group-item list-group-item-action category-hovered" [style.background-color]="appComponent.theme.backgroundColor"
                 style="font-size: 90%;">{{subCategory.subCategory}}</a>
         </div>
     </div>
@@ -51,7 +51,7 @@
                     <a href="ad?id={{ad.id}}" target="_blank" class="link-dark">{{ad.adTitle}}</a>
                     <div class="d-flex mb-auto mt-1">
                         <label class="me-3">{{ad.price}} {{ad.priceType}}</label>
-                        <i *ngIf="ad.delivery" title="Доставка" class="fas fa-truck mt-1" [style.color]="appComponent.theme.mainColor"></i>
+                        <i *ngIf="ad.delivery" title="Доставка" class="fas fa-sm fa-truck mt-1" [style.color]="appComponent.theme.mainColor"></i>
                     </div>
                     <label><i class="fas fa-map-marker-alt text-muted me-2"></i>{{ad.town}}</label>
                 </div>

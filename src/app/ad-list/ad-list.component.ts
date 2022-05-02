@@ -6,7 +6,7 @@ import { AdList } from '../common/AdList';
 import { CategoriesObject } from '../common/categories.object';
 import { LocationObject } from '../common/locations.object';
 import { AdListService } from '../_services/ad/ad-list.service';
-import { AdService } from '../_services/ad/ad.service';
+import { FavoriteAdService } from '../_services/ad/favorite-ad.service';
 import { TokenStorageService } from '../_services/auth/token-storage.service';
 
 @Component({
@@ -30,7 +30,7 @@ export class AdListComponent implements OnInit {
   loadingNewAd: boolean = false;
 
   constructor(private localStorage: TokenStorageService, private adListService: AdListService,
-    public appComponent: AppComponent, private adService: AdService, private route: ActivatedRoute) { }
+    public appComponent: AppComponent, private favoriteAdService: FavoriteAdService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.fillFilterFromQueryParams();
@@ -179,7 +179,7 @@ export class AdListComponent implements OnInit {
   }
 
   public toggleFavorite(id: number) {
-    this.adService.toggleFavorite(this.appComponent.user!, id);
+    this.favoriteAdService.toggleFavorite(this.appComponent.user!, id);
   }
 
   @HostListener('window:scroll', ['$event'])

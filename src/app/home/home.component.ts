@@ -8,7 +8,7 @@ import { TokenStorageService } from '../_services/auth/token-storage.service';
 import { AdList } from '../common/AdList';
 import { AdListService } from '../_services/ad/ad-list.service';
 import { AdFilter } from '../common/AdFilter';
-import { AdService } from '../_services/ad/ad.service';
+import { FavoriteAdService } from '../_services/ad/favorite-ad.service';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
   categories!: CategoriesObject[];
   locations!: LocationObject[];
 
-  constructor(public appComponent: AppComponent, private adListService: AdListService, private adService: AdService, private homeService: HomeService,
+  constructor(public appComponent: AppComponent, private adListService: AdListService, private favoriteAdService: FavoriteAdService, private homeService: HomeService,
     private localStorage: TokenStorageService, public router: Router) {
   }
 
@@ -29,11 +29,14 @@ export class HomeComponent implements OnInit {
     if (window.location.pathname == '/home') {
       window.location.href = '/';
     }
-    const filter = new AdFilter();
-    filter.limit = 4;
-    this.adListService.getUnparsedAdList(filter).then((adList) => {
-      this.adList = adList;
-    });
+
+    if (window.location.pathname == '/') {
+      const filter = new AdFilter();
+      filter.limit = 4;
+      this.adListService.getUnparsedAdList(filter).then((adList) => {
+        this.adList = adList;
+      });
+    }
 
     const categories = this.localStorage.getCategories();
     if (!categories) {
@@ -57,6 +60,6 @@ export class HomeComponent implements OnInit {
   }
 
   public toggleFavorite(id: number) {
-    this.adService.toggleFavorite(this.appComponent.user!, id);
+    this.favoriteAdService.toggleFavorite(this.appComponent.user!, id);
   }
 }

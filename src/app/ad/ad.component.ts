@@ -8,6 +8,7 @@ import { DateService } from '../_services/date.service';
 import { Ad } from '../common/Ad';
 import { PhoneDTO } from '../common/PhoneDTO';
 import { DomSanitizer } from '@angular/platform-browser';
+import { FavoriteAdService } from '../_services/ad/favorite-ad.service';
 
 @Component({
   templateUrl: './ad.component.html',
@@ -26,7 +27,7 @@ export class AdComponent implements OnInit {
   rollCarousel: boolean = false;
   processDelete: boolean = false;
 
-  constructor(public appComponent: AppComponent, private adService: AdService, private route: ActivatedRoute, private dateService: DateService, private sanitizer: DomSanitizer) {
+  constructor(public appComponent: AppComponent, private adService: AdService, private route: ActivatedRoute, private favoriteAdService: FavoriteAdService, private dateService: DateService, private sanitizer: DomSanitizer) {
   }
 
   ngOnInit(): void {
@@ -73,7 +74,7 @@ export class AdComponent implements OnInit {
   }
 
   public toggleFavorite(id: number) {
-    this.adService.toggleFavorite(this.appComponent.user!, id);
+    this.favoriteAdService.toggleFavorite(this.appComponent.user!, id);
   }
 
   public loadCommunication() {
@@ -88,6 +89,7 @@ export class AdComponent implements OnInit {
   public deleteAd() {
     this.processDelete = true;
     this.adService.deleteAd(this.ad!.id).subscribe(() => {
+      this.favoriteAdService.deleteFavoriteAdIfExists(this.appComponent.user!, this.ad!.id);
       window.location.href = '/ad-list';
     },
       () => {
