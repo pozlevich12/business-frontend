@@ -112,7 +112,7 @@ export class CreateAdComponent implements OnInit {
         },
         err => {
           this.process = false;
-          this.errorMessage = err.error? err.error : "Server error.";;
+          this.errorMessage = err.error ? err.error : "Server error.";;
           window.scrollTo(0, 0);
         }
       );

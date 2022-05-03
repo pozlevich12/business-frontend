@@ -34,12 +34,12 @@ export class TokenStorageService {
     window.localStorage.setItem(USER_KEY, JSON.stringify(user));
   }
 
-  public getUser(): User | null {
+  public getUser(): User | undefined {
     const userObject = window.localStorage.getItem(USER_KEY);
     if(userObject) {
       return new User(JSON.parse(userObject));
     }
-    return null;
+    return undefined;
   }
 
   public saveCategories(categories: CategoriesObject[]): void {

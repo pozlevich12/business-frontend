@@ -31,7 +31,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.appComponent.isLoggedIn) {
+    if(this.appComponent.user) {
       this.appComponent.router.navigate(['home']);
     }
   }

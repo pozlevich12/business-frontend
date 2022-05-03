@@ -46,3 +46,12 @@ header {
     margin-left: auto;
     margin-right: auto;
 }
+
+.form-outline i {
+    position: absolute;
+    margin: 10px 0 0 15px;
+}
+
+#passwordLoginForm {
+    padding-left: 40px;
+}

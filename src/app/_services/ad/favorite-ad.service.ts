@@ -37,7 +37,8 @@ export class FavoriteAdService {
 
   public toggleFavorite(user: User, id: number) {
     if (!user) {
-      window.location.href = '/login?returnUrl=' + window.location.pathname;
+      $('#loginFormModal').modal('show');
+      return;
     }
 
     if (user.favoriteAdList.includes(id)) {

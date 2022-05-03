@@ -24,7 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError(error => {
         if (!!error.status && error.status === 401) {
           this.token.signOut();
-          window.location.href = '/login?returnUrl=' + currentUrl;
+          $('#loginFormModal').modal('show');
           return NEVER;
         }
         return throwError(error);
