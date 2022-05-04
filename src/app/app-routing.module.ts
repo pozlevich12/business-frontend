@@ -5,12 +5,8 @@ import { AdListComponent } from './ad-list/ad-list.component';
 import { AdComponent } from './ad/ad.component';
 import { CreateAdComponent } from './create-ad/create-ad.component';
 import { FavoriteBoardComponent } from './favorite-board/favorite-board.component';
-import { HomeComponent } from './home/home.component';
-import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'signup', component: RegisterComponent },
   { path: 'create-ad', component: CreateAdComponent },
   { path: 'ad', component: AdComponent },
   { path: 'ad-list', component: AdListComponent },

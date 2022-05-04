@@ -1,6 +1,6 @@
 export class Theme {
-    backgroundColor: string = "#fffdf4";
-    headerColor: string = "#182606";
-    mainColor: string = "#182606";
-    color: string = '#ebe9df';
+    backgroundColor: string = "#FFFFFF";
+    headerColor: string = '#76A28E';
+    mainColor: string = "#76A28E";
+    color: string = '#FFFFFF';
 }

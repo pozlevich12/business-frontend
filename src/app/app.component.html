@@ -5,11 +5,11 @@
         <div class="container-xxl">
 
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <a href="/"><img class="mt-3 me-4" src="assets/logo_ezha.png" height="75" width="175" /></a>
+                <a href="/"><img class="logo" src="assets/logo_ezha.png" height="75" width="175" /></a>
                 <ul class="px-3 nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="/" [style.color]="theme.color" [ngClass]="{'active-link': this.router.url == '/'}" class="nav-link px-2">Главная</a></li>
-                    <li><a href="/create-ad" routerLink="create-ad" [style.color]="theme.color" [ngClass]="{'active-link': this.router.url == '/create-ad'}" class="nav-link px-2">Подать объявление</a></li>
-                    <li><a href="/favorite-board" [style.color]="theme.color" [ngClass]="{'active-link': this.router.url == '/favorite-board'}" class="nav-link px-2">Избранное<span *ngIf="user?.favoriteAdList && user?.favoriteAdList!.length" class="ms-1 badge bg-danger">{{ user?.favoriteAdList?.length }}</span></a></li>
+                    <li><a href="/" [style.color]="theme.color" class="nav-link px-2">Главная</a></li>
+                    <li><a href="/create-ad" routerLink="create-ad" [style.color]="theme.color" class="nav-link px-2">Подать объявление</a></li>
+                    <li><a href="/favorite-board" [style.color]="theme.color" class="nav-link px-2">Избранное<span *ngIf="user?.favoriteAdList && user?.favoriteAdList!.length" class="ms-1 badge bg-warning text-dark">{{ user?.favoriteAdList?.length }}</span></a></li>
                 </ul>
 
                 <form id="search" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" style="padding-top: 25px">
@@ -17,8 +17,8 @@
                 </form>
                 <div class="me-5" style="padding-top: 25px">
                     <div class="text-end" *ngIf="!user">
-                        <button class="btn btn-outline-light me-2" (click)="loginModal?.show()">Вход</button>
-                        <a href="/signup" routerLink="signup" class="btn btn-warning">Регистрация</a>
+                        <button class="btn btn-outline-light me-2" (click)="showLoginModal()">Вход</button>
+                        <button class="btn btn-warning" (click)="showRegisterModal()">Регистрация</button>
                     </div>
                     <div class="dropdown px-2" *ngIf="user">
                         <a href="#" (click)="toggleDropdownMenuUser()" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -26,7 +26,7 @@
                             <strong [style.color]="theme.color" class="firstName">{{ user!.firstName }}</strong>
                         </a>
                         <ul class="dropdown-menu mx-0 border-0 shadow" [style.background-color]="theme.mainColor" aria-labelledby="dropdownUser1">
-                            <li class="dropdown-li"><a class="dropdown-item rounded-pill fw-bold" [style.color]="theme.color" href="/favorite-board">Избранное <span *ngIf="user?.favoriteAdList && user?.favoriteAdList!.length" class="ms-1 badge bg-danger">{{ user?.favoriteAdList?.length }}</span></a></li>
+                            <li class="dropdown-li"><a class="dropdown-item rounded-pill fw-bold" [style.color]="theme.color" href="/favorite-board">Избранное <span *ngIf="user?.favoriteAdList && user?.favoriteAdList!.length" class="ms-1 badge bg-warning text-dark">{{ user?.favoriteAdList?.length }}</span></a></li>
                             <li class="dropdown-li"><a class="dropdown-item rounded-pill fw-bold" [style.color]="theme.color" style="cursor:pointer" (click)="toggleColorPicker()">Color picker</a></li>
                             <li [style.color]="theme.color">
                                 <hr class="dropdown-divider">
@@ -73,53 +73,8 @@
     </button>
 </div>
 
-<!--     Login form modal    -->
-<div class="modal fade" id="loginFormModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
+<!--   Login form modal     -->
+<app-login></app-login>
 
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form class="flex-column text-center border-bottom px-5 py-4">
-                    <h4 class="fw-bold mb-5"><span class="fa fa-lg fa-user-circle me-2"></span>Вход</h4>
-                    <div *ngIf="errorMessage" class="alert alert-danger small" role="alert">
-                        Ошибка авторизации.<br> {{ errorMessage }}
-                    </div>
-                    <div class="mb-3">
-                        <div class="input-group form-white">
-                            <div class="input-group-prepend">
-                                <button type="button" class="btn" [style.background-color]="theme.mainColor" [style.color]="theme.color">+375</button>
-                            </div>
-                            <input [(ngModel)]="loginForm.phoneNumber" name="phoneNumberLogin" (keyup)="onKeyPhone()" type="email" class="form-control rounded" [ngClass]="{'is-valid': loginFormValid && loginFormValid.phoneNumber, 'is-invalid': loginFormValid && !loginFormValid.phoneNumber}">
-                            <div class="invalid-feedback">Пожалуйста, введите корректный номер телефона.</div>
-                        </div>
-                        <label class="form-label fw-bold">Телефон</label>
-                    </div>
-
-                    <div class="form-white form-outline mb-4 ">
-                        <div class="text-start">
-                            <i class="fa fa-lock"></i>
-                            <input [(ngModel)]="loginForm.password" (keyup)="onKeyPassword()" name="passwordLogin" id="passwordLoginForm" autocomplete="on" type="password" class="form-control" [ngClass]="{'is-valid': loginFormValid && loginFormValid.password, 'is-invalid': loginFormValid && !loginFormValid.password}">
-                            <div class="ms-3 invalid-feedback">Пароль должен содержать от 6 до 18 символов. Пробелы запрещены.</div>
-                        </div>
-
-                        <label class="form-label fw-bold">Пароль</label>
-                    </div>
-
-                    <div class="mb-5">
-                        <a href="/" class="link-dark fw-bold small">Забыли пароль?</a>
-                    </div>
-
-
-                    <button type="submit" (click)="login()" [disabled]="processLogin" class="btn" [style.background-color]="theme.mainColor" [style.color]="theme.color" style="width:70%"><span [hidden]="!processLogin" class="spinner-border spinner-border-sm me-3" role="status"></span>Вход</button>
-                </form>
-                <div class="py-4 text-center text-secondary small">
-                    Не зарегестрированы на <a class="link-secondary fw-bold" href="/">syrovatki-business.com</a>?<br>
-                    <a class="badge bg-warning link-dark fw-bold p-2 mt-2" routerLink="/signup">Регистрация</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<!--     Register form modal    -->
+<app-register></app-register>

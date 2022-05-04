@@ -1,43 +1,67 @@
-<form class="ps-5">
-    <h2><span class="badge badge-pill shadow mb-2 ms-2" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color"><i class="fas fa-solid fa-user me-3"></i>Регистрация аккаунта</span></h2>
-    <div class="mt-3" *ngIf="isSignUpFailed">
-        <div class="alert alert-danger" role="alert">
-            Ошибка регистрации аккаунта.<br> {{ errorMessage }}
-        </div>
-    </div>
-    <label>Имя</label>
-    <div class="mb-3">
-        <input [(ngModel)]="registerForm.firstName" (keyup)="onKeyName()" type="text" name="firstName" class="form-control shadow-sm" [ngClass]="{'is-valid': checked && registerFormValid.firstName, 'is-invalid': checked && !registerFormValid.firstName}" autofocus="">
-        <div *ngIf="checked && !registerFormValid.firstName" class="invalid-feedback">Пожалуйста, введите корректное имя.</div>
-    </div>
-    <label>Номер телефона</label>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <button type="button" class="btn" tabindex="-1" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color">+375</button>
-        </div>
-        <input [(ngModel)]="registerForm.phoneNumber" (keyup)="onKeyPhone()" name="phoneNumber" [ngClass]="{'is-valid': checked && registerFormValid.phoneNumber, 'is-invalid': checked && !registerFormValid.phoneNumber}" class="form-control shadow-sm">
-        <div *ngIf="checked && !registerFormValid.phoneNumber" class="invalid-feedback">Пожалуйста, введите корректный номер телефона.</div>
-    </div>
-    <div class="mb-3">
-        <label>Email <small class="small">(необязательно)</small></label>
-        <input [(ngModel)]="registerForm.email" (keyup)="onKeyEmail()" [ngClass]="{'is-valid': checked && registerFormValid.email, 'is-invalid': checked && !registerFormValid.email}" name="email" class="form-control shadow-sm">
-        <div *ngIf="checked && !registerFormValid.email" class="invalid-feedback">Введен неверный email.
-            <br>Пожалуйста, заполните поле корректно или оставьте его пустым.
-        </div>
-    </div>
-    <div class="mb-3">
-        <label>Пароль</label>
-        <div>
-            <input [(ngModel)]="registerForm.password" autocomplete="on" (keyup)="onKeyPassword()" [ngClass]="{'is-valid': checked && registerFormValid.password, 'is-invalid': checked && !registerFormValid.password}" type="password" name="password" class="form-control shadow-sm">
-            <div *ngIf="checked && !registerFormValid.password" class="invalid-feedback">Пароль должен содержать от 6 до 18 символов. Пробелы запрещены.</div>
-        </div>
-    </div>
-    <label>Подтвердите пароль</label>
-    <div class="mb-5">
-        <input [(ngModel)]="registerForm.confirmPassword" autocomplete="off" (keyup)="onKeyConfirmPassword()" [ngClass]="{'is-valid': changedPassword && registerFormValid.confirmPassword, 'is-invalid': changedPassword && !registerFormValid.confirmPassword}" type="password"
-            name="confirmPassword" class="form-control shadow-sm">
-        <div *ngIf="!registerFormValid.confirmPassword" class="invalid-feedback">Пароли не совподают.</div>
-    </div>
+<div class="modal fade" id="registerFormModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="flex-column px-5 py-4">
+                    <fieldset [disabled]="processRegister">
+                        <h5 class="fw-bold text-center mb-3"><span class="fas fa-lg fa-solid fa-user-plus me-3"></span>Регистрация</h5>
+                        <div *ngIf="errorMessage" class="alert text-center alert-danger small p-2" role="alert">
+                            Ошибка регистрации.<br> {{ errorMessage }}
+                        </div>
 
-    <button (click)="checkForm()" type="submit" id="btn_submit" class="btn shadow" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color"><span id="spinner" hidden class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>  Регистрация</button>
-</form>
+                        <label class="ms-2 fw-bold">Имя</label>
+                        <div class="form-outline mb-3">
+                            <i class="fas fa-user"></i>
+                            <input [(ngModel)]="registerForm.firstName" (keyup)="onKeyName()" type="text" id="firstNameRegister" name="firstName" class="padding-icon form-control shadow-sm" [ngClass]="{'is-valid': registerFormValid && registerFormValid.firstName, 'is-invalid': registerFormValid && !registerFormValid.firstName}">
+                            <div class="invalid-feedback">Пожалуйста, введите корректное имя.</div>
+                        </div>
+
+                        <label class="ms-2 fw-bold">Email <small>(необязательно)</small></label>
+                        <div class="form-outline mb-3">
+                            <i class="fas fa-envelope"></i>
+                            <input [(ngModel)]="registerForm.email" (keyup)="onKeyEmail()" name="email" class="padding-icon form-control shadow-sm" [ngClass]="{ 'is-valid': registerFormValid && registerFormValid.email,
+                        'is-invalid': registerFormValid && !registerFormValid.email}">
+                            <div class="invalid-feedback">Пожалуйста, введите корректный email или оставьте его пустым.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="ms-2 fw-bold">Номер телефона</label>
+                            <div class="input-group form-white">
+                                <div class="input-group-prepend">
+                                    <input type="button" class="btn" tabindex="-1" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color" value="+375" />
+                                </div>
+                                <input [(ngModel)]="registerForm.phoneNumber" (keyup)="onKeyPhone()" name="phoneNumber" class="form-control rounded" [ngClass]="{ 'is-valid': registerFormValid && registerFormValid.phoneNumber,
+                            'is-invalid': registerFormValid && !registerFormValid.phoneNumber}">
+                                <div class="invalid-feedback">Пожалуйста, введите корректный номер телефона.</div>
+                            </div>
+                        </div>
+
+                        <label class="ms-2 fw-bold">Пароль</label>
+                        <div class="form-outline mb-3">
+                            <i class="fa fa-lock"></i>
+                            <input [(ngModel)]="registerForm.password" (keyup)="onKeyPassword()" name="password" class="padding-icon password form-control shadow-sm" [ngClass]="{ 'is-valid': registerFormValid && registerFormValid.password,
+                        'is-invalid': registerFormValid && !registerFormValid.password}">
+                            <div class="invalid-feedback">Введите пароль от 6 до 18 символов (пробелы запрещены)</div>
+                        </div>
+
+                        <label class="ms-2 fw-bold">Подтвердите пароль</label>
+                        <div class="form-outline mb-5">
+                            <i class="fas fa-check"></i>
+                            <input [(ngModel)]="registerForm.confirmPassword" (keyup)="onKeyConfirmPassword()" name="confirmPassword" class="padding-icon password form-control shadow-sm" [ngClass]="{ 'is-valid': registerFormValid && registerFormValid.confirmPassword,
+                        'is-invalid': registerFormValid && !registerFormValid.confirmPassword}">
+                            <div class="invalid-feedback">Пароли не совпадают.</div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" [disabled]="processRegister" (click)="signup()" class="btn btn-warning" style="width:70%"><span [hidden]="!processRegister" class="spinner-border spinner-border-sm me-3" role="status"></span>Регистрация</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

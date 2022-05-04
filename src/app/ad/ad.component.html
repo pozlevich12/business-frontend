@@ -19,16 +19,16 @@
                 <a data-bs-toggle="modal" data-bs-target="#confirmDeleteAdModal" class="edit-ad-link small link-danger"><i class="fas fa-trash-alt me-1"></i>Удалить</a>
             </div>
         </div>
-        <div class="d-flex">
-            <div class="flex-column" style="width:650px">
-                <div id="carouselExampleControls" class="carousel slide border border-dark rounded shadow me-5" data-bs-ride="carousel" data-bs-interval="false">
+        <div class="d-flex border-bottom pb-5">
+            <div class="flex-column text-center" style="width:650px">
+
+                <div *ngIf="imagesPopup" id="carouselExampleControls" class="carousel slide border border-dark rounded shadow me-5" data-bs-ride="carousel" data-bs-interval="false">
                     <div class="carousel-inner">
                         <div *ngFor="let img of ad.imgList; let i = index" class="carousel-item" [ngClass]="{active: i === 0}">
                             <img [src]=img.cloudinaryUrl id='img-carousel-{{i}}'>
-                            <div *ngIf="imagesPopup" class="open-popup" (click)="scrollPopup(i)" data-bs-toggle="modal" data-bs-target="#popupModalToggle"></div>
+                            <div class="open-popup" (click)="scrollPopup(i)" data-bs-toggle="modal" data-bs-target="#popupModalToggle"></div>
                         </div>
                     </div>
-
                     <button class="carousel-control-prev " type="button " data-bs-target="#carouselExampleControls " data-bs-slide="prev">
                     <span class="carousel-control-prev-icon " aria-hidden="true "></span>
                     </button>
@@ -36,12 +36,15 @@
                     <span class="carousel-control-next-icon " aria-hidden="true "></span>
                     </button>
                 </div>
+
                 <div *ngIf="ad.imgList.length> 1" style="width:600px" class="d-flex align-content-stretch mb-4" [ngClass]="{'overflow-x': ad.imgList.length > 5}">
                     <div *ngFor="let file of ad.imgList; let i = index;" (click)="toggleCarousel(i)" [id]="file.cloudinaryId" class="mt-4 mb-2 me-1 ms-1 small-image border border-dark rounded shadow">
 
                         <img [src]="file.smallUrl" style="cursor: pointer;" id='img-{{i}}'>
                     </div>
                 </div>
+
+                <img *ngIf="!imagesPopup" style="margin-top: 50px" [src]="ad.imgList[0].cloudinaryUrl">
             </div>
 
             <div class="flex-column" style="width:350px">
@@ -83,7 +86,6 @@
 
 <!--   Images popup modal     -->
 <div class="modal fade" id="popupModalToggle" style="z-index: 9999" aria-hidden="true" tabindex="-1">
-    <span class="close" data-bs-toggle="modal" data-bs-target="#popupModalToggle">&times;</span>
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content flex-column align-items-center">
             <div *ngFor="let img of imagesPopup; let i = index" class=" mb-4">

@@ -44,7 +44,7 @@ export class AdComponent implements OnInit {
       this.ad.imgList = this.adService.fillImageList(adResponse.imgList);
       this.imagesPopup = this.adService.fillPopupImageList(this.ad.imgList);
     },
-      error => {
+      () => {
         alert("Something went wrong");
       });
   }

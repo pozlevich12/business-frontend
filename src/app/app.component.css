@@ -6,12 +6,11 @@ header {
 }
 
 .container-xxl {
-    max-width: 1730px;
+    max-width: 1800px;
 }
 
-.active-link {
-    color: #537030!important;
-    font-weight: bold;
+.logo {
+    margin: 1rem 70px 0 0;
 }
 
 .btn {
@@ -38,20 +37,11 @@ header {
 }
 
 .dropdown-item:hover {
-    background-color: #537030;
+    background-color: #76A28E;
 }
 
 .dropdown-li {
     width: 90%;
     margin-left: auto;
     margin-right: auto;
-}
-
-.form-outline i {
-    position: absolute;
-    margin: 10px 0 0 15px;
-}
-
-#passwordLoginForm {
-    padding-left: 40px;
 }

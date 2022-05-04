@@ -17,6 +17,7 @@ import { AdEditComponent } from './ad-edit/ad-edit.component';
 import { DndDirectiveEditAd } from '../_helpers/dnd/dnd-edit-ad.directive';
 import { DndDirective } from 'src/_helpers/dnd/dnd.directive';
 import { FavoriteBoardComponent } from './favorite-board/favorite-board.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { FavoriteBoardComponent } from './favorite-board/favorite-board.componen
     AdListComponent,
     HoverClassDirective,
     AdEditComponent,
-    FavoriteBoardComponent
+    FavoriteBoardComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

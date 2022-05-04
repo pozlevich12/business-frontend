@@ -26,10 +26,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (window.location.pathname == '/home') {
-      window.location.href = '/';
-    }
-
     if (window.location.pathname == '/') {
       const filter = new AdFilter();
       filter.limit = 4;

@@ -74,21 +74,6 @@
     left: 50%;
 }
 
-#popupModalToggle .modal .close {
-    position: fixed;
-    right: 5%;
-    top: 5%;
-    color: #f1f1f1;
-    font-size: 40px;
-    font-weight: bold;
-}
-
-#popupModalToggle .modal .close:hover {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;
-}
-
 .open-popup {
     position: absolute;
     left: 100px;

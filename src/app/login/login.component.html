@@ -1,0 +1,51 @@
+<div class="modal fade" id="loginFormModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="flex-column text-center border-bottom px-5 py-4">
+                    <fieldset [disabled]="processLogin">
+                        <h4 class="fw-bold mb-5"><span class="fa fa-lg fa-user-circle me-2"></span>Вход</h4>
+                        <div *ngIf="errorMessage" class="alert alert-danger small p-2" role="alert">
+                            Ошибка авторизации.<br> {{ errorMessage }}
+                        </div>
+                        <div class="mb-3">
+                            <div class="input-group form-white">
+                                <div class="input-group-prepend">
+                                    <input type="button" class="btn" tabindex="-1" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color" value="+375" />
+                                </div>
+                                <input [(ngModel)]="loginForm.phoneNumber" id="phoneLogin" name="phoneNumber" (keyup)="onKeyPhone()" type="email" class="form-control rounded" [ngClass]="{'is-valid': loginFormValid && loginFormValid.phoneNumber, 'is-invalid': loginFormValid && !loginFormValid.phoneNumber}">
+                                <div class="invalid-feedback">Пожалуйста, введите корректный номер телефона.</div>
+                            </div>
+                            <label class="form-label fw-bold">Телефон</label>
+                        </div>
+
+                        <div class="form-white form-outline mb-4">
+                            <div class="text-start">
+                                <i class="fa fa-lock"></i>
+                                <input [(ngModel)]="loginForm.password" (keyup)="onKeyPassword()" name="password" type="password" class="padding-icon form-control" [ngClass]="{'is-valid': loginFormValid && loginFormValid.password, 'is-invalid': loginFormValid && !loginFormValid.password}">
+                                <div class="ms-3 invalid-feedback">Пароль должен содержать от 6 до 18 символов. Пробелы запрещены.</div>
+                            </div>
+
+                            <label class="form-label fw-bold">Пароль</label>
+                        </div>
+
+                        <div class="mb-5">
+                            <a href="/" class="link-dark fw-bold small">Забыли пароль?</a>
+                        </div>
+
+
+                        <button type="submit" (click)="login()" [disabled]="processLogin" class="btn" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color" style="width:70%"><span [hidden]="!processLogin" class="spinner-border spinner-border-sm me-3" role="status"></span>Вход</button>
+                    </fieldset>
+                </form>
+                <div class="py-4 text-center text-secondary small">
+                    Не зарегестрированы на <a class="link-secondary fw-bold" href="/">Ежа.маркет</a>?<br>
+                    <a class="badge bg-warning link-dark fw-bold p-2 mt-2" routerLink="/signup">Регистрация</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
