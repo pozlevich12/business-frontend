@@ -9,6 +9,10 @@ select:disabled {
     background-color: #fff;
 }
 
+fieldset:disabled {
+    opacity: .5;
+}
+
 small {
     font-size: 70%;
     margin-left: 2%;

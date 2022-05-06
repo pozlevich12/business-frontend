@@ -27,7 +27,7 @@
                             <div class="text-start">
                                 <i class="fa fa-lock"></i>
                                 <input [(ngModel)]="loginForm.password" (keyup)="onKeyPassword()" name="password" type="password" class="padding-icon form-control" [ngClass]="{'is-valid': loginFormValid && loginFormValid.password, 'is-invalid': loginFormValid && !loginFormValid.password}">
-                                <div class="ms-3 invalid-feedback">Пароль должен содержать от 6 до 18 символов. Пробелы запрещены.</div>
+                                <div class="ms-3 invalid-feedback mb-3">Пароль должен содержать от 6 до 18 символов. Пробелы запрещены.</div>
                             </div>
 
                             <label class="form-label fw-bold">Пароль</label>
@@ -38,7 +38,7 @@
                         </div>
 
 
-                        <button type="submit" (click)="login()" [disabled]="processLogin" class="btn" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color" style="width:70%"><span [hidden]="!processLogin" class="spinner-border spinner-border-sm me-3" role="status"></span>Вход</button>
+                        <button type="submit" (click)="login()" class="btn" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color" style="width:70%"><span [hidden]="!processLogin" class="spinner-border spinner-border-sm me-3" role="status"></span>Вход</button>
                     </fieldset>
                 </form>
                 <div class="py-4 text-center text-secondary small">

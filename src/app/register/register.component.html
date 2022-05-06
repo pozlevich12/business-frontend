@@ -22,7 +22,7 @@
                         <label class="ms-2 fw-bold">Email <small>(необязательно)</small></label>
                         <div class="form-outline mb-3">
                             <i class="fas fa-envelope"></i>
-                            <input [(ngModel)]="registerForm.email" (keyup)="onKeyEmail()" name="email" class="padding-icon form-control shadow-sm" [ngClass]="{ 'is-valid': registerFormValid && registerFormValid.email,
+                            <input [(ngModel)]="registerForm.email" type="email" (keyup)="onKeyEmail()" name="email" class="padding-icon form-control shadow-sm" [ngClass]="{ 'is-valid': registerFormValid && registerFormValid.email,
                         'is-invalid': registerFormValid && !registerFormValid.email}">
                             <div class="invalid-feedback">Пожалуйста, введите корректный email или оставьте его пустым.
                             </div>
@@ -57,7 +57,7 @@
                         </div>
 
                         <div class="text-center">
-                            <button type="submit" [disabled]="processRegister" (click)="signup()" class="btn btn-warning" style="width:70%"><span [hidden]="!processRegister" class="spinner-border spinner-border-sm me-3" role="status"></span>Регистрация</button>
+                            <button type="submit" (click)="signup()" class="btn btn-warning" style="width:70%"><span [hidden]="!processRegister" class="spinner-border spinner-border-sm me-3" role="status"></span>Регистрация</button>
                         </div>
                     </fieldset>
                 </form>

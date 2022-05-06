@@ -15,6 +15,13 @@ const SINGUP_API = 'auth/signup';
 const AUTH_TOKEN_HEADER = 'auth-token';
 const INVALID_INPUT_FORM_MESSAGE = 'Пожалуйста, проверьте правильность заполнения формы';
 
+const PHONE_NUMBER_REGEX = /^[0-9]{9}$/;
+const FIRST_NAME_REGEX = /^[a-z|а-я|ё| |-]{3,32}$/i;
+const EMAIL_REGEX = /^[.-\w]{2,25}@[a-z]{2,15}\.(com|ru|by)$/i;
+const PASSWORD_REGEX = /^.{6,18}$/;
+
+const PHONE_NUMBER_PREFIX = '+375';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -80,21 +87,16 @@ export class AuthService {
   }
 
   public checkFirstName(firstName: string): boolean {
-    firstName = firstName.toLocaleLowerCase().trim();
-    if (firstName.length < 3 || firstName.length > 32 || firstName.includes('  ')) {
-      return false;
-    }
-    return this.checkRegexForEachLetter(firstName, /[a-z|а-я|ё| ]/);
+    firstName = firstName.trim();
+    return !firstName.includes('  ') && FIRST_NAME_REGEX.test(firstName);
   }
 
   public checkPhone(phoneNumber: string): boolean {
-    return phoneNumber.length == 9
-      && this.checkRegexForEachLetter(phoneNumber, /[0-9]/);
+    return PHONE_NUMBER_REGEX.test(phoneNumber);
   }
 
   public checkPassword(password: string): boolean {
-    return password.length >= 6 && password.length <= 18
-      && !password.includes(' ');
+    return !password.includes(' ') && PASSWORD_REGEX.test(password);
   }
 
   public checkEqualsPasswords(password1: string, password2: string): boolean {
@@ -102,28 +104,19 @@ export class AuthService {
   }
 
   public checkEmail(email: string): boolean {
-
-    email = email.toLowerCase().trim();
+    email = email.trim();
     if (!email.length) {
       return true;
     }
 
-    if (email.includes(' ') || email.length > 32 || !/(\w|.){2}@[a-z]{2,}\.(com|ru|by)$/.test(email)) {
-      return false;
-    }
-
-    const leftPart = email.split('@')[0];
-    const middlePart = email.split('@')[1].split('.')[0];
-
-    return this.checkRegexForEachLetter(leftPart, /\w|\./)
-      && this.checkRegexForEachLetter(middlePart, /[a-z]/);
+    return EMAIL_REGEX.test(email);
   }
 
   /*  Util  */
 
   private getPreparedLoginForm(loginForm: LoginForm): LoginForm {
     const preparedLoginForm = new LoginForm();
-    preparedLoginForm.phoneNumber = '+375' + loginForm.phoneNumber;
+    preparedLoginForm.phoneNumber = PHONE_NUMBER_PREFIX + loginForm.phoneNumber;
     preparedLoginForm.password = loginForm.password;
     return preparedLoginForm;
   }
@@ -132,19 +125,9 @@ export class AuthService {
     const preparedRegisterForm = new RegisterForm();
     preparedRegisterForm.firstName = registerForm.firstName.trim();
     preparedRegisterForm.email = registerForm.email.trim();
-    preparedRegisterForm.phoneNumber = '+375' + registerForm.phoneNumber;
+    preparedRegisterForm.phoneNumber = PHONE_NUMBER_PREFIX + registerForm.phoneNumber;
     preparedRegisterForm.password = registerForm.password;
     return preparedRegisterForm;
-  }
-
-  private checkRegexForEachLetter(line: string, regex: RegExp): boolean {
-    for (let i = 0; i < line.length; i++) {
-      if (!regex.test(line[i])) {
-        return false;
-      }
-    }
-
-    return true;
   }
 
   /*  API  */

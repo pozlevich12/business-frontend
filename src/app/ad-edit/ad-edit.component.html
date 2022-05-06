@@ -5,136 +5,138 @@
             Ошибка при обновлении объявления.<br> {{ errorMessage }}
         </div>
     </div>
-    <div class="mb-3">
-        <label class="label-input">Название</label>
-        <input [disabled]="process" type="text" class="form-control shadow-sm" [(ngModel)]="ad.title" name="title" (keyup)="onKeyTitle()" placeholder="Название объявления" [ngClass]="{'is-valid': checked && adValidation.title, 'is-invalid': checked && !adValidation.title}">
-        <small [ngClass]="{'invalid-feedback': checked && !adValidation.title}">Используйте от 3 до 64 символов.</small>
-    </div>
+    <fieldset [disabled]="process">
+        <div class="mb-3">
+            <label class="label-input">Название</label>
+            <input type="text" class="form-control shadow-sm" [(ngModel)]="ad.title" name="title" (keyup)="onKeyTitle()" placeholder="Название объявления" [ngClass]="{'is-valid': checked && adValidation.title, 'is-invalid': checked && !adValidation.title}">
+            <small [ngClass]="{'invalid-feedback': checked && !adValidation.title}">Используйте от 3 до 64 символов.</small>
+        </div>
 
-    <div class="mb-3">
-        <div class="d-flex">
-            <div class="flex-column me-3" style="width: 35%">
-                <label class="label-input">Область</label>
-                <select [disabled]="process" class="form-select shadow-sm " [(ngModel)]="ad.region" name="region" (change)="updateLocation()">
+        <div class="mb-3">
+            <div class="d-flex">
+                <div class="flex-column me-3" style="width: 35%">
+                    <label class="label-input">Область</label>
+                    <select class="form-select shadow-sm " [(ngModel)]="ad.region" name="region" (change)="updateLocation()">
                     <option *ngFor="let location of createAdSet.locations" [ngValue]="location.id">{{location.region}}</option>
                 </select>
-            </div>
-            <div class="flex-column" style="width: 35%">
-                <label class="label-input">Город/район</label>
-                <select [disabled]="process" class="form-select shadow-sm " [(ngModel)]="ad.town" name="town ">
+                </div>
+                <div class="flex-column" style="width: 35%">
+                    <label class="label-input">Город/район</label>
+                    <select class="form-select shadow-sm " [(ngModel)]="ad.town" name="town ">
                     <ng-container *ngFor="let location of createAdSet.locations">
                         <option *ngFor="let town of location['locationList']" [hidden]='location.id != ad.region' [ngValue]="town.id">{{town.town}}</option>
                     </ng-container>
                 </select>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="mb-3">
-        <div class="d-flex">
-            <div class="flex-column me-3" style="width: 35%">
-                <label class="label-input">Категория</label>
-                <select [disabled]="process" class="form-select shadow-sm" [(ngModel)]="ad.category" name="category" (change)="updateSubCategories()">
+        <div class="mb-3">
+            <div class="d-flex">
+                <div class="flex-column me-3" style="width: 35%">
+                    <label class="label-input">Категория</label>
+                    <select class="form-select shadow-sm" [(ngModel)]="ad.category" name="category" (change)="updateSubCategories()">
                     <option *ngFor="let category of createAdSet.categories" [ngValue]="category.id">{{category.category}}</option>
                 </select>
-            </div>
-            <div class="flex-column" style="width: 30%">
-                <label class="label-input">Подкатегория</label>
-                <select [disabled]="process" class="form-select shadow-sm" [(ngModel)]="ad.subCategory" name="subCategory" [disabled]="!ad.subCategory">
+                </div>
+                <div class="flex-column" style="width: 30%">
+                    <label class="label-input">Подкатегория</label>
+                    <select class="form-select shadow-sm" [(ngModel)]="ad.subCategory" name="subCategory" [disabled]="!ad.subCategory">
                     <ng-container *ngFor="let category of createAdSet.categories">
                         <option *ngFor="let subCategory of category['subCategoryList']" [hidden]='category.id != ad.category' [ngValue]="subCategory.id">{{subCategory.subCategory}}</option>
                     </ng-container>
                 </select>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="mb-3">
-        <div class="d-flex">
-            <div class="flex-column me-3" style="width: 20%">
-                <label class="label-input">Цена</label>
-                <div class="d-flex">
-                    <input [disabled]="process" type="text" class="form-control shadow-sm input-price" [(ngModel)]="ad.price" name="price" (keyup)="onKeyPrice()" placeholder="0">
+        <div class="mb-3">
+            <div class="d-flex">
+                <div class="flex-column me-3" style="width: 20%">
+                    <label class="label-input">Цена</label>
+                    <div class="d-flex">
+                        <input type="text" class="form-control shadow-sm input-price" [(ngModel)]="ad.price" name="price" (keyup)="onKeyPrice()" placeholder="0">
+                    </div>
+                </div>
+                <div class="flex-column">
+                    <label class="label-input">Тип</label>
+                    <select class="form-select shadow-sm" [(ngModel)]="ad.priceType" name="priceType" style="width: 150%;font-weight: bolder;">
+                    <option *ngFor="let priceType of createAdSet.priceTypes" [ngValue]="priceType">{{priceType}}</option>
+                </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="label-input">Описание</label>
+            <textarea class="form-control shadow-sm" [(ngModel)]="ad.body" name="body" (keyup)="onKeyBody()" rows="5" placeholder="Описание объявления" [ngClass]="{'is-valid': checked && adValidation.body, 'is-invalid': checked && !adValidation.body}"></textarea>
+            <small [ngClass]="{'invalid-feedback': checked && !adValidation.body}">Используйте от 20 до 2000 символов.</small>
+        </div>
+
+        <div class="mb-3">
+            <label class="label-input">Загрузите изображения</label>
+            <div class="dropzone mb-3" appDndEditAd>
+                <input type="file" class="drop-input shadow-sm" accept="image/jpeg,image/png" multiple (change)="filesDropped($event.target!)" />
+                <img src="assets/upload_img.png">
+                <p>Загрузите изображения</p>
+                <span class="badge mb-3 shadow-sm p-2" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color" style="font-size: 100%;">
+        <i class="fas fa-file-upload mx-2"></i> Выбрать изображения</span>
+            </div>
+            <div id="problemImgLoad" class="alert alert-warning" role="alert" hidden>
+                Не все файлы загружены. Пожалуйста, используйте изображения формата <strong>.jpeg, .png</strong> размером не более <strong>10Mb</strong>. Ограничение по количеству <strong>8шт</strong>.
+            </div>
+            <div *ngFor="let file of ad.imgList; let i = index" class="mt-2 ms-3 added-image border border-dark rounded shadow">
+
+                <div (click)="setTitleImage(i)">
+                    <img [src]="file.localUrl" id='img-{{i}}' width="145px" height="145px" [ngClass]="{'brightness': !file.cloudinaryId}">
+                    <div class="closebtn" (click)="deleteImg(i)">
+                        <button type="button" class="btn-close btn-close-white"></button>
+                    </div>
+                    <div *ngIf="!file.cloudinaryId" class="load-title-img">
+                        <div class="badge pb-1 shadow" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color">Загрузка...
+                            <span class="spinner-border spinner-border-sm" style="width: 0.8rem; height: 0.8rem;"></span>
+                        </div>
+                    </div>
+                    <div *ngIf="file.cloudinaryId && file.title" class="title-img">
+                        <div class="badge pb-1 shadow" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color">Титульная
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3 mt-5 border-top pt-3 d-flex">
+            <div class="flex-column">
+                <label class="me-5 text-decoration-underline fs-5 fw-bold">Номера телефонов:<i class="ms-3 fas fa-info-circle" title="Для настройки доступных номеров используйте личный кабинет своего профиля"></i></label>
+                <div *ngIf="checked && !adValidation.communication">
+                    <small class="text-danger">Не указан номер телефона.</small>
                 </div>
             </div>
             <div class="flex-column">
-                <label class="label-input">Тип</label>
-                <select [disabled]="process" class="form-select shadow-sm" [(ngModel)]="ad.priceType" name="priceType" style="width: 150%;font-weight: bolder;">
-                    <option *ngFor="let priceType of createAdSet.priceTypes" [ngValue]="priceType">{{priceType}}</option>
-                </select>
-            </div>
-        </div>
-    </div>
-
-    <div class="mb-3">
-        <label class="label-input">Описание</label>
-        <textarea [disabled]="process" class="form-control shadow-sm" [(ngModel)]="ad.body" name="body" (keyup)="onKeyBody()" rows="5" placeholder="Описание объявления" [ngClass]="{'is-valid': checked && adValidation.body, 'is-invalid': checked && !adValidation.body}"></textarea>
-        <small [ngClass]="{'invalid-feedback': checked && !adValidation.body}">Используйте от 20 до 2000 символов.</small>
-    </div>
-
-    <div class="mb-3">
-        <label class="label-input">Загрузите изображения</label>
-        <div class="dropzone mb-3" appDndEditAd>
-            <input [disabled]="process" type="file" class="drop-input shadow-sm" accept="image/jpeg,image/png" multiple (change)="filesDropped($event.target!)" />
-            <img src="assets/upload_img.png">
-            <p>Загрузите изображения</p>
-            <span class="badge mb-3 shadow-sm p-2" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color" style="font-size: 100%;">
-        <i class="fas fa-file-upload mx-2"></i> Выбрать изображения</span>
-        </div>
-        <div id="problemImgLoad" class="alert alert-warning" role="alert" hidden>
-            Не все файлы загружены. Пожалуйста, используйте изображения формата <strong>.jpeg, .png</strong> размером не более <strong>10Mb</strong>. Ограничение по количеству <strong>8шт</strong>.
-        </div>
-        <div *ngFor="let file of ad.imgList; let i = index" class="mt-2 ms-3 added-image border border-dark rounded shadow">
-
-            <div (click)="setTitleImage(i)">
-                <img [src]="file.localUrl" id='img-{{i}}' width="145px" height="145px" [ngClass]="{'brightness': !file.cloudinaryId}">
-                <div class="closebtn" (click)="deleteImg(i)">
-                    <button type="button" class="btn-close btn-close-white"></button>
-                </div>
-                <div *ngIf="!file.cloudinaryId" class="load-title-img">
-                    <div class="badge pb-1 shadow" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color">Загрузка...
-                        <span class="spinner-border spinner-border-sm" style="width: 0.8rem; height: 0.8rem;"></span>
+                <div *ngFor="let phone of phoneList; let i = index;" class="d-flex">
+                    <div class="phone-number flex-column me-3 mb-4">
+                        <label class="label-input" [ngClass]="{'text-decoration-line-through': !phone.use}"><i class="fas fa-phone-alt pt-2 me-1"></i>{{phone.phone}}</label><br>
+                        <ng-container *ngIf="phone.idViber"><img src="assets/added_communication_viber.png" class="me-2"> <label class="fw-bold" [ngClass]="{'viber-on': phone.useViber, 'viber-off': !phone.useViber}" (click)="toggleUseViber(i)">Указывать ссылку Viber <i class="ms-1 fas fa-info-circle" title="Нажмите, что бы изменить"></i></label>
+                        </ng-container>
                     </div>
-                </div>
-                <div *ngIf="file.cloudinaryId && file.title" class="title-img">
-                    <div class="badge pb-1 shadow" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color">Титульная
-                    </div>
+                    <i class="far fa-trash-alt fa-lg zoom-phone mt-2" [ngClass]="{'phone-delete': !phone.use, 'mt-4': phone.idViber}" (click)="toggleUsePhone(i)"></i>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="mb-3 mt-5 border-top pt-3 d-flex">
-        <div class="flex-column">
-            <label class="me-5 text-decoration-underline fs-5 fw-bold">Номера телефонов:<i class="ms-3 fas fa-info-circle" title="Для настройки доступных номеров используйте личный кабинет своего профиля"></i></label>
-            <div *ngIf="checked && !adValidation.communication">
-                <small class="text-danger">Не указан номер телефона.</small>
-            </div>
-        </div>
-        <div class="flex-column">
-            <div *ngFor="let phone of phoneList; let i = index;" class="d-flex">
-                <div class="phone-number flex-column me-3 mb-4">
-                    <label class="label-input" [ngClass]="{'text-decoration-line-through': !phone.use}"><i class="fas fa-phone-alt pt-2 me-1"></i>{{phone.phone}}</label><br>
-                    <ng-container *ngIf="phone.idViber"><img src="assets/added_communication_viber.png" class="me-2"> <label class="fw-bold" [ngClass]="{'viber-on': phone.useViber, 'viber-off': !phone.useViber}" (click)="toggleUseViber(i)">Указывать ссылку Viber <i class="ms-1 fas fa-info-circle" title="Нажмите, что бы изменить"></i></label>
-                    </ng-container>
-                </div>
-                <i class="far fa-trash-alt fa-lg zoom-phone mt-2" [ngClass]="{'phone-delete': !phone.use, 'mt-4': phone.idViber}" (click)="toggleUsePhone(i)"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="form-group mt-4 ">
-        <div class="form-check ms-2 mb-3 ">
-            <input [disabled]="process" class="form-check-input " (change)="ad.delivery = !ad.delivery; " type="checkbox" style="cursor:pointer;width:20px;height:20px; " [checked]="ad.delivery" [style.background-color]="ad.delivery?appComponent.theme.mainColor:''">
-            <label class="form-check-label ms-2 " style="padding-top:3px">
+        <div class="form-group mt-4 ">
+            <div class="form-check ms-2 mb-3 ">
+                <input class="form-check-input " (change)="ad.delivery = !ad.delivery; " type="checkbox" style="cursor:pointer;width:20px;height:20px; " [checked]="ad.delivery" [style.background-color]="ad.delivery?appComponent.theme.mainColor:''">
+                <label class="form-check-label ms-2 " style="padding-top:3px">
         <span><i class="fas fa-lg fa-truck me-2 "></i></span> Доставка
       </label>
+            </div>
+            <div *ngIf="ad.delivery " class="ms-4 descriptionDelivery">
+                <textarea [(ngModel)]="ad.deliveryDescription" [ngClass]="{'is-valid': checked && adValidation.deliveryDescription, 'is-invalid': checked && !adValidation.deliveryDescription}" name="delivaryDescription " (keyup)="onKeyDeliveryDescription()" class="form-control shadow-sm "
+                    rows="3 " placeholder="Условия доставки "></textarea>
+                <small [ngClass]="{'invalid-feedback': checked && !adValidation.deliveryDescription}" class="form-text text-muted ">Опишите условия доставки.</small>
+            </div>
         </div>
-        <div *ngIf="ad.delivery " class="ms-4 descriptionDelivery">
-            <textarea [disabled]="process" [(ngModel)]="ad.deliveryDescription" [ngClass]="{'is-valid': checked && adValidation.deliveryDescription, 'is-invalid': checked && !adValidation.deliveryDescription}" name="delivaryDescription " (keyup)="onKeyDeliveryDescription()"
-                class="form-control shadow-sm " rows="3 " placeholder="Условия доставки "></textarea>
-            <small [ngClass]="{'invalid-feedback': checked && !adValidation.deliveryDescription}" class="form-text text-muted ">Опишите условия доставки.</small>
-        </div>
-    </div>
-    <button (click)="updateAd() " type="submit " class="btn mt-4" [disabled]="process" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color"><span [hidden]="!process" class="spinner-border spinner-border-sm"></span>  Обновить объявление</button>
+        <button (click)="updateAd() " type="submit " class="btn mt-4" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color"><span [hidden]="!process" class="spinner-border spinner-border-sm"></span>  Обновить объявление</button>
+    </fieldset>
 </form>
