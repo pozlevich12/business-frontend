@@ -22,7 +22,7 @@
         <div class="d-flex border-bottom pb-5">
             <div class="flex-column text-center" style="width:650px">
 
-                <div *ngIf="imagesPopup" id="carouselExampleControls" class="carousel slide border border-dark rounded shadow me-5" data-bs-ride="carousel" data-bs-interval="false">
+                <div *ngIf="imagesPopup" id="carouselExampleControls" class="carousel slide border border-dark rounded shadow me-5" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div *ngFor="let img of ad.imgList; let i = index" class="carousel-item" [ngClass]="{active: i === 0}">
                             <img [src]=img.cloudinaryUrl id='img-carousel-{{i}}'>
