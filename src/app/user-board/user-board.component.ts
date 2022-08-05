@@ -25,16 +25,18 @@ export class UserBoardComponent implements OnInit {
   errorMessage = "";
 
   errorModal: Modal | undefined;
+  mainPhonePoppover: bootstrap.Popover | undefined;
 
   constructor(public appComponent: AppComponent, private userBoardService: UserBoardService) { }
 
   ngOnInit(): void {
-    $("[data-bs-toggle=popover]").popover();
+    
   }
 
   
   ngAfterViewInit() {
       this.errorModal = new bootstrap.Modal(document.getElementById('errorModal')!);
+      this.mainPhonePoppover = new bootstrap.Popover(document.getElementById('main-phone-popover')!);
   }
 
   public editFirstName() {
