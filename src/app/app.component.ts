@@ -4,7 +4,6 @@ import * as bootstrap from 'bootstrap';
 import { Theme } from './common/Theme';
 import { User } from './common/User';
 import { AuthService } from './_services/auth/auth.service';
-import { TokenStorageService } from './_services/auth/token-storage.service';
 
 @Component({
   selector: 'app-root',
