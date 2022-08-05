@@ -2,7 +2,7 @@
     "name": "business-frontend",
     "version": "0.0.0",
     "engines": {
-        "node": "16.13.10"
+        "node": "16.x"
     },
     "scripts": {
         "ng": "ng",
