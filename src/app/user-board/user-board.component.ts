@@ -3,6 +3,7 @@ import * as bootstrap from 'bootstrap';
 import { Modal } from 'bootstrap';
 import { AppComponent } from '../app.component';
 import { UserBoardService } from '../_services/user-board/user-board.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-user-board',
