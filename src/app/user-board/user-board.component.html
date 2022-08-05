@@ -1,0 +1,97 @@
+<div class="profile">
+    <h3 class="mb-5"><span class="badge shadow" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color"><i class="fas fa-user me-2"></i> Личный кабинет</span></h3>
+    <div class="profile-body">
+        <div *ngIf="processUpdate" class="spinner-border spinner-profile-editing" role="status"></div>
+        <fieldset [disabled]="processUpdate" [ngStyle]="{'opacity': processUpdate ? '0.25':'1'}">
+
+            <div class="d-flex mb-2">
+                <img src="{{ appComponent.user?.avatarUrl }}" width=100px height=100px class="rounded me-4">
+
+                <div class="flex-column">
+                    <div class="d-flex">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fas fa-user me-2"></i> Имя</span>
+                            <input [disabled]="!firstNameEditing" id="firstNameEditableField" (keyup.enter)="changeFirstName(true)" (keyup.escape)="changeFirstName(false)" type="text" class="form-control" value="{{ appComponent.user?.firstName }}">
+                            <button *ngIf="!firstNameEditing" type="button" class="btn btn-outline-dark" (click)="editFirstName()"><i class="fas fa-pen"></i></button>
+                            <button *ngIf="firstNameEditing" type="button" class="btn btn-outline-success" (click)="changeFirstName(true)"><i class="fas fa-check"></i></button>
+                            <button *ngIf="firstNameEditing" type="button" class="btn btn-outline-danger" (click)="changeFirstName(false)"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-outline-dark p-1 me-2" onclick="document.getElementById('avatarFile').click()">Сменить аватар...</button>
+                    <button type="button" class="btn btn-outline-dark p-1 btn-sm" (click)="setDefaultAvatar()">Сбросить</button>
+                    <input (change)="changeAvatar($event.target!)" accept="image/jpeg,image/png" type='file' id="avatarFile" tabindex="-1">
+                </div>
+            </div>
+
+
+            <label class="fst-italic text-muted mb-5">Дата регистрации аккаунта: {{ appComponent.user!.firstVisit.toLocaleDateString() }}</label>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fas fa-phone-alt me-2"></i>Телефон </span>
+                <input disabled type="text" class="form-control rounded" value="+375 (44) 536-03-86">
+                <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Этот номер используется для входа в аккаунт и является основным. Изменение недоступно">
+                <i class="fas fa-lg fa-question-circle"></i>
+              </span>
+
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fas fa-envelope me-2"></i>Email </span>
+                <input [disabled]="!emailEditing" id="emailEditableField" (keyup.enter)="changeEmail(true)" (keyup.escape)="changeEmail(false)" type="text" class="form-control" value="{{ appComponent.user?.email }}">
+                <button *ngIf="!emailEditing" type="button" class="btn btn-outline-dark" (click)="editEmail()"><i class="fas fa-pen"></i></button>
+                <button *ngIf="emailEditing" type="button" class="btn btn-outline-success" (click)="changeEmail(true)"><i class="fas fa-check"></i></button>
+                <button *ngIf="emailEditing" type="button" class="btn btn-outline-danger" (click)="changeEmail(false)"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="input-group mb-4">
+                <span class="input-group-text"><i class="fa fa-lock me-2"></i>Пароль </span>
+                <button *ngIf="!passwordEditing" type="button" class="btn btn-outline-dark" (click)="editPassword()">Изменить...</button>
+                <button *ngIf="passwordEditing" type="button" class="btn btn-outline-success" (click)="changePassword(true)"><i class="fas fa-check"></i></button>
+                <button *ngIf="passwordEditing" type="button" class="btn btn-outline-danger" (click)="changePassword(false)"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="password-input-section" [hidden]="!passwordEditing">
+                <label class="ms-2 mb-2 fw-bold">Старый пароль</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                    <input [(ngModel)]="oldPassword" [disabled]="!passwordEditing" id="oldPasswordEditableField" (keyup.enter)="changePassword(true)" (keyup.escape)="changePassword(false)" type="text" class="form-control password">
+                </div>
+
+
+                <label class="ms-2 mb-2 fw-bold">Новый пароль</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                    <input [(ngModel)]="newPassword" [disabled]="!passwordEditing" id="newPasswordEditableField" (keyup.enter)="changePassword(true)" (keyup.escape)="changePassword(false)" type="text" class="form-control password">
+                </div>
+
+                <label class="ms-2 mb-2 fw-bold">Подтвердите пароль</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text"><i class="fas fa-check"></i></span>
+                    <input [(ngModel)]="confirmPassword" [disabled]="!passwordEditing" id="confirmPasswordEditableField" (keyup.enter)="changePassword(true)" (keyup.escape)="changePassword(false)" type="text" class="form-control password">
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+
+
+
+</div>
+
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ошибка</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{errorMessage}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>

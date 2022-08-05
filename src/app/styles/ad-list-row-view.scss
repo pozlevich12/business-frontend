@@ -1,18 +1,37 @@
-.link-dark {
-    font-weight: bold;
-    text-decoration: none;
+.inlineCards {
+    display: inline-block!important;
+    transition: 0.75s;
+    width: 202px;
+    overflow: hidden;
 }
 
-.link-dark:hover {
-    cursor: pointer;
-    text-decoration: underline;
+.inlineCards:hover {
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15)!important;
+    transition: 0.75s;
+}
+
+.card-img-section {
+    width: 200px;
+    height: 140px;
+    text-align: center;
+}
+
+.city-delivery-badge {
+    position: absolute;
+    bottom: 40%;
+    background-color: rgba(51, 51, 51, 0.24);
+    border-radius: 8px;
+    padding: 0px 7px 0px 7px;
+    transform: scale(0.85);
+    z-index: 2;
+}
+
+.custom-card-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .fa-star {
-    font-size: 105%;
-}
-
-.fa-star:hover {
     cursor: pointer;
-    transform: scale(1.1);
 }

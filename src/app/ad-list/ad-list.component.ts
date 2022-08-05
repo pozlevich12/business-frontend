@@ -44,6 +44,7 @@ export class AdListComponent implements OnInit {
           && this.fillDelivery()) {
           this.adListService.getUnparsedAdList(this.filter).then((adList) => {
             this.adList = adList;
+            this.allAdLoaded = adList.length < 15;
             this.loadingPage = false;
           });
         } else {
@@ -166,9 +167,11 @@ export class AdListComponent implements OnInit {
 
   public refreshFilter() {
     this.loadingPage = true;
+    this.filter.offset = 0;
     this.adListService.getUnparsedAdList(this.filter).then(adList => {
       this.adList = adList;
       this.loadingPage = false;
+      this.allAdLoaded = adList.length < 15;
       window.scrollTo(0, 0);
     });
   }

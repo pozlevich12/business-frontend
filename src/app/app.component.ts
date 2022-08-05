@@ -22,7 +22,6 @@ export class AppComponent {
   constructor(public authService: AuthService, public router: Router) { }
 
   ngOnInit() {
-    document.title = "Ежа";
     $('html').css('background-color', this.theme.backgroundColor);
     $('body').css('background-color', this.theme.backgroundColor);
     $('html').css('overflow-y', 'scroll');

@@ -22,10 +22,8 @@ export class FavoriteBoardComponent implements OnInit {
     });
   }
 
-  public deleteFavoriteAd(index: number) {
-    this.favoriteAdService.deleteFavoriteAd(this.appComponent.user!, this.adList![index].id).then(() => {
-      this.adList?.splice(index, 1);
-    });
+  public toggleFavorite(id: number) {
+    this.favoriteAdService.toggleFavorite(this.appComponent.user!, id);
   }
 
   public deleteAllFavoriteAd() {

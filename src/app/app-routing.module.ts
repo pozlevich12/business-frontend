@@ -5,8 +5,10 @@ import { AdListComponent } from './ad-list/ad-list.component';
 import { AdComponent } from './ad/ad.component';
 import { CreateAdComponent } from './create-ad/create-ad.component';
 import { FavoriteBoardComponent } from './favorite-board/favorite-board.component';
+import { UserBoardComponent } from './user-board/user-board.component';
 
 const routes: Routes = [
+  { path: 'profile', component: UserBoardComponent },
   { path: 'create-ad', component: CreateAdComponent },
   { path: 'ad', component: AdComponent },
   { path: 'ad-list', component: AdListComponent },

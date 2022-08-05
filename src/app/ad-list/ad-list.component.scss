@@ -1,4 +1,8 @@
 @import '../styles/ad-list-row-view.scss';
+.main-section {
+    width: 1135px;
+}
+
 .label-form {
     font-weight: bold;
     font-size: 90%;
@@ -31,7 +35,7 @@ select:hover {
 
 #filter {
     position: fixed;
-    width: 1050px;
+    width: 1135px;
     z-index: 10;
 }
 

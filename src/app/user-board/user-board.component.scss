@@ -1,0 +1,60 @@
+.profile {
+    margin: 25px 0 50px 100px;
+}
+
+.profile-body {
+    margin-left: 15px;
+    width: 450px;
+}
+
+.badge {
+    padding: 10px 15px 10px 15px;
+}
+
+#avatarFile {
+    display: none;
+}
+
+.btn {
+    box-shadow: none;
+}
+
+input:disabled {
+    background-color: white;
+}
+
+input[type="text"]:focus {
+    box-shadow: none;
+    resize: horizontal;
+}
+
+.fa-question-circle {
+    padding: 8px 0 0 10px;
+}
+
+.spinner-profile-editing {
+    position: absolute;
+    left: 20%;
+    top: 50%;
+}
+
+.password-input-section {
+    animation: show 0.75s;
+    animation-fill-mode: forwards;
+}
+
+.password {
+    -webkit-text-security: disc;
+}
+
+
+/*   ANIMATION   */
+
+@keyframes show {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

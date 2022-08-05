@@ -1,19 +1,29 @@
-<h4><span class="badge mb-5 shadow me-3" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color"><i class="fas fa-star text-warning me-2"></i> Избранные объявления</span>
+<h4><span class="badge mb-4 shadow me-3" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color"><i class="fas fa-star text-warning me-2"></i> Избранные объявления</span>
     <span><button type="button" (click)="deleteAllFavoriteAd()" class="btn btn-sm btn-danger mb-auto">Очистить все</button></span></h4>
-<div *ngFor="let ad of adList; let i = index" class="d-flex mb-4 border-bottom" style="width: 1125px;">
-    <div class="me-3" style="width: 200px; height: 140px; text-align: center">
-        <img class="rounded-3" [src]="ad.titleImgUrl">
-    </div>
-    <div class="d-flex flex-column me-auto mb-2" style="overflow: hidden;max-width: 50%;">
-        <a href="ad?id={{ad.id}}" target="_blank" class="link-dark">{{ad.adTitle}}</a>
-        <div class="d-flex mb-auto mt-2">
-            <label class="me-2">{{ad.price}} {{ad.priceType}}</label>
-            <i *ngIf="ad.delivery" title="Доставка" class="fas fa-sm fa-truck mt-1"></i>
+
+<!--    Ad-List cards    -->
+<div class="mb-5" style="width:1135px">
+    <div *ngFor="let ad of adList" class="d-flex mb-4 me-4 shadow-sm rounded-3 inlineCards">
+        <div class="card" title="{{ad.adTitle}}">
+            <div class="card-img-section">
+                <img class="rounded-3" [src]="ad.titleImgUrl">
+                <div class="city-delivery-badge text-white">
+                    <i *ngIf="ad.delivery" title="Доставка" class="fas fa-sm fa-truck me-2"></i>
+                    <i class="fas fa-map-marker-alt me-1"></i> {{ad.town}}
+                </div>
+            </div>
+            <div class="card-body ">
+                <div class="d-flex">
+                    <h6 class="card-title ">{{ad.price}} {{ad.priceType}}</h6>
+                    <i class="ms-auto fas fa-star mb-auto text-end" (click)="toggleFavorite(ad.id)" [ngStyle]="{'color': appComponent.user?.favoriteAdList?.includes(ad.id) ? '#ffc107':'gray'}" [title]="appComponent.user?.favoriteAdList?.includes(ad.id) ? 'Избранное' : 'Добавить в избранное'"></i>
+                </div>
+                <div style="width:95%">
+                    <a href="ad?id={{ad.id}}" target="_blank" class="link-dark">
+                        <p class="card-text custom-card-text">{{ad.adTitle}}</p>
+                    </a>
+
+                </div>
+            </div>
         </div>
-        <label><i class="fas fa-map-marker-alt text-muted me-2"></i>{{ad.town}}</label>
-    </div>
-    <div class="d-flex flex-column mb-2">
-        <button type="button" (click)="deleteFavoriteAd(i)" class="btn btn-sm btn-danger mb-auto">Удалить</button>
-        <small class="text-muted ms-auto" title="Дата подачи объявления">{{ad.created}}</small>
     </div>
 </div>

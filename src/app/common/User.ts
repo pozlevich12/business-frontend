@@ -3,7 +3,9 @@ import { Communication } from "./Communication";
 export class User {
     id: number;
     phoneNumber: string;
+    email: string;
     firstName: string;
+    firstVisit: Date;
     lastVisit: Date;
     roles: string;
     avatarUrl: string;
@@ -13,8 +15,10 @@ export class User {
     constructor(user: any) {
         this.id = user.id;
         this.phoneNumber = user.phoneNumber;
+        this.email = user.email;
         this.firstName = user.firstName;
-        this.lastVisit = user.lastVisit;
+        this.firstVisit = new Date(user.firstVisit);
+        this.lastVisit = new Date(user.lastVisit);
         this.roles = user.roles;
         this.avatarUrl = user.avatarUrl;
         this.communicationList = user.communicationList;

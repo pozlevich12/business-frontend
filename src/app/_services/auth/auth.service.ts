@@ -16,7 +16,7 @@ const AUTH_TOKEN_HEADER = 'auth-token';
 const INVALID_INPUT_FORM_MESSAGE = 'Пожалуйста, проверьте правильность заполнения формы';
 
 const PHONE_NUMBER_REGEX = /^[0-9]{9}$/;
-const FIRST_NAME_REGEX = /^[a-z|а-я|ё| |-]{3,32}$/i;
+const FIRST_NAME_REGEX = /^[a-z|а-я|ё|-]{3,32}$/i;
 const EMAIL_REGEX = /^[.-\w]{2,25}@[a-z]{2,15}\.(com|ru|by)$/i;
 const PASSWORD_REGEX = /^.{6,18}$/;
 

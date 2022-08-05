@@ -61,7 +61,7 @@ export class FavoriteAdService {
     }, () => { alert("Something went wrong") });
   }
 
-  public deleteFavoriteAd(user: User, id: number): Promise<void> {
+  private deleteFavoriteAd(user: User, id: number): Promise<void> {
     return new Promise(resolve => {
       const index = user.favoriteAdList.indexOf(id);
       if (index != -1) {

@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     if (window.location.pathname == '/') {
       const filter = new AdFilter();
-      filter.limit = 4;
+      filter.limit = 10;
       this.adListService.getUnparsedAdList(filter).then((adList) => {
         this.adList = adList;
       });
