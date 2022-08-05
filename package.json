@@ -1,6 +1,6 @@
 {
     "name": "business-frontend",
-    "version": "0.0.0",
+    "version": "16.13.0",
     "scripts": {
         "ng": "ng",
         "start": "node server.js",
