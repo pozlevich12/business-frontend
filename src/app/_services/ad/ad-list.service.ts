@@ -24,6 +24,15 @@ export class AdListService {
       { params: this.getFilterHttpParams(filter) });
   }
 
+  public getMyAdList(): Promise<AdList[]> {
+    return new Promise(resolve => {
+      this.http.get<AdList[]>(BASE_URL + 'get-my-ad-list').subscribe(adList => {
+        this.mapAdListResponse(adList);
+        resolve(adList);
+      });
+    });
+  }
+
   private getFilterHttpParams(filter: AdFilter) {
     return new HttpParams()
       .append('categoryId', filter.categoryId || "")

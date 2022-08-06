@@ -25,10 +25,11 @@
                             <img src="{{ user!.avatarUrl }}" alt="{{ user!.firstName }}" class="rounded-circle avatar me-1">
                             <strong [style.color]="theme.color" class="firstName">{{ user!.firstName }}</strong>
                         </a>
-                        <ul class="dropdown-menu mx-0 border-0 shadow" [style.background-color]="theme.mainColor" aria-labelledby="dropdownUser1">
+                        <ul class="dropdown-menu mx-0 border-0 shadow pe-2" [style.background-color]="theme.mainColor" aria-labelledby="dropdownUser1">
                             <li class="dropdown-li"><a class="dropdown-item fw-bold" [style.color]="theme.color" href="/favorite-board">Избранное <span *ngIf="user?.favoriteAdList && user?.favoriteAdList!.length" class="ms-1 badge bg-warning text-dark">{{ user?.favoriteAdList?.length }}</span></a></li>
                             <li class="dropdown-li"><a class="dropdown-item fw-bold" [style.color]="theme.color" style="cursor:pointer" (click)="toggleColorPicker()">Color picker</a></li>
                             <li class="dropdown-li"><a class="dropdown-item fw-bold" [style.color]="theme.color" href="/profile">Мой профиль</a></li>
+                            <li class="dropdown-li"><a class="dropdown-item fw-bold" [style.color]="theme.color" href="/my-ad">Мои объявления</a></li>
                             <li>
                                 <hr class="dropdown-divider" [style.color]="theme.color">
                             </li>
@@ -42,7 +43,7 @@
     </header>
 
     <div class="d-flex pt-4 ps-4">
-        <div *ngIf="this.router.url === '/' || this.router.url.includes('/ad?') || this.router.url.includes('/ad-list') || this.router.url.includes('/favorite-board')" class="me-5" style="margin-top:100px">
+        <div *ngIf="this.router.url === '/' || this.router.url.includes('/my-ad') || this.router.url.includes('/ad?') || this.router.url.includes('/ad-list') || this.router.url.includes('/favorite-board')" class="me-5" style="margin-top:100px">
             <app-home></app-home>
         </div>
         <div style="margin-top:100px">

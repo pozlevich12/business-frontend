@@ -19,6 +19,7 @@ import { DndDirective } from 'src/_helpers/dnd/dnd.directive';
 import { FavoriteBoardComponent } from './favorite-board/favorite-board.component';
 import { LoginComponent } from './login/login.component';
 import { UserBoardComponent } from './user-board/user-board.component';
+import { MyAdComponent } from './my-ad/my-ad.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { UserBoardComponent } from './user-board/user-board.component';
     AdEditComponent,
     FavoriteBoardComponent,
     LoginComponent,
-    UserBoardComponent
+    UserBoardComponent,
+    MyAdComponent
   ],
   imports: [
     BrowserModule,
