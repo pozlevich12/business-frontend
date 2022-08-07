@@ -1,5 +1,5 @@
-<div *ngIf="ad" style="width: 1000px">
-    <div class="flex-column border-2">
+<div *ngIf="ad" class="mb-5" style="width: 1000px">
+    <div class="flex-column border-bottom">
         <div>
             <h2 style="text-shadow: black;font-weight: bolder;" class="mb-0">{{ad.title}}
                 <span class="badge bg-warning text-dark ms-2 mb-1" style="font-size: 60%">{{ad.price}} {{ad.priceType}}</span>
@@ -19,7 +19,7 @@
                 <a data-bs-toggle="modal" data-bs-target="#confirmDeleteAdModal" class="edit-ad-link small link-danger"><i class="fas fa-trash-alt me-1"></i>Удалить</a>
             </div>
         </div>
-        <div class="d-flex border-bottom pb-5">
+        <div class="d-flex border-bottom pb-2">
             <div class="flex-column text-center" style="width:650px">
 
                 <div *ngIf="imagesPopup" id="carouselExampleControls" class="carousel slide border border-dark rounded shadow me-5" data-bs-ride="carousel">
@@ -84,32 +84,96 @@
     </div>
 </div>
 
-<!--   Images popup modal     -->
-<div class="modal fade" id="popupModalToggle" style="z-index: 9999" aria-hidden="true" tabindex="-1">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content flex-column align-items-center">
-            <div *ngFor="let img of imagesPopup; let i = index" class=" mb-4">
-                <img [src]=img.cloudinaryUrl id='img-popup-{{i}}' class="rounded" [style.margin-bottom]="i + 1 == imagesPopup?.length && imagesPopup?.length != 1?'40px':''">
-            </div>
-        </div>
-    </div>
-</div>
+<div>
+    <div class="btn-group mb-4" role="group" style="width: 500px">
+        <input type="radio" class="btn-check" name="btnradio" id="similarAdSuggestion" autocomplete="off" (change)="toggleSuggestionAdList($event)" [checked]="similarAdSuggestion">
+        <label class="btn btn-outline-theme-main" for="similarAdSuggestion">Похожие объявления <span *ngIf="similarAdSuggestionLoading" class="spinner-border spinner-border-sm ms-1"></span></label>
 
-<!--    Confirm delete ad modal    -->
-<div class="modal fade" id="confirmDeleteAdModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Подтвердите действие</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Вы действительно хотите удалить текущее объявление?
-            </div>
-            <div class="modal-footer">
-                <button [disabled]="processDelete" (click)="deleteAd()" type="button" class="btn btn-danger"><span [hidden]="!processDelete" class="spinner-border spinner-border-sm me-2"></span>Удалить</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+        <input type="radio" class="btn-check" name="btnradio" id="authorAdSuggestion" autocomplete="off" (change)="toggleSuggestionAdList($event)" [checked]="authorAdSuggestion">
+        <label class="btn btn-outline-theme-main" for="authorAdSuggestion">Объявления автора <span *ngIf="authorAdSuggestionLoading" class="spinner-border spinner-border-sm ms-1"></span></label>
+    </div>
+
+    <!--    Similar ad cards    -->
+    <div *ngIf="similarAdSuggestion" class="d-flex align-content-stretch mb-5" [ngClass]="{'overflow-x': similarAdList.length > 5}" style="width:1120px">
+        <div *ngFor="let ad of similarAdList" class="d-flex mb-4 me-4 shadow-sm rounded-3 adInlineCards">
+            <div class="card" title="{{ad.adTitle}}">
+                <div class="card-img-section">
+                    <img class="rounded-3" [src]="ad.titleImgUrl">
+                    <div class="city-delivery-badge text-white">
+                        <i *ngIf="ad.delivery" title="Доставка" class="fas fa-sm fa-truck me-2"></i>
+                        <i class="fas fa-map-marker-alt me-1"></i> {{ad.town}}
+                    </div>
+                </div>
+                <div class="card-body ">
+                    <div class="d-flex">
+                        <h6 class="card-title ">{{ad.price}} {{ad.priceType}}</h6>
+                        <i class="ms-auto fas fa-star mb-auto text-end" (click)="toggleFavorite(ad.id)" [ngStyle]="{'color': appComponent.user?.favoriteAdList?.includes(ad.id) ? '#ffc107':'gray'}" [title]="appComponent.user?.favoriteAdList?.includes(ad.id) ? 'Избранное' : 'Добавить в избранное'"></i>
+                    </div>
+                    <div style="width:95%">
+                        <a href="ad?id={{ad.id}}" target="_blank" class="link-dark">
+                            <p class="card-text custom-card-text">{{ad.adTitle}}</p>
+                        </a>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+
+    <!--    Author Ad cards    -->
+    <div *ngIf="authorAdSuggestion" class="d-flex align-content-stretch mb-5" [ngClass]="{'overflow-x': similarAdList.length > 5}" style="width:1120px">
+        <div *ngFor="let ad of authorAdList" class="d-flex mb-4 me-4 shadow-sm rounded-3 adInlineCards">
+            <div class="card" title="{{ad.adTitle}}">
+                <div class="card-img-section">
+                    <img class="rounded-3" [src]="ad.titleImgUrl">
+                    <div class="city-delivery-badge text-white">
+                        <i *ngIf="ad.delivery" title="Доставка" class="fas fa-sm fa-truck me-2"></i>
+                        <i class="fas fa-map-marker-alt me-1"></i> {{ad.town}}
+                    </div>
+                </div>
+                <div class="card-body ">
+                    <div class="d-flex">
+                        <h6 class="card-title ">{{ad.price}} {{ad.priceType}}</h6>
+                        <i class="ms-auto fas fa-star mb-auto text-end" (click)="toggleFavorite(ad.id)" [ngStyle]="{'color': appComponent.user?.favoriteAdList?.includes(ad.id) ? '#ffc107':'gray'}" [title]="appComponent.user?.favoriteAdList?.includes(ad.id) ? 'Избранное' : 'Добавить в избранное'"></i>
+                    </div>
+                    <div style="width:95%">
+                        <a href="ad?id={{ad.id}}" target="_blank" class="link-dark">
+                            <p class="card-text custom-card-text">{{ad.adTitle}}</p>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--   Images popup modal     -->
+    <div class="modal fade" id="popupModalToggle" style="z-index: 9999" aria-hidden="true" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content flex-column align-items-center">
+                <div *ngFor="let img of imagesPopup; let i = index" class=" mb-4">
+                    <img [src]=img.cloudinaryUrl id='img-popup-{{i}}' class="rounded" [style.margin-bottom]="i + 1 == imagesPopup?.length && imagesPopup?.length != 1?'40px':''">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--    Confirm delete ad modal    -->
+    <div class="modal fade" id="confirmDeleteAdModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Подтвердите действие</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Вы действительно хотите удалить текущее объявление?
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="processDelete" (click)="deleteAd()" type="button" class="btn btn-danger"><span [hidden]="!processDelete" class="spinner-border spinner-border-sm me-2"></span>Удалить</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>

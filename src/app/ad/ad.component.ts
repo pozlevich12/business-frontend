@@ -9,6 +9,9 @@ import { Ad } from '../common/Ad';
 import { PhoneDTO } from '../common/PhoneDTO';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FavoriteAdService } from '../_services/ad/favorite-ad.service';
+import { AdList } from '../common/AdList';
+import { AdFilter } from '../common/AdFilter';
+import { AdListService } from '../_services/ad/ad-list.service';
 
 @Component({
   templateUrl: './ad.component.html',
@@ -27,7 +30,15 @@ export class AdComponent implements OnInit {
   rollCarousel: boolean = false;
   processDelete: boolean = false;
 
-  constructor(public appComponent: AppComponent, private adService: AdService, private route: ActivatedRoute, private favoriteAdService: FavoriteAdService, private dateService: DateService, private sanitizer: DomSanitizer) {
+  similarAdSuggestion: boolean = true;
+  authorAdSuggestion: boolean = false;
+  authorAdListLoaded: boolean = false;
+  similarAdSuggestionLoading: boolean = true;
+  authorAdSuggestionLoading: boolean = false;
+  similarAdList: AdList[] = [];
+  authorAdList: AdList[] = [];
+
+  constructor(public appComponent: AppComponent, private adService: AdService, private adListService: AdListService, private route: ActivatedRoute, private favoriteAdService: FavoriteAdService, private dateService: DateService, private sanitizer: DomSanitizer) {
   }
 
   ngOnInit(): void {
@@ -37,6 +48,7 @@ export class AdComponent implements OnInit {
     }
     this.adService.getAd(this.id!).subscribe(adResponse => {
       this.ad = new Ad(adResponse);
+      this.initSimilarAdList();
       this.authorOnline = this.dateService.userIsOnline(this.ad.author.lastVisit);
       if (!this.authorOnline) {
         this.authorLastVisit = this.dateService.mapLastVisit(this.ad.author.lastVisit);
@@ -47,6 +59,76 @@ export class AdComponent implements OnInit {
       () => {
         alert("Something went wrong");
       });
+  }
+
+  private async initSimilarAdList() {
+    const filter: AdFilter = new AdFilter();
+    filter.subCategoryId = this.ad?.category.subCategoryId;
+    filter.categoryId = this.ad?.category.id;
+    filter.region = this.ad?.location.regionId;
+    filter.town = this.ad?.location.townId;
+
+    await this.concatenateSimilarAdList(filter);
+
+    if (this.similarAdList.length < 15) {
+      filter.town = undefined;
+      await this.concatenateSimilarAdList(filter);
+    }
+
+    if (this.similarAdList.length < 15) {
+      filter.town = this.ad?.location.townId;
+      filter.subCategoryId = undefined;
+      await this.concatenateSimilarAdList(filter);
+    }
+
+    if (this.similarAdList.length < 15) {
+      filter.town = undefined;
+      await this.concatenateSimilarAdList(filter);
+    }
+
+    if (this.similarAdList.length < 15) {
+      filter.region = undefined;
+      await this.concatenateSimilarAdList(filter);
+    }
+
+    this.similarAdSuggestionLoading = false;
+  }
+
+  private async concatenateSimilarAdList(filter: AdFilter) {
+    return this.adListService.getUnparsedAdList(filter).then(adList => {
+      for (let ad of adList) {
+        if (this.similarAdList.length >= 15) {
+          break;
+        }
+
+        if (ad.id == this.ad!.id) {
+          continue;
+        }
+
+        if (this.similarAdList.find(similarAd => { return similarAd.id == ad.id })) {
+          continue;
+        }
+
+        this.similarAdList.push(ad);
+      }
+    });
+  }
+
+  public toggleSuggestionAdList(event: Event) {
+    const idSelector = (event.target as HTMLInputElement).id;
+    this.similarAdSuggestion = idSelector == "similarAdSuggestion";
+    this.authorAdSuggestion = idSelector == "authorAdSuggestion";
+    if (this.authorAdSuggestion && !this.authorAdListLoaded) {
+      this.authorAdSuggestionLoading = true;
+      this.initAuthorAdList();
+    }
+  }
+
+  public initAuthorAdList() {
+    this.authorAdListLoaded = true;
+    this.adListService.getAdListByAuthor(this.ad!.author.id).then(adList => {
+      this.authorAdList = adList;
+    }).finally(() => this.authorAdSuggestionLoading = false);
   }
 
   public scrollPopup(index: number) {

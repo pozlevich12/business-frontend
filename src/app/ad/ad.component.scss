@@ -1,3 +1,9 @@
+@import '../styles/ad-list-row-view.scss';
+.adInlineCards {
+    transition: 0.75s;
+    width: 202px;
+}
+
 .carousel {
     width: 600px;
     overflow: hidden;
@@ -87,6 +93,23 @@
 
 .open-popup:hover {
     cursor: zoom-in;
+}
+
+.btn-outline-theme-main {
+    --bs-btn-color: #76a28e;
+    --bs-btn-border-color: #76a28e;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-border-color: #76a28e;
+    --bs-btn-hover-bg: #76a28e;
+    --bs-btn-focus-shadow-rgb: none;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #76a28e;
+    --bs-btn-active-border-color: #76a28e;
+    --bs-btn-active-shadow: inset 0 3px 5pxrgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #76a28e;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #76a28e;
+    --bs-gradient: none;
 }
 
 @keyframes show {

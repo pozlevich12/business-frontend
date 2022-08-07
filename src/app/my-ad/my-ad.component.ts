@@ -16,7 +16,7 @@ export class MyAdComponent implements OnInit {
   constructor(public appComponent: AppComponent, private adListService: AdListService, private favoriteAdService: FavoriteAdService) { }
 
   ngOnInit(): void {
-    this.adListService.getMyAdList().then(adList => {
+    this.adListService.getAdListByAuthor(this.appComponent.user!.id).then(adList => {
       this.adList = adList;
     }).catch(() => alert("Something went wrong"));
   }

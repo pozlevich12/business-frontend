@@ -24,9 +24,9 @@ export class AdListService {
       { params: this.getFilterHttpParams(filter) });
   }
 
-  public getMyAdList(): Promise<AdList[]> {
+  public getAdListByAuthor(authorId: number): Promise<AdList[]> {
     return new Promise(resolve => {
-      this.http.get<AdList[]>(BASE_URL + 'get-my-ad-list').subscribe(adList => {
+      this.http.get<AdList[]>(BASE_URL + 'get-author-ad-list/' + authorId).subscribe(adList => {
         this.mapAdListResponse(adList);
         resolve(adList);
       });
