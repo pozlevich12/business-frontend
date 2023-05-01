@@ -6,14 +6,14 @@
 
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                 <a href="/"><img class="logo" src="assets/logo_ezha.png" /></a>
-                <ul class="px-3 nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <ul class="px-3 nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 fw-bold">
                     <li><a href="/" [style.color]="theme.color" class="nav-link px-2">Главная</a></li>
                     <li><a href="/create-ad" routerLink="create-ad" [style.color]="theme.color" class="nav-link px-2">Подать объявление</a></li>
-                    <li><a href="/favorite-board" [style.color]="theme.color" class="nav-link px-2">Избранное<span *ngIf="user?.favoriteAdList && user?.favoriteAdList!.length" class="ms-1 badge bg-warning text-dark">{{ user?.favoriteAdList?.length }}</span></a></li>
+                    <li><a href="/favorite-board" [style.color]="theme.color" class="nav-link px-2">Избранное<span *ngIf="user?.favoriteAdList && user?.favoriteAdList!.length" class="ms-2 badge bg-warning text-dark">{{ user?.favoriteAdList?.length }}</span></a></li>
                 </ul>
 
-                <form id="search" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" style="padding-top: 25px">
-                    <input type="search" [style.background-color]="theme.backgroundColor" class="form-control form-control-dark" placeholder="Найти...">
+                <form id="search" (ngSubmit)="submitSearchForm()" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" style="padding-top: 25px">
+                    <input [(ngModel)]="searchQuery" name="searchQuery" type="search" [style.background-color]="theme.backgroundColor" class="form-control form-control-dark" placeholder="Найти...">
                 </form>
                 <div class="me-5" style="padding-top: 25px">
                     <div class="text-end" *ngIf="!user">
@@ -43,7 +43,7 @@
     </header>
 
     <div class="d-flex pt-4 ps-4">
-        <div *ngIf="this.router.url === '/' || this.router.url.includes('/my-ad') || this.router.url.includes('/ad?') || this.router.url.includes('/ad-list') || this.router.url.includes('/favorite-board')" class="me-5" style="margin-top:100px">
+        <div *ngIf="this.router.url === '/' || this.router.url.includes('/search') || this.router.url.includes('/my-ad') || this.router.url.includes('/ad?') || this.router.url.includes('/ad-list') || this.router.url.includes('/favorite-board')" class="me-5" style="margin-top:100px">
             <app-home></app-home>
         </div>
         <div style="margin-top:100px">

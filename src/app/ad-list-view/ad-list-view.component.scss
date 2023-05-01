@@ -1,0 +1,80 @@
+/*   General ad list view   */
+
+a.ad-view {
+    color: black;
+    text-decoration: none;
+}
+
+.ad-view {
+    overflow: hidden;
+    transition: 0.25s;
+}
+
+.ad-view:hover {
+    box-shadow: 0 .25rem .5rem rgba(87, 73, 73, 0.15)!important;
+    transition: 0.25s;
+}
+
+.ad-view label {
+    cursor: pointer;
+}
+
+.card-img-section {
+    width: 222px;
+    height: 140px;
+    text-align: center;
+}
+
+.fa-star {
+    cursor: pointer;
+}
+
+.fa-star:hover {
+    transform: scale(1.1);
+}
+
+
+/*   For ROW ad list view   */
+
+.ad-view-row-center-section {
+    max-width: 70%;
+}
+
+.ad-row-body {
+    overflow: hidden;
+    word-wrap: break-word;
+    word-break: break-word;
+    text-overflow: ellipsis;
+    height: 62px;
+}
+
+
+/*   For CARD ad list view   */
+
+.ad-list-cards-section {
+    margin: 0 -20px 0 0;
+}
+
+.ad-view-card {
+    display: inline-block!important;
+    width: 224px;
+    height: 219px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.city-delivery-badge {
+    position: absolute;
+    bottom: 40%;
+    background-color: rgba(51, 51, 51, 0.24);
+    border-radius: 8px;
+    padding: 0px 7px 0px 7px;
+    transform: scale(0.85);
+    z-index: 2;
+}
+
+.custom-card-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

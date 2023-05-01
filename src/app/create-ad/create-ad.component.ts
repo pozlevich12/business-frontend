@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
-import { CreateAd } from '../common/create-ad.object';
-import { CreateAdValidation } from '../common/create-ad.validation';
+import { CreateAd } from '../common/ad/NewAd';
+import { Location } from '../common/location/Location';
+import { CreateAdValidation } from '../common/validation-models/create-ad.validation';
 import { CreateAdService } from '../_services/ad/create-ad.service';
 import { PhoneDTO } from '../common/PhoneDTO';
-import { CreateAdSet } from '../common/CreateAdSet';
+import { CreateAdSet } from '../common/ad/CreateAdSet';
+import { Region } from '../common/location/Region';
+import { LocationService } from '../_services/location.service';
 
 @Component({
   selector: 'app-create-ad',
@@ -15,13 +18,17 @@ export class CreateAdComponent implements OnInit {
 
   createAdSet: CreateAdSet = new CreateAdSet();
   ad: CreateAd = new CreateAd();
+
+  selectedRegion: Region | undefined;
+  locationsForSuggestion: Location[] = [];
+
   phoneList: PhoneDTO[] = [];
   adValidation: CreateAdValidation = new CreateAdValidation();
   checked: boolean = false;
   process: boolean = false;
   errorMessage: string | undefined;
 
-  constructor(public appComponent: AppComponent, private createAdService: CreateAdService) {
+  constructor(public appComponent: AppComponent, private createAdService: CreateAdService, private locationService: LocationService) {
   }
 
   ngOnInit() {
@@ -31,14 +38,14 @@ export class CreateAdComponent implements OnInit {
         this.ad = this.createAdService.initCreateAd(this.createAdSet);
         this.phoneList = this.createAdService.initPhoneList(this.appComponent.user?.communicationList!);
         this.updateSubCategories();
+        this.selectedRegion = this.createAdSet.regions![0];
         this.updateLocation();
       });
   }
 
   public updateLocation() {
-    const index = this.createAdSet.locations
-      ?.map(locationObject => locationObject.id).indexOf(this.ad.region);
-    this.ad.town = this.createAdSet.locations![index!].locationList![0].id;
+    this.locationsForSuggestion = this.locationService.getSortedLocationsByRegion(this.selectedRegion);
+    this.ad.location = this.locationsForSuggestion[0].id;
   }
 
   public updateSubCategories() {

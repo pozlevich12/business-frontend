@@ -1,158 +1,57 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { AdFilter } from '../common/AdFilter';
-import { AdList } from '../common/AdList';
+import { AdList } from '../common/ad/AdList';
 import { CategoriesObject } from '../common/categories.object';
-import { LocationObject } from '../common/locations.object';
+import { Region } from '../common/location/Region';
+import { Location } from '../common/location/Location';
 import { AdListService } from '../_services/ad/ad-list.service';
 import { FavoriteAdService } from '../_services/ad/favorite-ad.service';
 import { TokenStorageService } from '../_services/auth/token-storage.service';
+import { LocationService } from '../_services/location.service';
+import { AdExecutor } from '../common/ad/AdExecutor';
+import { AdExecuteLimit } from '../common/AdExecuteLimit';
+import { LoadMoreAdService } from '../_services/load-more-ad.service';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ad-list',
   templateUrl: './ad-list.component.html',
   styleUrls: ['./ad-list.component.scss']
 })
-export class AdListComponent implements OnInit {
+export class AdListComponent implements OnInit, OnDestroy, AdExecutor {
+
+  private subscriptionsLoadMoreAdService = new Subscription();
 
   adList: AdList[] = [];
   filter: AdFilter = new AdFilter();
 
-  categories: CategoriesObject[] = [];
-  locations: LocationObject[] = [];
+  categories: CategoriesObject[] | undefined;
+  regions: Region[] | undefined;
 
-  allAdLoaded: boolean = false;
+  locationsForSuggestion: Location[] = [];
 
   scrollTop: boolean = true;
-  loadingPage: boolean = true;
+  loading: boolean = true;
 
-  loadingNewAd: boolean = false;
-
-  constructor(private localStorage: TokenStorageService, private adListService: AdListService,
-    public appComponent: AppComponent, private favoriteAdService: FavoriteAdService, private route: ActivatedRoute) { }
+  constructor(private localStorage: TokenStorageService, private adListService: AdListService, private loadMoreAdService: LoadMoreAdService,
+    public appComponent: AppComponent, private favoriteAdService: FavoriteAdService, private locationService: LocationService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.fillFilterFromQueryParams();
-    window.history.pushState({ name: 'ad-list' }, document.title, 'ad-list');
+    this.subscriptionsLoadMoreAdService
+      .add(this.loadMoreAdService.loading$.subscribe((loading$: boolean) => this.loading = loading$));
+
     const intervalInit = setInterval(() => {
-      let categories = this.localStorage.getCategories();
-      let locations = this.localStorage.getLocations();
-      if (categories && locations) {
-        if (this.fillCategories(categories)
-          && this.fillLocations(locations)
-          && this.fillDelivery()) {
-          this.adListService.getUnparsedAdList(this.filter).then((adList) => {
-            this.adList = adList;
-            this.allAdLoaded = adList.length < 15;
-            this.loadingPage = false;
-          });
-        } else {
-          this.resetFilter();
-        }
+      this.categories = this.localStorage.getCategories();
+      this.regions = this.localStorage.getRegions();
+      if (this.categories && this.regions) {
+        this.filter = this.adListService.initFilterByQueryParams(this.route, this.categories, this.regions);
+        this.updateLocationsForSuggestion();
+        this.loadMoreAdService.changeCondition(this.filter);
         clearInterval(intervalInit);
       }
     }, 50);
-  }
-
-  private fillFilterFromQueryParams() {
-    if (this.route.snapshot.queryParams["categoryId"]) {
-      this.filter.categoryId = Number(this.route.snapshot.queryParams["categoryId"]);
-    }
-    if (this.route.snapshot.queryParams["subCategoryId"]) {
-      this.filter.subCategoryId = Number(this.route.snapshot.queryParams["subCategoryId"]);
-    }
-    if (this.route.snapshot.queryParams["region"]) {
-      this.filter.region = Number(this.route.snapshot.queryParams["region"]);
-    }
-    if (this.route.snapshot.queryParams["town"]) {
-      this.filter.town = Number(this.route.snapshot.queryParams["town"]);
-    }
-    if (this.route.snapshot.queryParams["delivery"]) {
-      this.filter.delivery = this.route.snapshot.queryParams["delivery"];
-    }
-  }
-
-  private fillCategories(categories: any): boolean {
-    this.categories = JSON.parse(categories);
-
-    if (!this.filter.categoryId && !this.filter.subCategoryId) {
-      return true;
-    }
-
-    if (!this.filter.categoryId && this.filter.subCategoryId) {
-      return false;
-    }
-
-    const categoryIndex = this.categories.map(category => category.id).indexOf(this.filter.categoryId!);
-    if (this.filter.categoryId && categoryIndex == -1) {
-      return false;
-    }
-
-    if (this.filter.subCategoryId) {
-      const indexSubCategory = this.categories[categoryIndex].subCategoryList
-        .map(subCategory => subCategory.id)
-        .indexOf(this.filter.subCategoryId);
-      if (indexSubCategory == -1 && this.filter.subCategoryId) {
-        return false;
-      }
-    }
-    
-    return true;
-  }
-
-  public getNextAd() {
-    this.loadingNewAd = true;
-    this.filter.offset = this.filter.offset + 15;
-    this.adListService.getUnparsedAdList(this.filter).then((adList) => {
-      if (adList.length < 15) {
-        this.allAdLoaded = true;
-      }
-      this.adList = this.adList.concat(adList);
-      this.loadingNewAd = false;
-    });
-  }
-
-  private fillLocations(locations: any): boolean {
-    this.locations = JSON.parse(locations);
-    if (!this.filter.region && !this.filter.town) {
-      return true;
-    }
-    if (!this.filter.region && this.filter.town) {
-      return false;
-    }
-
-    const regionIndex = this.locations.map(region => region.id).indexOf(this.filter.region);
-    if (this.filter.region && regionIndex == -1) {
-      return false;
-    }
-
-    if (this.filter.town) {
-      const townIndex = this.locations[regionIndex].locationList?.map(town => town.id).indexOf(this.filter.town);
-      if (townIndex == -1 && this.filter.town) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  private fillDelivery(): boolean {
-
-    if (!this.filter.delivery) {
-      return true;
-    }
-
-    let delivery = String(this.filter.delivery).toLowerCase();
-    if (delivery == 'true' || delivery == '1') {
-      this.filter.delivery = true;
-      return true;
-    } else if (delivery == 'false' || delivery == '0') {
-      this.filter.delivery = false;
-      return true;
-    } else {
-      return false;
-    }
   }
 
   public updateSubCategories() {
@@ -161,19 +60,18 @@ export class AdListComponent implements OnInit {
   }
 
   public updateLocation() {
-    this.filter.town = undefined;
+    this.filter.location = undefined;
     this.refreshFilter();
   }
 
+  private updateLocationsForSuggestion() {
+    this.locationsForSuggestion = this.locationService.getSortedLocationsByRegion(
+      this.regions!.find(region => region.id == this.filter.region));
+  }
+
   public refreshFilter() {
-    this.loadingPage = true;
-    this.filter.offset = 0;
-    this.adListService.getUnparsedAdList(this.filter).then(adList => {
-      this.adList = adList;
-      this.loadingPage = false;
-      this.allAdLoaded = adList.length < 15;
-      window.scrollTo(0, 0);
-    });
+    this.updateLocationsForSuggestion();
+    this.loadMoreAdService.changeCondition(this.filter);
   }
 
   public resetFilter() {
@@ -193,4 +91,25 @@ export class AdListComponent implements OnInit {
       this.scrollTop = true;
     }
   }
+
+  ngOnDestroy(): void {
+    this.subscriptionsLoadMoreAdService.unsubscribe();
+  }
+
+  /*  AdExecutor Interface */
+
+  public uploadNextAdList(adExecuteLimit: AdExecuteLimit): Promise<AdList[]> {
+    this.filter.adListExecuteLimit = adExecuteLimit;
+    return this.adListService.getUnparsedAdList(this.filter);
+  }
+
+  public setAdList(adList: AdList[]): void {
+    this.adList = adList;
+  }
+
+  public getAdList(): AdList[] {
+    return this.adList;
+  }
+
+  /*  ------------------  */
 }

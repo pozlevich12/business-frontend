@@ -17,16 +17,14 @@
             <div class="d-flex">
                 <div class="flex-column me-3" style="width: 35%">
                     <label class="label-input">Область</label>
-                    <select class="form-select shadow-sm " [(ngModel)]="ad.region" name="region" (change)="updateLocation()">
-                    <option *ngFor="let location of createAdSet.locations" [ngValue]="location.id">{{location.region}}</option>
+                    <select class="form-select shadow-sm " [(ngModel)]="selectedRegion" name="selectedRegion" (change)="updateLocation()">
+                    <option *ngFor="let region of createAdSet.regions" [ngValue]="region">{{region.name}}</option>
                 </select>
                 </div>
                 <div class="flex-column" style="width: 35%">
                     <label class="label-input">Город/район</label>
-                    <select class="form-select shadow-sm " [(ngModel)]="ad.town" name="town ">
-                    <ng-container *ngFor="let location of createAdSet.locations">
-                        <option *ngFor="let town of location['locationList']" [hidden]='location.id != ad.region' [ngValue]="town.id">{{town.town}}</option>
-                    </ng-container>
+                    <select class="form-select shadow-sm " [(ngModel)]="ad.location" name="location">
+                            <option *ngFor="let location of locationsForSuggestion" [ngValue]="location.id">{{location.name}}</option>
                 </select>
                 </div>
             </div>

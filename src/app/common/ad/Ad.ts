@@ -1,8 +1,8 @@
-import { Category } from "./Category";
-import { Location } from "./Location";
-import { Image } from "./Image";
-import { User } from "./User";
-import { Communication } from "./Communication";
+import { Category } from "../Category";
+import { Image } from "../Image";
+import { User } from "../User";
+import { Communication } from "../Communication";
+import { SimpleLocation } from "../location/SimpleLocation";
 
 export class Ad {
     id: number;
@@ -17,7 +17,7 @@ export class Ad {
     priceType: string;
     author: User;
     category: Category;
-    location: Location;
+    simpleLocation: SimpleLocation;
     imgList: Image[] = [];
     communications: Communication[] = [];
 
@@ -35,6 +35,6 @@ export class Ad {
         this.author = ad.author;
         this.author.lastVisit = new Date(this.author.lastVisit);
         this.category = ad.category;
-        this.location = ad.location;
+        this.simpleLocation = ad.simpleLocation;
     }
 }

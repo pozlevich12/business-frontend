@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CategoriesObject } from 'src/app/common/categories.object';
-import { LocationObject } from 'src/app/common/locations.object';
+import { Region } from 'src/app/common/location/Region';
 import { User } from 'src/app/common/User';
 
 const TOKEN_KEY = 'auth-token';
@@ -21,8 +21,7 @@ export class TokenStorageService {
   }
 
   public saveToken(token: any): void {
-    window.localStorage.removeItem(TOKEN_KEY);
-    window.localStorage.setItem(TOKEN_KEY, token);
+    this.updatePropertyInLocaleStorage(TOKEN_KEY, token, false);
   }
 
   public getToken(): string | null {
@@ -30,33 +29,39 @@ export class TokenStorageService {
   }
 
   public saveUser(user: any) {
-    window.localStorage.removeItem(USER_KEY);
-    window.localStorage.setItem(USER_KEY, JSON.stringify(user));
+    this.updatePropertyInLocaleStorage(USER_KEY, user, true);
   }
 
   public getUser(): User | undefined {
     const userObject = window.localStorage.getItem(USER_KEY);
-    if(userObject) {
+    if (userObject) {
       return new User(JSON.parse(userObject));
     }
     return undefined;
   }
 
   public saveCategories(categories: CategoriesObject[]): void {
-    window.localStorage.removeItem(CATEGORIES);
-    window.localStorage.setItem(CATEGORIES, JSON.stringify(categories));
+    this.updatePropertyInLocaleStorage(CATEGORIES, categories, true);
   }
 
-  public getCategories(): string | null {
-    return window.localStorage.getItem(CATEGORIES);
+  public getCategories(): CategoriesObject[] | undefined {
+    return this.jsonParse(window.localStorage.getItem(CATEGORIES));
   }
 
-  public saveLocations(locations: LocationObject[]): void {
-    window.localStorage.removeItem(LOCATIONS);
-    window.localStorage.setItem(LOCATIONS, JSON.stringify(locations));
+  public saveRegions(regions: Region[]): void {
+    this.updatePropertyInLocaleStorage(LOCATIONS, regions, true);
   }
 
-  public getLocations(): string | null {
-    return window.localStorage.getItem(LOCATIONS);
+  public getRegions(): Region[] | undefined {
+    return this.jsonParse(window.localStorage.getItem(LOCATIONS));
+  }
+
+  private jsonParse(json: string | null): any | undefined {
+    return json ? JSON.parse(json) : undefined;
+  }
+
+  private updatePropertyInLocaleStorage(key: string, object: any, saveAsJSON: boolean) {
+    window.localStorage.removeItem(key);
+    window.localStorage.setItem(key, saveAsJSON ? JSON.stringify(object) : object);
   }
 }

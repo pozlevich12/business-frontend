@@ -1,1 +1,34 @@
 /* You can add global styles to this file, and also import other style files */
+
+.theme-background-color {
+    background-color: #FFFFFF;
+}
+
+.theme-header-color {
+    background-color: #76A28E;
+}
+
+.theme-main-color {
+    background-color: #76A28E;
+}
+
+.theme-color {
+    color: #FFFFFF;
+}
+
+.btn-outline-theme-main {
+    --bs-btn-color: #76a28e;
+    --bs-btn-border-color: #76a28e;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-border-color: #76a28e;
+    --bs-btn-hover-bg: #76a28e;
+    --bs-btn-focus-shadow-rgb: none;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #76a28e;
+    --bs-btn-active-border-color: #76a28e;
+    --bs-btn-active-shadow: inset 0 3px 5pxrgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #76a28e;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #76a28e;
+    --bs-gradient: none;
+}

@@ -52,7 +52,7 @@
                             <img class="rounded-3" [src]="ad.titleImgUrl">
                             <div class="city-delivery-badge text-white">
                                 <i *ngIf="ad.delivery" title="Доставка" class="fas fa-sm fa-truck me-2"></i>
-                                <i class="fas fa-map-marker-alt me-1"></i> {{ad.town}}
+                                <i class="fas fa-map-marker-alt me-1"></i> {{ad.simpleLocation.locationName}}
                             </div>
                         </div>
                         <div class="card-body ">

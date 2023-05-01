@@ -1,0 +1,60 @@
+<!--    Ad-List cards    -->
+<div *ngIf="!adList.length && !loading" class="alert alert-warning mt-4 ms-2" role="alert">
+    <b><i class="fas fa-info-circle"></i> Упс!</b> По вашему запросу ничего не найдено.
+</div>
+
+<!--    Toggle ad list view type: Cards/Rows    -->
+<div *ngIf="adList.length" class="btn-toolbar justify-content-end mb-3">
+    <div class="btn-group form-check btn-group-sm">
+        <input type="radio" class="btn-check" id="adViewAsRows" [checked]="!adViewAsCards">
+        <label (click)="adViewAsCards=false" class="btn btn-outline-theme-main" for="adViewAsRows" title="Отображать списком"><i class="fa fal fa-list"></i></label>
+
+        <input type="radio" class="btn-check" id="adViewAsCards" [checked]="adViewAsCards">
+        <label (click)="adViewAsCards=true" class="btn btn-outline-theme-main" for="adViewAsCards" title="Отображать плитками"><i class="fas fa-th"></i></label>
+    </div>
+</div>
+
+<!--    View ad list: Rows    -->
+<div *ngIf="!adViewAsCards" class="mb-4">
+    <a *ngFor="let ad of adList" href="ad?id={{ad.id}}" target="_blank" class="d-flex ad-view rounded-3 border shadow-sm mb-3 p-2">
+        <div class="card-img-section me-3">
+            <img class="rounded-end" [src]="ad.titleImgUrl">
+        </div>
+        <div class="d-flex flex-column me-auto ad-view-row-center-section mb-2">
+            <span>
+                <label class="text-decoration-underline me-2">{{ad.adTitle}}</label>
+                <label class="badge theme-main-color theme-color">{{ad.price}} {{ad.priceType}}</label>
+            </span>
+            <div class="d-flex ad-row-body text-muted small mb-auto mt-1">
+                {{ad.body}}
+            </div>
+            <label class="text-muted"><i *ngIf="ad.delivery" title="Доставка" class="fas fa-truck me-2"></i><i class="fas fa-map-marker-alt me-1"></i>{{ad.simpleLocation.locationName}}</label>
+        </div>
+        <div class="d-flex flex-column me-1 mt-1 mb-2">
+            <i class="ms-auto fas fa-star mb-auto" (click)="$event.preventDefault();toggleFavorite(ad.id)" [ngStyle]="{'color': appComponent.user?.favoriteAdList?.includes(ad.id) ? '#ffc107':'gray'}" [title]="appComponent.user?.favoriteAdList?.includes(ad.id) ? 'Избранное' : 'Добавить в избранное'"></i>
+            <small class="text-muted" title="Дата подачи объявления">{{ad.created}}</small>
+        </div>
+    </a>
+</div>
+
+<!--    View ad list: Cards    -->
+<div *ngIf="adViewAsCards" class="ad-list-cards-section mb-4">
+    <a *ngFor="let ad of adList" href="ad?id={{ad.id}}" target="_blank" class="card ad-view ad-view-card shadow-sm mb-3" title="{{ad.adTitle}}">
+        <div class="card-img-section">
+            <img [src]="ad.titleImgUrl">
+            <div class="city-delivery-badge text-white">
+                <i *ngIf="ad.delivery" title="Доставка" class="fas fa-sm fa-truck me-2"></i>
+                <i class="fas fa-map-marker-alt me-1"></i> {{ad.simpleLocation.locationName}}
+            </div>
+        </div>
+        <div class="card-body ">
+            <div class="d-flex">
+                <label class="fw-bold small">{{ad.price}} {{ad.priceType}}</label>
+                <i class="ms-auto fas fa-star mb-auto text-end" (click)="$event.preventDefault();toggleFavorite(ad.id)" [ngStyle]="{'color': appComponent.user?.favoriteAdList?.includes(ad.id) ? '#ffc107':'gray'}" [title]="appComponent.user?.favoriteAdList?.includes(ad.id) ? 'Избранное' : 'Добавить в избранное'"></i>
+            </div>
+            <div style="width:95%">
+                <p class="card-text custom-card-text">{{ad.adTitle}}</p>
+            </div>
+        </div>
+    </a>
+</div>

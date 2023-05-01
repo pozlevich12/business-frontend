@@ -2,13 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Image } from 'src/app/common/Image';
-import { User } from 'src/app/common/User';
-import { Ad } from 'src/app/common/Ad';
+import { Ad } from 'src/app/common/ad/Ad';
 import { environment } from 'src/environments/environment';
-import { TokenStorageService } from '../auth/token-storage.service';
 import { Communication } from 'src/app/common/Communication';
 import { PhoneDTO } from 'src/app/common/PhoneDTO';
-import { FavoriteAdService } from './favorite-ad.service';
 
 const BASE_URL = environment.url;
 const GET_COMMUNICATIONS_API = 'public/get-ad-communications';

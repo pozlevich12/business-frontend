@@ -6,10 +6,12 @@ import { AdComponent } from './ad/ad.component';
 import { CreateAdComponent } from './create-ad/create-ad.component';
 import { FavoriteBoardComponent } from './favorite-board/favorite-board.component';
 import { MyAdComponent } from './my-ad/my-ad.component';
+import { SearchComponent } from './search/search.component';
 import { UserBoardComponent } from './user-board/user-board.component';
 
 const routes: Routes = [
   { path: 'profile', component: UserBoardComponent },
+  { path: 'search', component: SearchComponent },
   { path: 'my-ad', component: MyAdComponent },
   { path: 'create-ad', component: CreateAdComponent },
   { path: 'ad', component: AdComponent },

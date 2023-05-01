@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../app.component';
-import { AdList } from '../common/AdList';
+import { AdList } from '../common/ad/AdList';
 import { AdListService } from '../_services/ad/ad-list.service';
 import { FavoriteAdService } from '../_services/ad/favorite-ad.service';
 

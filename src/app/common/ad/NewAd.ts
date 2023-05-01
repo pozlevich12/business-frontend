@@ -1,4 +1,4 @@
-import { Image } from "./Image";
+import { Image } from "../Image";
 
 export class CreateAd {
     id: number | undefined;
@@ -6,8 +6,7 @@ export class CreateAd {
     body: string = "";
     category: number | undefined;
     subCategory: number | undefined;
-    region: number | undefined;
-    town: number | undefined;
+    location: number | undefined;
     price: string | undefined;
     priceType: string | undefined;
     imgList: Image[] = [];

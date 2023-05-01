@@ -1,0 +1,37 @@
+<h4><span class="badge mb-4 shadow me-3" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color"><i class="fa fa-search me-3"></i>Поиск объявлений</span></h4>
+<div style="width: 1200px">
+    <div>
+        <fieldset [disabled]="loading">
+            <div class="d-flex">
+                <form id="searchQueryForm" (ngSubmit)="updateConditionInLoadMoreAdService()" class="me-3" style="width: 100%;">
+                    <input [(ngModel)]="query" name="query" type="text" class="form-control" placeholder="Найти...">
+                </form>
+                <button type="submit" form="searchQueryForm" class="btn btn-outline-theme-main" style="width: 120px">
+                        <span [ngClass]="{'spinner-border spinner-border-sm': loading, 'fa fa-search': !loading}" class="me-3"></span>Найти
+                    </button>
+
+            </div>
+            <div class="d-flex small">
+                <div class="flex-column">
+                    <div>
+                        <label class="ms-2 mt-1 text-muted"><i class="fas fa-question-circle"></i> Введите запрос, например: помидоры в Минском районе с доставкой</label>
+                    </div>
+                    <div *ngIf="adList.length">
+                        <label class="ms-2 mt-1 text-warning"><i class="fas fa-info-circle"></i> Отсортировано по наилучшему совпадению</label>
+                    </div>
+                </div>
+                <div class="ms-auto">
+                    <label class="ms-2 mt-1 text-muted">Использовать <a href="/ad-list">фильтр</a> для более точного поиска</label>
+                </div>
+            </div>
+        </fieldset>
+
+
+    </div>
+
+    <!--   Ad list view (cards or rows)   -->
+    <app-ad-list-view [adList]="adList"></app-ad-list-view>
+
+    <!--    Load more component    -->
+    <app-load-more-ad [adExecutor]="this"></app-load-more-ad>
+</div>

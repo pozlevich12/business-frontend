@@ -1,6 +1,6 @@
 <div class="main-section">
     <div class="pb-4 mb-4 border-bottom" id="filter" [style.background-color]="appComponent.theme.backgroundColor" [ngClass]="{'filter-top': scrollTop, 'filter-scroll': !scrollTop}">
-        <fieldset class="ms-3 d-flex" [disabled]="loadingPage">
+        <fieldset class="ms-3 d-flex" [disabled]="loading">
             <div class="flex-column me-3">
                 <label class="label-form">Категория</label>
                 <select class="form-select form-select-sm shadow-sm" style="width:175px;" [(ngModel)]="filter.categoryId" name="categoryId" (change)="updateSubCategories()">
@@ -20,60 +20,29 @@
                 <label class="label-form">Область</label>
                 <select class="form-select form-select-sm shadow-sm" style="width:150px;" [(ngModel)]="filter.region " name="region " (change)="updateLocation() ">
             <option [ngValue]=undefined>Вся Беларусь</option>
-            <option *ngFor="let location of locations " [ngValue]="location.id ">{{location.region}}</option>
+            <option *ngFor="let region of regions " [ngValue]="region.id ">{{region.name}}</option>
 </select></div>
             <div class="flex-column me-3">
                 <label class="label-form">Город/район</label>
-                <select class="form-select form-select-sm shadow-sm" style="width:175px;" [(ngModel)]="filter.town " name="town " (change)="refreshFilter()">
+                <select class="form-select form-select-sm shadow-sm" style="width:175px;" [(ngModel)]="filter.location " name="location " (change)="refreshFilter()">
             <option [ngValue]=undefined>Все</option>
-            <ng-container *ngFor="let location of locations">
-                <option *ngFor="let town of location['locationList'] " [selected]="filter.town == town.id" [hidden]="location.id != filter.region" [ngValue]="town.id ">{{town.town}}</option>
-            </ng-container>
-            
+                    <option *ngFor="let location of locationsForSuggestion" [selected]="filter.location == location.id" [ngValue]="location.id ">{{location.name}}</option>
 </select></div>
             <div class="d-flex align-items-center mt-3">
                 <input class="form-check-input me-2" type="checkbox" [(ngModel)]="filter.delivery " name="hasDelivery " (change)="refreshFilter()" [style.background-color]="filter.delivery?appComponent.theme.mainColor:''">
                 <span class="me-3"><i class="fas fa-truck me-2"></i>С Доставкой</span>
-                <button type="button" (click)="resetFilter()" class="btn btn-danger" style="background: #e30000; width:95px!important"><span [hidden]="!loadingPage" class="spinner-border spinner-border-sm"></span><div *ngIf="!loadingPage">Сбросить</div></button>
+                <button type="button" (click)="resetFilter()" class="btn btn-danger" style="background: #e30000; width:95px!important"><span *ngIf="loading" class="spinner-border spinner-border-sm"></span><div [hidden]="loading">Сбросить</div></button>
             </div>
         </fieldset>
     </div>
 
-    <div style="padding:110px 0 0 3px">
-        <!--    Ad-List cards    -->
-        <div class="mb-5" [ngStyle]="{'opacity': loadingPage ? '0.33':'1'}">
-            <div *ngFor="let ad of adList" class="d-flex mb-4 me-4 shadow-sm rounded-3 inlineCards">
-                <div class="card" title="{{ad.adTitle}}">
-                    <div class="card-img-section">
-                        <img class="rounded-3" [src]="ad.titleImgUrl">
-                        <div class="city-delivery-badge text-white">
-                            <i *ngIf="ad.delivery" title="Доставка" class="fas fa-sm fa-truck me-2"></i>
-                            <i class="fas fa-map-marker-alt me-1"></i> {{ad.town}}
-                        </div>
-                    </div>
-                    <div class="card-body ">
-                        <div class="d-flex">
-                            <h6 class="card-title ">{{ad.price}} {{ad.priceType}}</h6>
-                            <i class="ms-auto fas fa-star mb-auto text-end" (click)="toggleFavorite(ad.id)" [ngStyle]="{'color': appComponent.user?.favoriteAdList?.includes(ad.id) ? '#ffc107':'gray'}" [title]="appComponent.user?.favoriteAdList?.includes(ad.id) ? 'Избранное' : 'Добавить в избранное'"></i>
-                        </div>
-                        <div style="width:95%">
-                            <a href="ad?id={{ad.id}}" target="_blank" class="link-dark">
-                                <p class="card-text custom-card-text">{{ad.adTitle}}</p>
-                            </a>
+    <div style="padding: 90px 6px 0 6px">
 
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!--   Ad list view (cards or rows)   -->
+        <app-ad-list-view [adList]="adList"></app-ad-list-view>
 
-            <!--    Load more...    -->
-            <div *ngIf="!allAdLoaded" class="d-flex justify-content-center mt-5">
-                <button type="button" (click)="getNextAd()" class="btn" [disabled]="loadingNewAd || loadingPage" style="width: 150px; height: 40px" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color">
-                <span [hidden]="!loadingNewAd" class="spinner-border spinner-border-sm"></span><div *ngIf="!loadingNewAd">Загрузить еще...</div>
-            </button>
-            </div>
-
-        </div>
+        <!--    Load more component    -->
+        <app-load-more-ad [adExecutor]="this"></app-load-more-ad>
     </div>
 
 </div>

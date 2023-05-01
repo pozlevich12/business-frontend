@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AdList } from '../common/AdList';
+import { AdList } from '../common/ad/AdList';
 
 const ONE_DAY_ON_MILLIS = 86400000;
 const ONE_HOUR_ON_MILLIS = 3600000;

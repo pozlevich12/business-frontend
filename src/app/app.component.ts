@@ -4,7 +4,6 @@ import * as bootstrap from 'bootstrap';
 import { Theme } from './common/Theme';
 import { User } from './common/User';
 import { AuthService } from './_services/auth/auth.service';
-import { TokenStorageService } from './_services/auth/token-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +17,7 @@ export class AppComponent {
   theme: Theme = new Theme();
   dropdown: bootstrap.Dropdown | undefined;
   user: User | undefined;
+  searchQuery: string | undefined;
 
   constructor(public authService: AuthService, public router: Router) { }
 
@@ -49,8 +49,8 @@ export class AppComponent {
 
   // remove if color is choised
   public updateBackgroundBody() {
-    $('html').css('background-color', this.theme.backgroundColor);
-    $('body').css('background-color', this.theme.backgroundColor);
+    $('html').css('background-color', this.theme.mainColor);
+    $('body').css('background-color', this.theme.mainColor);
   }
 
   public toggleColorPicker() {
@@ -60,5 +60,9 @@ export class AppComponent {
   public logout(): void {
     this.authService.signOut();
     window.location.reload();
+  }
+
+  public submitSearchForm() {
+    window.location.href = "/search?query=" + this.searchQuery;
   }
 }

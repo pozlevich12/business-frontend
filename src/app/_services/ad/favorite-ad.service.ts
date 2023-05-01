@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AdList } from 'src/app/common/AdList';
+import { AdList } from 'src/app/common/ad/AdList';
+import { AdExecuteLimit } from 'src/app/common/AdExecuteLimit';
 import { User } from 'src/app/common/User';
 import { environment } from 'src/environments/environment';
 import { TokenStorageService } from '../auth/token-storage.service';
@@ -21,9 +22,9 @@ export class FavoriteAdService {
 
   constructor(private http: HttpClient, private localStorageService: TokenStorageService, private adListService: AdListService) { }
 
-  public getUnparsedAdList(): Promise<AdList[]> {
+  public getUnparsedAdList(adExecuteLimit: AdExecuteLimit): Promise<AdList[]> {
     return new Promise(resolve => {
-      this.getFavoriteAdList().subscribe(adList => {
+      this.getFavoriteAdList(adExecuteLimit).subscribe(adList => {
         this.adListService.mapAdListResponse(adList);
         resolve(adList);
       });
@@ -94,8 +95,8 @@ export class FavoriteAdService {
     return this.http.delete<void>(BASE_URL + DELETE_FAVORITE_AD_API, { params: { "id": id } });
   }
 
-  public getFavoriteAdList(): Observable<AdList[]> {
-    return this.http.get<AdList[]>(BASE_URL + GET_FAVORITE_AD_API);
+  public getFavoriteAdList(adExecuteLimit: AdExecuteLimit): Observable<AdList[]> {
+    return this.http.get<AdList[]>(BASE_URL + GET_FAVORITE_AD_API + "?limit=" + adExecuteLimit.limit + "&offset=" + adExecuteLimit.offset);
   }
 
   private deleteAllFavoriteAdApi(): Observable<void> {

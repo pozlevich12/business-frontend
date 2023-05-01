@@ -20,6 +20,9 @@ import { FavoriteBoardComponent } from './favorite-board/favorite-board.componen
 import { LoginComponent } from './login/login.component';
 import { UserBoardComponent } from './user-board/user-board.component';
 import { MyAdComponent } from './my-ad/my-ad.component';
+import { SearchComponent } from './search/search.component';
+import { LoadMoreAdComponent } from './load-more-ad/load-more-ad.component';
+import { AdListViewComponent } from './ad-list-view/ad-list-view.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,10 @@ import { MyAdComponent } from './my-ad/my-ad.component';
     FavoriteBoardComponent,
     LoginComponent,
     UserBoardComponent,
-    MyAdComponent
+    MyAdComponent,
+    SearchComponent,
+    LoadMoreAdComponent,
+    AdListViewComponent
   ],
   imports: [
     BrowserModule,

@@ -28,7 +28,7 @@ export class DndDirectiveEditAd {
         this.background = 'white';
         if (!this.adEditComponent.process) {
             const filesDropped = evt.dataTransfer!.files;
-            this.adEditService.filesDropped(filesDropped, this.adEditComponent.ad.imgList);
+            this.adEditService.filesDropped(filesDropped, this.adEditComponent.editableAd.imgList);
         }
     }
 }

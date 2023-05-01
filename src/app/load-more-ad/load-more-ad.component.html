@@ -1,0 +1,6 @@
+<div *ngIf="!allAdLoaded" class="d-flex justify-content-center">
+    <button type="button" class="btn load-more-btn theme-main-color theme-color" (click)="getNextAdExecuteLimit()" [disabled]="loading">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+        <div [hidden]="loading">Загрузить еще...</div>
+    </button>
+</div>

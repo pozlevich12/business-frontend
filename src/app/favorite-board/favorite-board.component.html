@@ -1,29 +1,16 @@
-<h4><span class="badge mb-4 shadow me-3" [style.background-color]="appComponent.theme.mainColor" [style.color]="appComponent.theme.color"><i class="fas fa-star text-warning me-2"></i> Избранные объявления</span>
-    <span><button type="button" (click)="deleteAllFavoriteAd()" class="btn btn-sm btn-danger mb-auto">Очистить все</button></span></h4>
+<div class="main-container">
+    <h4>
+        <span class="badge theme-main-color theme-color shadow me-3">
+            <i class="fas fa-star text-warning me-2"></i> Избранные объявления
+        </span>
+        <span>
+            <button [disabled]="loading" type="button" (click)="deleteAllFavoriteAd()" class="btn btn-sm btn-danger mb-auto">Очистить все</button>
+        </span>
+    </h4>
 
-<!--    Ad-List cards    -->
-<div class="mb-5" style="width:1135px">
-    <div *ngFor="let ad of adList" class="d-flex mb-4 me-4 shadow-sm rounded-3 inlineCards">
-        <div class="card" title="{{ad.adTitle}}">
-            <div class="card-img-section">
-                <img class="rounded-3" [src]="ad.titleImgUrl">
-                <div class="city-delivery-badge text-white">
-                    <i *ngIf="ad.delivery" title="Доставка" class="fas fa-sm fa-truck me-2"></i>
-                    <i class="fas fa-map-marker-alt me-1"></i> {{ad.town}}
-                </div>
-            </div>
-            <div class="card-body ">
-                <div class="d-flex">
-                    <h6 class="card-title ">{{ad.price}} {{ad.priceType}}</h6>
-                    <i class="ms-auto fas fa-star mb-auto text-end" (click)="toggleFavorite(ad.id)" [ngStyle]="{'color': appComponent.user?.favoriteAdList?.includes(ad.id) ? '#ffc107':'gray'}" [title]="appComponent.user?.favoriteAdList?.includes(ad.id) ? 'Избранное' : 'Добавить в избранное'"></i>
-                </div>
-                <div style="width:95%">
-                    <a href="ad?id={{ad.id}}" target="_blank" class="link-dark">
-                        <p class="card-text custom-card-text">{{ad.adTitle}}</p>
-                    </a>
+    <!--   Ad list view (cards or rows)   -->
+    <app-ad-list-view [adList]="adList"></app-ad-list-view>
 
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--    Load more component    -->
+    <app-load-more-ad [adExecutor]="this"></app-load-more-ad>
 </div>

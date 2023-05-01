@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Communication } from 'src/app/common/Communication';
-import { CreateAd } from 'src/app/common/create-ad.object';
-import { CreateAdSet } from 'src/app/common/CreateAdSet';
+import { CreateAd } from 'src/app/common/ad/NewAd';
+import { CreateAdSet } from 'src/app/common/ad/CreateAdSet';
 import { PhoneDTO } from 'src/app/common/PhoneDTO';
 import { Image } from 'src/app/common/Image';
 import { AdService } from '../ad/ad.service';
 import { CreateAdService } from './create-ad.service';
-import { CreateAdValidation } from 'src/app/common/create-ad.validation';
+import { CreateAdValidation } from 'src/app/common/validation-models/create-ad.validation';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Ad } from 'src/app/common/Ad';
+import { Ad } from 'src/app/common/ad/Ad';
 
 /*  API  */
 const BASE_URL = environment.url;
@@ -31,12 +31,10 @@ export class AdEditService {
     return this.createAdService.initPhoneList(commList);
   }
 
-  public initEditableAd(id: number, ad: CreateAd, originAd: Ad) {
-    ad.id = id;
+  public initEditableAd(ad: CreateAd, originAd: Ad) {
+    ad.id = originAd.id;
     ad.imgList = this.initImageList(originAd);
     ad.title = originAd.title;
-    ad.region = originAd.location.regionId;
-    ad.town = originAd.location.townId;
     ad.category = originAd.category.id;
     ad.subCategory = originAd.category.subCategoryId;
     ad.price = originAd.price.toString();
@@ -60,6 +58,10 @@ export class AdEditService {
       imageList.push(image);
     });
     return imageList;
+  }
+
+  public initUsageLocations(ad: Ad) {
+
   }
 
   public initUsageCommunications(communicationList: PhoneDTO[], adId: number) {

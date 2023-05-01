@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Communication } from 'src/app/common/Communication';
-import { CreateAd } from 'src/app/common/create-ad.object';
-import { CreateAdValidation } from 'src/app/common/create-ad.validation';
-import { CreateAdSet } from 'src/app/common/CreateAdSet';
+import { CreateAd } from 'src/app/common/ad/NewAd';
+import { CreateAdValidation } from 'src/app/common/validation-models/create-ad.validation';
+import { CreateAdSet } from 'src/app/common/ad/CreateAdSet';
 import { Image } from 'src/app/common/Image';
 import { PhoneDTO } from 'src/app/common/PhoneDTO';
 import { environment } from 'src/environments/environment';
@@ -191,7 +191,6 @@ export class CreateAdService {
     const createAd = new CreateAd();
     createAd.category = createAdSet.categories![0].id;
     createAd.priceType = createAdSet.priceTypes![0];
-    createAd.region = createAdSet.locations![0].id;
     return createAd;
   }
 

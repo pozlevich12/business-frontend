@@ -1,4 +1,3 @@
-@import '../styles/ad-list-row-view.scss';
 .list-group-item:hover {
     color: white;
 }

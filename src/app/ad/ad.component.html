@@ -4,7 +4,7 @@
             <h2 style="text-shadow: black;font-weight: bolder;" class="mb-0">{{ad.title}}
                 <span class="badge bg-warning text-dark ms-2 mb-1" style="font-size: 60%">{{ad.price}} {{ad.priceType}}</span>
             </h2>
-            <label class="text-muted fst-italic"><i class="fas fa-map-marker-alt me-2"></i>{{ad.location.fullNameLocation}}</label>
+            <label class="text-muted fst-italic"><i class="fas fa-map-marker-alt me-2"></i>{{ad.simpleLocation.locationName}}, {{ad.simpleLocation.regionName}} область</label>
         </div>
         <div class="d-flex mb-3">
             <a [attr.href]="'ad-list?categoryId=' + ad.category.id" class="link-dark"><i class="fa pe-1" [ngClass]="{'fa-seedling': ad.category?.id == 5, 'fa-apple-alt': ad.category?.id == 25, 'fa-drumstick-bite': ad?.category?.id == 35, 'fa-cheese': ad?.category?.id == 45, 'fa-balance-scale-right': ad?.category?.id == 55, 'fa-leaf': ad?.category?.id == 65,'fa-feather-alt': ad?.category?.id == 70, 'fa-book': ad?.category?.id == 75}"></i>{{ad.category.category}}</a>
@@ -85,12 +85,12 @@
 </div>
 
 <div>
-    <div class="btn-group mb-4" role="group" style="width: 500px">
+    <div class="btn-group mb-4" role="group" style="width: 550px">
         <input type="radio" class="btn-check" name="btnradio" id="similarAdSuggestion" autocomplete="off" (change)="toggleSuggestionAdList($event)" [checked]="similarAdSuggestion">
         <label class="btn btn-outline-theme-main" for="similarAdSuggestion">Похожие объявления <span *ngIf="similarAdSuggestionLoading" class="spinner-border spinner-border-sm ms-1"></span></label>
 
         <input type="radio" class="btn-check" name="btnradio" id="authorAdSuggestion" autocomplete="off" (change)="toggleSuggestionAdList($event)" [checked]="authorAdSuggestion">
-        <label class="btn btn-outline-theme-main" for="authorAdSuggestion">Объявления автора <span *ngIf="authorAdSuggestionLoading" class="spinner-border spinner-border-sm ms-1"></span></label>
+        <label class="btn btn-outline-theme-main" for="authorAdSuggestion">Другие объявления продавца <span *ngIf="authorAdSuggestionLoading" class="spinner-border spinner-border-sm ms-1"></span></label>
     </div>
 
     <!--    Similar ad cards    -->
@@ -101,7 +101,7 @@
                     <img class="rounded-3" [src]="ad.titleImgUrl">
                     <div class="city-delivery-badge text-white">
                         <i *ngIf="ad.delivery" title="Доставка" class="fas fa-sm fa-truck me-2"></i>
-                        <i class="fas fa-map-marker-alt me-1"></i> {{ad.town}}
+                        <i class="fas fa-map-marker-alt me-1"></i> {{ad.simpleLocation.locationName}}
                     </div>
                 </div>
                 <div class="card-body ">
@@ -122,14 +122,14 @@
 
 
     <!--    Author Ad cards    -->
-    <div *ngIf="authorAdSuggestion" class="d-flex align-content-stretch mb-5" [ngClass]="{'overflow-x': similarAdList.length > 5}" style="width:1120px">
+    <div *ngIf="authorAdSuggestion" class="d-flex align-content-stretch mb-5" [ngClass]="{'overflow-x': authorAdList.length > 5}" style="width:1120px">
         <div *ngFor="let ad of authorAdList" class="d-flex mb-4 me-4 shadow-sm rounded-3 adInlineCards">
             <div class="card" title="{{ad.adTitle}}">
                 <div class="card-img-section">
                     <img class="rounded-3" [src]="ad.titleImgUrl">
                     <div class="city-delivery-badge text-white">
                         <i *ngIf="ad.delivery" title="Доставка" class="fas fa-sm fa-truck me-2"></i>
-                        <i class="fas fa-map-marker-alt me-1"></i> {{ad.town}}
+                        <i class="fas fa-map-marker-alt me-1"></i> {{ad.simpleLocation.locationName}}
                     </div>
                 </div>
                 <div class="card-body ">

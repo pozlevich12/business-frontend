@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CategoriesObject } from '../common/categories.object';
-import { LocationObject } from '../common/locations.object';
+import { Region } from '../common/location/Region';
 
 const BASE_URL = environment.url;
 
@@ -14,11 +14,11 @@ export class HomeService {
 
   constructor(private http: HttpClient) { }
 
-  loadCategoryList(): Observable<any> {
+  loadCategoryList(): Observable<CategoriesObject[]> {
     return this.http.get<CategoriesObject[]>(BASE_URL + 'public/getAllCategories');
   }
 
-  loadLocationList(): Observable<any> {
-    return this.http.get<LocationObject[]>(BASE_URL + 'public/getAllLocations');
+  loadRegionList(): Observable<Region[]> {
+    return this.http.get<Region[]>(BASE_URL + 'public/getAllRegions');
   }
 }

@@ -5,13 +5,14 @@ import * as bootstrap from 'bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../app.component';
 import { DateService } from '../_services/date.service';
-import { Ad } from '../common/Ad';
+import { Ad } from '../common/ad/Ad';
 import { PhoneDTO } from '../common/PhoneDTO';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FavoriteAdService } from '../_services/ad/favorite-ad.service';
-import { AdList } from '../common/AdList';
+import { AdList } from '../common/ad/AdList';
 import { AdFilter } from '../common/AdFilter';
 import { AdListService } from '../_services/ad/ad-list.service';
+import { AdExecuteLimit } from '../common/AdExecuteLimit';
 
 @Component({
   templateUrl: './ad.component.html',
@@ -63,26 +64,27 @@ export class AdComponent implements OnInit {
 
   private async initSimilarAdList() {
     const filter: AdFilter = new AdFilter();
+    filter.adListExecuteLimit = new AdExecuteLimit(15, 0);
     filter.subCategoryId = this.ad?.category.subCategoryId;
     filter.categoryId = this.ad?.category.id;
-    filter.region = this.ad?.location.regionId;
-    filter.town = this.ad?.location.townId;
+    filter.region = this.ad?.simpleLocation.regionId;
+    filter.location = this.ad?.simpleLocation.locationId;
 
     await this.concatenateSimilarAdList(filter);
 
     if (this.similarAdList.length < 15) {
-      filter.town = undefined;
+      filter.location = undefined;
       await this.concatenateSimilarAdList(filter);
     }
 
     if (this.similarAdList.length < 15) {
-      filter.town = this.ad?.location.townId;
+      filter.location = this.ad?.simpleLocation.locationId;
       filter.subCategoryId = undefined;
       await this.concatenateSimilarAdList(filter);
     }
 
     if (this.similarAdList.length < 15) {
-      filter.town = undefined;
+      filter.location = undefined;
       await this.concatenateSimilarAdList(filter);
     }
 
@@ -127,7 +129,7 @@ export class AdComponent implements OnInit {
   public initAuthorAdList() {
     this.authorAdListLoaded = true;
     this.adListService.getAdListByAuthor(this.ad!.author.id).then(adList => {
-      this.authorAdList = adList;
+      this.authorAdList = adList.filter(ad => ad.id != this.ad!.id);
     }).finally(() => this.authorAdSuggestionLoading = false);
   }
 
